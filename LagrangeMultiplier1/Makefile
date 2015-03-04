@@ -1,13 +1,20 @@
 SRCDIR = .
 OBJECTS = lmbda_test.o Parallel-mpi.o nwpw_timing.o pack.o psi_lmbda.o
 
-LIBRARY = -lblas
+#LIBRARY = ${HOME}/software/OpenBLAS/libopenblas.a
+#LIBRARY = -lblas
+LIBRARY = -mkl
 
 
 OPTIONS = -O3  
-FFLAGS =  -fopenmp -DUSE_OPENMP $(OPTIONS) 
+#OPTIONS = -O0 -g3 
+#OPTIONS += -DBIG_GEMM
+FFLAGS =  -openmp -DUSE_OPENMP -DINTEL $(OPTIONS) 
+#FFLAGS =  -fopenmp -DUSE_OPENMP $(OPTIONS) 
 #FFLAGS =  $(OPTIONS) 
-FC = mpif90
+FC = mpiifort
+#FC = mpif90.mpich
+
 
 lmbda_test.x: ${OBJECTS}
 	$(FC) -o lmbda_test.x ${FFLAGS} ${OBJECTS} ${LIBRARY}

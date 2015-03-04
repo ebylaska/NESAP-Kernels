@@ -208,6 +208,9 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       integer j,k
       integer np,npack,npack2
       integer tid,nthr
+#ifdef BIG_GEMM
+      integer offset,chunklen
+#endif
 
 *     **** external functions ****
       integer  Parallel_threadid,Parallel_nthreads
@@ -223,6 +226,27 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       npack  = (nida+nidb)
       npack2 = 2*npack
 
+
+#ifdef BIG_GEMM
+      chunklen = n / nthr
+      offset = 1+tid*chunklen
+      if(tid.eq.nthr-1) chunklen = n - offset +1
+
+      k=offset
+        call DGEMM('T','N',k+chunklen-1,chunklen,npack2,
+     >             2.0d0,
+     >             A,npack2,
+     >             B(1+(k-1)*npack),npack2,
+     >             0.0d0,
+     >             matrix(1,k),n)
+
+        call DGEMM('T','N',k+chunklen-1,chunklen,2*nida,
+     >             -1.0d0,
+     >             A,npack2,
+     >             B(1+(k-1)*npack),npack2,
+     >             1.0d0,
+     >             matrix(1,k),n)
+#else      
       do k=tid+1,n,nthr
         call DGEMM('T','N',k,1,npack2,
      >             2.0d0,
@@ -237,6 +261,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
      >             1.0d0,
      >             matrix(1,k),k)
       end do
+#endif
 
 !$OMP BARRIER
       do k=tid+1,n,nthr

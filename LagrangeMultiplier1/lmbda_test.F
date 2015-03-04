@@ -1,7 +1,12 @@
-      program lmbda_test1
+
+      subroutine lmbda_test_r(npack1,ne)
+#ifdef INTEL
+      USE IFPORT
+#endif
       implicit none
 
-
+*     **** arguments ****
+      integer npack1, ne(2)
 
 *     **** variables ****
       integer MASTER,taskid,np,tid,nthr,mthr
@@ -9,16 +14,14 @@
       logical oprint
 
 *     **** psi variables ****
-      integer npack1_max,nemax
-      parameter (npack1_max=1500,nemax=100)
 
-      integer npack1,nida,nidb
-      complex*16 psi1(npack1_max*nemax)
-      complex*16 psi2(npack1_max*nemax)
-      complex*16 dpsi1(npack1_max*nemax)
-      real*8 lmbda(nemax*nemax*2),tmp(nemax*nemax*8)
+      integer nida,nidb
+      complex*16 psi1(npack1*ne(1))
+      complex*16 psi2(npack1*ne(1))
+      complex*16 dpsi1(npack1*ne(1))
+      real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
 
-      integer ispin,ne(2),n1(2),n2(2),ms
+      integer ispin,n1(2),n2(2),ms
       integer i,j,k,n,indxj,indxk,shift,mpierr,provided,ierr
       integer number_tests
       real*8 w,ww,dte
@@ -35,9 +38,6 @@
 
       !**** testing parameters ****
       ispin = 1
-      ne(1) = 100   !* ne(1)+ne(2) <=nemax
-      ne(2) = 0 
-      npack1 = 1500  !* npack1 <= npack1_max
       dte    = 1.0d-2 !* maximum component change in psi
       number_tests = 50
       !**** testing parameters ****
@@ -168,9 +168,9 @@ c     -----------------------------------
       !call check_norms(oprint,ispin,ne,nida,nidb,psi2)
 
       call Parallel_Finalize()
-      return
+      
+ 
       end
-
 
       subroutine check_norms(oprint,ispin,ne,nida,nidb,psi1)
       implicit none
@@ -194,7 +194,23 @@ c     -----------------------------------
          end do
          end do
       end do
+
       return
       end
 
 
+      program lmbda_test1
+      integer npack1, ne(2)
+
+*     **** get ne and npack from std input ****
+      
+      read(*,*) npack1, ne(1), ne(2)
+      write(*,*) npack1, ne(1), ne(2)
+  
+!      ne(1) = 10   !* ne(1)+ne(2) <=nemax
+!      ne(2) = 0 
+!      npack1 = 10000  !* npack1 <= npack1_max
+
+      call lmbda_test_r(npack1,ne)
+
+      end program lmbda_test1
