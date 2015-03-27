@@ -6,9 +6,12 @@ OBJECTS = lmbda_test.o Parallel-mpi.o nwpw_timing.o pack.o psi_lmbda.o
 LIBRARY = -mkl
 
 
-OPTIONS = -O3  
+OPTIONS = -O0 -g3
+# -mmic 
+#-DMKL_DIRECT_CALL_SEQ 
 #OPTIONS = -O0 -g3 
 #OPTIONS += -DBIG_GEMM
+#OPTIONS += -DOMP_TASK
 FFLAGS =  -openmp -DUSE_OPENMP -DINTEL $(OPTIONS) 
 #FFLAGS =  -fopenmp -DUSE_OPENMP $(OPTIONS) 
 #FFLAGS =  $(OPTIONS) 

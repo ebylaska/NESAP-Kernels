@@ -65,10 +65,10 @@
      >                                tmp(s22),tmp(sa0))
         call eDneall_ffm_sym_Multiply(ms,psi2,psi1,
      >                                nida,nidb,ispin,ne,
-     >                                tmp(s21),tmp(sa0))
+     >                                tmp(s21),tmp(sa1))
         call eDneall_ffm_sym_Multiply(ms,psi1,psi1,
      >                                nida,nidb,ispin,ne,
-     >                                tmp(s11),tmp(sa0))
+     >                                tmp(s11),tmp(st1))
 
 *       ***** scale the overlap matrices ****
         call eDneall_m_scale_s22(ms,ispin,ne,dte,tmp(s22))
@@ -226,6 +226,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       npack  = (nida+nidb)
       npack2 = 2*npack
 
+!      write(*,*), n, nida, nidb 
 
 #ifdef BIG_GEMM
       chunklen = n / nthr
@@ -233,6 +234,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       if(tid.eq.nthr-1) chunklen = n - offset +1
 
       k=offset
+#if 0
         call DGEMM('T','N',k+chunklen-1,chunklen,npack2,
      >             2.0d0,
      >             A,npack2,
@@ -246,7 +248,43 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
      >             B(1+(k-1)*npack),npack2,
      >             1.0d0,
      >             matrix(1,k),n)
-#else      
+#else
+        call DGEMM('T','N',k+chunklen-1,chunklen,2*nida,
+     >             1.0d0,
+     >             A,npack2,
+     >             B(1+(k-1)*npack),npack2,
+     >             0.0d0,
+     >             matrix(1,k),n)
+
+        call DGEMM('T','N',k+chunklen-1,chunklen,npack2-2*nida,
+     >             2.0d0,
+     >             A(1+nida),npack2,
+     >             B(1+nida+(k-1)*npack),npack2,
+     >             1.0d0,
+     >             matrix(1,k),n)
+#endif
+
+#else 
+#ifdef OMP_TASK
+
+!$OMP TASKGROUP
+
+!$OMP SINGLE firstprivate(k,nida,nidb,npack2,npack,n) 
+      do k=1,n
+c!$OMP TASK untied
+c firstprivate(k,nida,nidb,npack2,npack,n)  
+      call epack_ccm_sym_dot_task(k,npack,npack2,nida,n,A(1),
+     >                            B(1+(k-1)*npack),matrix(1,k))
+c!$OMP END TASK
+      end do
+!$OMP END SINGLE NOWAIT
+
+!$OMP END TASKGROUP
+
+
+
+#else 
+#if 0
       do k=tid+1,n,nthr
         call DGEMM('T','N',k,1,npack2,
      >             2.0d0,
@@ -261,7 +299,25 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
      >             1.0d0,
      >             matrix(1,k),k)
       end do
+#else
+      do k=tid+1,n,nthr
+        call DGEMM('T','N',k,1,2*nida,
+     >             1.0d0,
+     >             A,npack2,
+     >             B(1+(k-1)*npack),npack2,
+     >             0.0d0,
+     >             matrix(1,k),k)
+        call DGEMM('T','N',k,1,npack2-2*nida,
+     >             2.0d0,
+     >             A(1+nida),npack2,
+     >             B(1+nida+(k-1)*npack),npack2,
+     >             1.0d0,
+     >             matrix(1,k),k)
+      end do
 #endif
+#endif //OMP_TASK
+
+#endif //BIG_GEMM
 
 !$OMP BARRIER
       do k=tid+1,n,nthr
@@ -276,6 +332,46 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       call nwpw_timing_end(2)
       return
       end
+
+
+#ifdef OMP_TASK
+
+      subroutine epack_ccm_sym_dot_task(k,npack,npack2,nida,n,A,B,
+     >                                                      matrix)
+      implicit none
+      integer    nida,nidb,n,k,npack2,npack
+      complex*16 A(npack,k)
+      complex*16 B(npack,1)
+      real*8     matrix(k,1)
+
+*     **** local variables ****
+      integer tid,nthr
+
+*     **** external functions ****
+      integer  Parallel_threadid,Parallel_nthreads
+      external Parallel_threadid,Parallel_nthreads
+
+
+
+        tid  = Parallel_threadid()
+        write(*,*), tid,k,nida,npack2,npack
+        write(*,*) , "A = ",A
+        write(*,*) , "B = ",B
+        call DGEMM('T','N',k,1,2*nida,
+     >             1.0d0,
+     >             A(1,1),npack2,
+     >             B(1,1),npack2,
+     >             0.0d0,
+     >             matrix(1,1),k)
+        call DGEMM('T','N',k,1,npack2-2*nida,
+     >             2.0d0,
+     >             A(nida,1),npack2,
+     >             B(nida,1),npack2,
+     >             1.0d0,
+     >             matrix(1,1),k)
+      end
+#endif
+
 
 
     

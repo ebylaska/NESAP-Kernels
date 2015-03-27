@@ -1,4 +1,118 @@
 
+      subroutine dummy_dgemm(nida,nidb,n,A,B)
+      implicit none
+      integer    nida,nidb,n
+      complex*16 A(*)
+      complex*16 B(*)
+      real*8     matrix(n,n)
+      real*8     matrix2(nida+nidb,n)
+
+*     **** local variables ****
+      integer j,k
+      integer npack,npack2
+      integer tid,nthr
+      real*8 norm
+  
+      double precision DLANGE
+      external DLANGE
+
+!      write(*,*), n, nida, nidb 
+
+      call nwpw_timing_start(48)
+
+      npack  = (nida+nidb)
+      npack2 = 2*npack
+
+#if 1
+        call DGEMM('T','N',n,n,2*nida,
+     >             1.0d0,
+     >             A,npack2,
+     >             B,npack2,
+     >             0.0d0,
+     >             matrix,n)
+
+
+        call DGEMM('T','N',n,n,npack2-2*nida,
+     >             2.0d0,
+     >             A(1+nida),npack2,
+     >             B(1+nida),npack2,
+     >             1.0d0,
+     >             matrix,n)
+#else
+        call ZGEMM('T','N',n/2,n,nida,
+     >             1.0d0,
+     >             A,npack,
+     >             B,npack,
+     >             0.0d0,
+     >             matrix,n/2)
+
+
+
+        call ZGEMM('T','N',n/2,n,nidb,
+     >             2.0d0,
+     >             A(1+nida),npack,
+     >             B(1+nida),npack,
+     >             1.0d0,
+     >             matrix,n/2)
+#endif
+
+!        call DGEMM('T','N',n,n,npack2,
+!     >             2.0d0,
+!     >             A,npack2,
+!     >             B,npack2,
+!     >             0.0d0,
+!     >             matrix,n)
+!
+!        call DGEMM('T','N',n,n,2*nida,
+!     >             -1.0d0,
+!     >             A,npack2,
+!     >             B,npack2,
+!     >             1.0d0,
+!     >             matrix,n)
+
+
+
+      call nwpw_timing_end(48)
+
+#if 0
+        call DGEMM('T','N',n,n,npack2,
+     >             -2.0d0,
+     >             A,npack2,
+     >             B,npack2,
+     >             1.0d0,
+     >             matrix,n)
+
+        call DGEMM('T','N',n,n,2*nida,
+     >             1.0d0,
+     >             A,npack2,
+     >             B,npack2,
+     >             1.0d0,
+     >             matrix,n)
+
+
+      norm  = DLANGE( 'F', n, n, matrix, n, A )
+      write(*,*), norm 
+#endif
+
+
+
+      call nwpw_timing_start(49)
+
+         call DGEMM('N','N',npack2,n,n,
+     >             1.0d0,
+     >             A, npack2,
+     >             matrix,    n,
+     >             0.0d0,
+     >             matrix2,npack2)
+
+      call nwpw_timing_end(49)
+
+
+
+      return
+      end
+
+
       subroutine lmbda_test_r(npack1,ne)
 #ifdef INTEL
       USE IFPORT
@@ -146,6 +260,20 @@ c     -----------------------------------
 
       !**** lagrange multiplier test ****
       call nwpw_timing_init()
+
+
+      do i=1,number_tests
+         do n=1,(ne(1)+ne(2)-1)
+            do k=1,npack1
+               psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
+            end do
+         end do
+
+        call dummy_dgemm(nida,nidb,ne(1),psi2,psi2)
+        call dummy_dgemm(nida,nidb,ne(1),psi2,psi1)
+        call dummy_dgemm(nida,nidb,ne(1),psi1,psi1)
+      end do
+
 !$OMP PARALLEL private(i,n,k,tid)
       tid  = Parallel_threadid()
       nthr = Parallel_nthreads()
@@ -199,7 +327,9 @@ c     -----------------------------------
       end
 
 
+c#     include "mkl_direct_call.fi"
       program lmbda_test1
+
       integer npack1, ne(2)
 
 *     **** get ne and npack from std input ****
