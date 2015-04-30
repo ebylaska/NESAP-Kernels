@@ -10,7 +10,7 @@
 
 *     **** psi variables ****
       integer npack1_max,nemax
-      parameter (npack1_max=1500,nemax=100)
+      parameter (npack1_max=2500,nemax=10)
 
       integer npack1,nida,nidb
       complex*16 psi1(npack1_max*nemax)
@@ -35,9 +35,9 @@
 
       !**** testing parameters ****
       ispin = 1
-      ne(1) = 100   !* ne(1)+ne(2) <=nemax
+      ne(1) = 10   !* ne(1)+ne(2) <=nemax
       ne(2) = 0 
-      npack1 = 1500  !* npack1 <= npack1_max
+      npack1 = 2500  !* npack1 <= npack1_max
       dte    = 1.0d-2 !* maximum component change in psi
       number_tests = 50
       !**** testing parameters ****
