@@ -164,7 +164,7 @@
       n1(2) = ne(1)+1
       n2(2) = ne(1)+ne(2)
 
-      call Parallel_Init()
+      !call Parallel_Init()
 
       call Parallel_np(np)
       mthr = Parallel_maxthreads()
@@ -257,7 +257,7 @@ c     -----------------------------------
          end do
       end if
 
-
+#if 1
       !**** lagrange multiplier test ****
       call nwpw_timing_init()
 
@@ -273,7 +273,9 @@ c     -----------------------------------
         call dummy_dgemm(nida,nidb,ne(1),psi2,psi1)
         call dummy_dgemm(nida,nidb,ne(1),psi1,psi1)
       end do
+#endif
 
+#if 1
 !$OMP PARALLEL private(i,n,k,tid)
       tid  = Parallel_threadid()
       nthr = Parallel_nthreads()
@@ -290,12 +292,14 @@ c     -----------------------------------
      >                  psi1,psi2,dte,lmbda,tmp,ierr)
       end do
 !$OMP END PARALLEL
+#endif
+
       call nwpw_timing_print_final(oprint,number_tests)
 
       !if (oprint) write(*,*) "<psi2|psi2> = "
       !call check_norms(oprint,ispin,ne,nida,nidb,psi2)
 
-      call Parallel_Finalize()
+      !call Parallel_Finalize()
       
  
       end
@@ -330,17 +334,34 @@ c     -----------------------------------
 c#     include "mkl_direct_call.fi"
       program lmbda_test1
 
-      integer npack1, ne(2)
+      integer npack1, ne(2),np,rank
 
 *     **** get ne and npack from std input ****
       
-      read(*,*) npack1, ne(1), ne(2)
-      write(*,*) npack1, ne(1), ne(2)
-  
-!      ne(1) = 10   !* ne(1)+ne(2) <=nemax
-!      ne(2) = 0 
-!      npack1 = 10000  !* npack1 <= npack1_max
+      call Parallel_Init()
+      call Parallel_np(np)
+      call Parallel_taskid(rank)
+
+      if(rank .eq. 0) then
+          read(*,*) npack1, ne(1), ne(2)
+          npack1 = npack1 / np
+      else
+          npack1=0
+          ne(1)=0
+          ne(2)=0
+      endif
+
+      
+      call Parallel_IMaxAll(npack1)
+      call Parallel_IMaxAll(ne(1))
+      call Parallel_IMaxAll(ne(2))
+   
+      
+ 
+
+!      write(*,*) npack1, ne(1), ne(2)
 
       call lmbda_test_r(npack1,ne)
 
+      call Parallel_Finalize()
       end program lmbda_test1

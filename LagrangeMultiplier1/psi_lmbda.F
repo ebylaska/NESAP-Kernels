@@ -249,19 +249,22 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
      >             1.0d0,
      >             matrix(1,k),n)
 #else
-        call DGEMM('T','N',k+chunklen-1,chunklen,2*nida,
-     >             1.0d0,
-     >             A,npack2,
-     >             B(1+(k-1)*npack),npack2,
-     >             0.0d0,
-     >             matrix(1,k),n)
-
         call DGEMM('T','N',k+chunklen-1,chunklen,npack2-2*nida,
      >             2.0d0,
      >             A(1+nida),npack2,
      >             B(1+nida+(k-1)*npack),npack2,
+     >             0.0d0,
+     >             matrix(1,k),n)
+
+
+
+        call DGEMM('T','N',k+chunklen-1,chunklen,2*nida,
+     >             1.0d0,
+     >             A,npack2,
+     >             B(1+(k-1)*npack),npack2,
      >             1.0d0,
      >             matrix(1,k),n)
+
 #endif
 
 #else 
