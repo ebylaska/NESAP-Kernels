@@ -86,8 +86,8 @@
 
 #include "nwpw_timing_common.fh"
 !$OMP MASTER
-	  call current_second(nwpw_tim1(counter))
-!$OMP END MASTER
+      call current_second(nwpw_tim1(counter))
+!$OMPEND MASTER
       return
       end
 
@@ -99,7 +99,7 @@
 
       
 !$OMP MASTER
-	  call current_second(nwpw_tim2(counter))
+      call current_second(nwpw_tim2(counter))
      
       times(counter) = times(counter) 
      >               + (nwpw_tim2(counter)-nwpw_tim1(counter))
@@ -283,4 +283,3 @@ c     **** external functions ****
  1808 FORMAT(A,E14.6,E14.6)
  1809 FORMAT(//A,3A14)
       end
-
