@@ -55,8 +55,6 @@
 *   45 - MATHIAS Lagrange
 *   46 - MATHIAS Exch Corr
 *   47 - MATHIAS Hpsi
-*   48 - MATHIAS GEMM FFM
-*   49 - MATHIAS GEMM FMF
 
 *   50 - io time
 
@@ -278,12 +276,6 @@ c     **** external functions ****
          call nwpw_timing_print(
      >                 '  MATHIAS Hpsi               : ',
      >                 nwpw_timing(47),counter,ttime)
-         call nwpw_timing_print(
-     >                 '  MATHIAS Parallel GEMM FFM  : ',
-     >                 nwpw_timing(48),counter,ttime)
-         call nwpw_timing_print(
-     >                 '  MATHIAS Parallel GEMM FMF  : ',
-     >                 nwpw_timing(49),counter,ttime)
       end if
 
 
