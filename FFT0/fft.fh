@@ -1,0 +1,7 @@
+
+      integer nx,ny,nz
+      integer np_min,np_max,nfft3d_max,n2ft3d_max,gridmapping
+      parameter (nx=64,ny=64,nz=64)
+      parameter (np_min=1,np_max=500,gridmapping=1)
+      parameter (nfft3d_max=(nx/2+1)*ny*nz/np_min)
+      parameter (n2ft3d_max=2*nfft3d_max)
