@@ -1,0 +1,22 @@
+*
+* $Id: Parallel.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+      integer np_max
+      parameter (np_max=500)
+
+*     *** Parallel common block ***
+      integer taskid,np
+      common / parallel / taskid,np
+
+*     *** ParallelNd common block ***
+      integer taskid_i,np_i,comm_i,group_i
+      integer taskid_j,np_j,comm_j,group_j
+      integer taskid_k,np_k,comm_k,group_k
+      integer procNd(np_max)
+      common / parallelNd / procNd,
+     >                      taskid_i,taskid_j,taskid_k,
+     >                      np_i,    np_j,    np_k,
+     >                      comm_i,  comm_j,  comm_k,
+     >                      group_i, group_j, group_k
+
