@@ -571,6 +571,7 @@
 
       mthr = Parallel_maxthreads()
 
+      !write(*,*) "maxthread=",mthr
       do i=1,mthr
         !write(*,*) "DEBUG init fft arrays of thread ", i-1
         call drffti(nx1(nb),tmpx(1,nb,i))
@@ -658,12 +659,13 @@
 *     ***      A(kx,kz,ky) <- A(kx,ky,kz)      ***
 *     ********************************************
 cccc  XXXX shouldn't be called XXXX
-      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
+c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 
 *     *************************************************
 *     ***     do fft along kz dimension             ***
 *     ***   A(kx,nz(nb),ky) <- fft1d^(-1)[A(kx,kz,ky)]  ***
 *     *************************************************
+      call nwpw_timing_start(3)
       indx0 = 0
       do q=1,nq(nb)
          do i=1,nxh
@@ -683,18 +685,22 @@ cccc  XXXX shouldn't be called XXXX
          end do
          indx0 = indx0 + nxhz
       end do
+      call nwpw_timing_end(3)
 
 
 *     ********************************************
 *     ***         Do a transpose of A          ***
 *     ***      A(kx,ky,nz(nb)) <- A(kx,nz(nb),ky)      ***
 *     ********************************************
+      call nwpw_timing_start(4)
       call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
+      call nwpw_timing_end(4)
 
 *     *************************************************
 *     ***     do fft along ky dimension             ***
 *     ***   A(kx,ny(nb),nz(nb)) <- fft1d^(-1)[A(kx,ky,nz(nb))]  ***
 *     *************************************************
+      call nwpw_timing_start(3)
       indx0 = 0
       do q=1,nq(nb)
          do i=1,(nx1(nb)/2+1)
@@ -730,6 +736,7 @@ cccc  XXXX shouldn't be called XXXX
       end do
       end do
       call zeroend_fftb(nx1(nb),ny1(nb),nq(nb),1,A)
+      call nwpw_timing_end(3)
 
 
       !*************************
@@ -741,32 +748,42 @@ cccc  XXXX shouldn't be called XXXX
 *     *************************************************
 *     ***     do fft along kz dimension             ***
 *     ***   A(nz(nb),kx,ky) <- fft1d^(-1)[A(kz,kx,ky)]  ***
-*     *************************************************
+*     *********************t****************************
+      call nwpw_timing_start(3)
       do i=1,nq3(nb)
         call dcfftb(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,1))
       end do
+      call nwpw_timing_end(3)
 
-
+      call nwpw_timing_start(4)
       call D3dB_c_transpose_ijk(nb,3,A,dtmp2,dtmp3)
+      call nwpw_timing_end(4)
 
 *     *************************************************
 *     ***     do fft along ky dimension             ***
 *     ***   A(ny(nb),nz(nb),kx) <- fft1d^(-1)[A(ky,nz(nb),kx)]  ***
 *     *************************************************
+      call nwpw_timing_start(3)
       do i=1,nq2(nb)
         call dcfftb(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,1))
       end do
+      call nwpw_timing_end(3)
 
-
+      call nwpw_timing_start(4)
       call D3dB_c_transpose_ijk(nb,4,A,dtmp2,dtmp3)
+      call nwpw_timing_end(4)
 
 *     *************************************************
 *     ***     do fft along kx dimension             ***
 *     ***   A(nx(nb),ny(nb),nz(nb)) <- fft1d^(-1)[A(kx,ny(nb),nz(nb))]  ***
 *     *************************************************
+      call nwpw_timing_start(3)
+      call cshift1_fftb(nx1(nb),nq1(nb),1,1,A)
       do i=1,nq1(nb)
         call drfftb(nx1(nb),A(1+(i-1)*nxh),tmpx(1,nb,1))
       end do
+      call zeroend_fftb(nx1(nb),nq1(nb),1,1,A)
+      call nwpw_timing_end(3)
 
 
       end if
@@ -864,9 +881,11 @@ cccc  XXXX shouldn't be called XXXX
 *     ***     do fft along nx(nb) dimension        ***
 *     ***   A(kx,ny(nb),nz(nb)) <- fft1d[A(nx(nb),ny(nb),nz(nb))]  ***
 *     ********************************************
+      call nwpw_timing_start(3)
+      indx = 1
       do q=1,nq(nb)
       do j=1,ny1(nb)
-         call drfftf(nx1(nb),A(indx),tmpx(1,nb,1))
+         call drfftf(nx1(nb),A(indx),tmpx)
          indx = indx + nxh
       end do
       end do
@@ -880,52 +899,56 @@ cccc  XXXX shouldn't be called XXXX
       do i=1,nxh
       indx = i
       indx1= i
-      do q=1,nq(nb)
-         do j=1,ny1(nb)
-            dtmp2(j) = A(indx)
-            indx = indx + nxh
+         do q=1,nq(nb)
+            do j=1,ny1(nb)
+               dtmp2(j) = A(indx)
+               indx = indx + nxh
+            end do
+
+            call dcfftf(ny1(nb),dtmp2,tmpy(1,nb,1))
+
+            do j=1,ny1(nb)
+               A(indx1) = dtmp2(j)
+               indx1 = indx1 + nxh
+            end do
          end do
 
-         call dcfftf(ny1(nb),dtmp2,tmpy(1,nb,1))
-
-         do j=1,ny1(nb)
-            A(indx1) = dtmp2(j)
-            indx1 = indx1 + nxh
-         end do
       end do
-
-      end do
-
+      call nwpw_timing_end(3)
 
 
 *     ********************************************
 *     ***         Do a transpose of A          ***
 *     ***      A(ky,nz(nb),ky) <- A(kx,ky,nz(nb))      ***
 *     ********************************************
+      call nwpw_timing_start(4)
       call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
+      call nwpw_timing_end(4)
 
 
 *     ********************************************
 *     ***     do fft along nz(nb) dimension        ***
 *     ***   A(kx,kz,ky) <- fft1d[A(kx,nz(nb),ky)]  ***
 *     ********************************************
+      call nwpw_timing_start(3)
       do i=1,nxh
-      indx  = i
-      indx1 = i
-      do q=1,nq(nb)
+         indx  = i
+         indx1 = i
+         do q=1,nq(nb)
+            do k=1,nz1(nb)
+               dtmp2(k) = A(indx)
+               indx = indx + nxh
+            end do
 
-         do k=1,nz1(nb)
-            dtmp2(k) = A(indx)
-            indx = indx + nxh
-         end do
-         call dcfftf(nz1(nb),dtmp2,tmpz(1,nb,1))
-         do k=1,nz1(nb)
-            A(indx1) = dtmp2(k)
-            indx1 = indx1 + nxh
-         end do
+            call dcfftf(nz1(nb),dtmp2,tmpz(1,nb,1))
 
+            do k=1,nz1(nb)
+               A(indx1) = dtmp2(k)
+               indx1 = indx1 + nxh
+            end do
+         end do
       end do
-      end do
+      call nwpw_timing_end(3)
 
 
 *     ********************************************
@@ -933,7 +956,7 @@ cccc  XXXX shouldn't be called XXXX
 *     ***      A(kx,ky,kz) <- A(kx,kz,ky)      ***
 *     ********************************************
 ccc XXXX shouldn't  be called XXXX
-      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
+c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 
       !*************************
       !**** hilbert mapping ****
@@ -944,31 +967,41 @@ ccc XXXX shouldn't  be called XXXX
 *     ***     do fft along nx(nb) dimension        ***
 *     ***   A(kx,ny(nb),nz(nb)) <- fft1d[A(nx(nb),ny(nb),nz(nb))]  ***
 *     ********************************************
+      call nwpw_timing_start(3)
       do i=1,nq1(nb)
         call drfftf(nx1(nb),A(1+(i-1)*nxh),tmpx(1,nb,1))
       end do
       call cshift_fftf(nx1(nb),nq1(nb),1,1,A)
+      call nwpw_timing_end(3)
 
 
+      call nwpw_timing_start(4)
       call D3dB_c_transpose_ijk(nb,1,A,dtmp2,dtmp3)
+      call nwpw_timing_end(4)
 
 *     ********************************************
 *     ***     do fft along ny(nb) dimension        ***
 *     ***   A(ky,nz(nb),kx) <- fft1d[A(ny(nb),nz(nb),kx)]  ***
 *     ********************************************
+      call nwpw_timing_start(3)
       do i=1,nq2(nb)
         call dcfftf(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,1))
       end do
+      call nwpw_timing_end(3)
 
+      call nwpw_timing_start(4)
       call D3dB_c_transpose_ijk(nb,2,A,dtmp2,dtmp3)
+      call nwpw_timing_end(4)
 
 *     ********************************************
 *     ***     do fft along nz(nb) dimension        ***
 *     ***   A(kz,kx,ky) <- fft1d[A(nz(nb),kx,ky)]  ***
 *     ********************************************
+      call nwpw_timing_start(3)
       do i=1,nq3(nb)
         call dcfftf(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,1))
       end do
+      call nwpw_timing_end(3)
 
       end if
 
@@ -3818,38 +3851,6 @@ c     implicit none
 
       end do
 
-      return
-      end
-
-      subroutine dcopy(n,A,ishftA,B,ishftB)
-      implicit none
-      integer n,ishftA,ishftB
-      real*8 A(*),B(*)
-
-      integer i,ia,ib
-
-      ia = 1
-      ib = 1
-      do i=1,n
-         B(ib) = A(ia)
-         ia = ia + ishftA
-         ib = ib + ishftB
-      end do
-      return
-      end
-
-      subroutine dscal(n,alpha,A,ishftA)
-      implicit none
-      integer n,ishftA
-      real*8 alpha,A(*)
-
-      integer i,ia
-
-      ia = 1
-      do i=1,n
-         A(ia) = alpha*A(ia)
-         ia = ia + ishftA
-      end do
       return
       end
 

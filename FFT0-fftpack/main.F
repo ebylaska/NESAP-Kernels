@@ -1,31 +1,28 @@
-
-#define USE_NEWFFT_FORWARD y
-#define USE_NEWFFT_BACKWARD y
-
-cccc#define USE_OLDFFT_FORWARD y
-cccc#define USE_OLDFFT_BACKWARD y
-
       program main 
+      implicit none
 
+*     **** The parameters for the calculation are contained fft.fh **** 
+*     **** Edit the file and recompile                             ****
 #include "fft.fh"
 
-      parameter (nx2=nx+2,nx21=nx/2+1) 
-      parameter (ny21=ny/2+1,nz21=nz/2+1) 
-      parameter (nss0=12,nss=6) ! # of dislocation slip systems 
-      parameter (pi=3.14159265359) 
-
-      logical oprint
+*     **** local variables ****
       integer np,taskid,MASTER
       parameter (MASTER=0)
 
+      logical oprint
+      integer it,k,n2ft3d,nfft3d
+      real*8  error,cpu1,cpu0
+      character*26 dd
 
-      real*8     y1(n2ft3d_max)
-      real*8     y2(n2ft3d_max)
+      real*8  y1(n2ft3d_max)
+      real*8  y2(n2ft3d_max)
       complex*16 y1k(nfft3d_max)
 
 
+*     **** external functions ****
       real*8   nwpw_timing
       external nwpw_timing
+
 
       call nwpw_timing_init()
       call nwpw_timing_start(1)
@@ -33,236 +30,171 @@ cccc#define USE_OLDFFT_BACKWARD y
       call Parallel_Init()
       call Parallel_np(np)
       call Parallel_taskid(taskid)
-
-
-      call D3dB_Init(1,nx,ny,nz,gridmapping)
-      call D3dB_nfft3d(1,nfft3d)
-      call D3dB_n2ft3d(1,n2ft3d)
-c      nfft3d = (nx/2+1)*ny*nz
-c      n2ft3d = (nx+2)*ny*nz
-c      taskid = 0
-c      np = 1
-      Time_step = 1.0d-6
       oprint = (taskid.eq.MASTER)
 
       if (oprint) then
          write(*,*)
-         write(*,*) "taskid               = ",taskid
-         write(*,*) "number of processors = ",np
-         write(*,*) "nx,ny,nz=",nx,ny,nz
-         write(*,*) "nfft3d=",nfft3d,(nx/2+1)*ny*nz
-         write(*,*) "n2ft3d=",n2ft3d,(nx+2)*ny*nz
+         write(*,100)
+         write(*,101)
+         write(*,102)
+         write(*,103)
+         write(*,104)
+         write(*,105)
+         write(*,106)
+         write(*,107)
+         write(*,108)
+         write(*,109)
+         write(*,110)
+         call util_date(dd)
+         write(*,*) "       >>> job started at    ",dd," <<<"
          write(*,*)
       end if
 
-c******** Checking FFTs - should be deleted *******
+      if (oprint) write(*,*) "Initializing D3dB"
+      call D3dB_Init(1,nx,ny,nz,gridmapping)
+      call D3dB_nfft3d(1,nfft3d)
+      call D3dB_n2ft3d(1,n2ft3d)
+
+      if (oprint) then
+         write(*,*) 
+         write(*,*) "==  Input Data  =="
+         write(*,*) 
+         write(*,200) taskid
+         write(*,201) np
+         write(*,*)
+         write(*,202) nx,ny,nz
+         write(*,203) (nx/2+1)*ny*nz,nfft3d
+         write(*,204) (nx+2)*ny*nz,n2ft3d
+         write(*,*)
+         write(*,205) norbitals
+         write(*,206) 2*norbitals+2+7
+         write(*,207) niter
+         write(*,*)
+      end if
+
       do k=1,n2ft3d
-        y1(k) = k*0.5
+        !y1(k) = dsin(k*9.5d0) + 40.0d0*dcos(6.23424242d0*k)
+        y1(k) =  10.987654321d0
       end do
       call D3dB_r_Zero_Ends(1,y1)
-      write(*,*) "hera"
-      call forward(y1,yk1,nx,ny,nz)
-      write(*,*) "herb"
-      call backward(yk1,y2,nx,ny,nz)
-      write(*,*) "herc"
-      call D3dB_r_Zero_Ends(1,y2)
-      write(*,*) "herd"
-      c110 = 0.0d0
-      do k=1,n2ft3d
-         c110 = c110 + dabs(y2(k)-y1(k))
+     
+
+      if (oprint) then
+         call util_date(dd)
+         write(*,*) 
+         write(*,*) "==  Running the Same Number of 3d FFTS as in a",
+     >             " CPMD Simulation  =="
+         write(*,*) 
+         write(*,*) 
+         write(*,300) 
+         write(*,301) 
+         write(*,*) "       >>> iteration started ",dd," <<<"
+      end if
+      call nwpw_timing_start(2)
+      if (oprint) call current_second(cpu0)
+
+      do it=1,niter
+         do k=1,norbitals+1+4
+            call fft_forward(nx,ny,nz,y1,y1k)
+         end do
+         do k=1,norbitals+1+3
+            call fft_backward(nx,ny,nz,y1k,y2)
+         end do
+         call current_second(cpu1)
+         if (oprint) then
+            call current_second(cpu1)
+            write(*,302) it,cpu1-cpu0
+         end if
       end do
-      write(*,*) "fft error=",c110
+
+      if (oprint) then
+         call util_date(dd)
+         write(*,*) "       >>> iteration ended   ",dd," <<<"
+         write(*,*)
+      end if
+      call nwpw_timing_end(2)
+
+      error = 0.0d0
+      do k=1,n2ft3d
+         error = error + dabs(y2(k)-y1(k))
+      end do
+      call D3dB_SumAll(error)
+      if (oprint) then
+         write(*,*) 
+         write(*,*) "==  Summary of Results =="
+         write(*,*) 
+         write(*,*) "fft error=",error
+      end if
       call D3dB_end(1)
       call Parallel_Finalize()
-      stop
-c******** Checking FFTs - should be deleted *******
 
-       end 
-
-
- 
-#ifdef USE_OLDFFT_FORWARD
-      subroutine forward(rin,c,n1,n2,n3)
-      implicit none
-      integer n1,n2,n3,i,j,k
-      logical ifirst
-      save ifirst,planfw
-      real*8 rin(n1+2,n2,n3)
-      real*8 r(n1,n2,n3)
-      complex*16 c(n1/2+1,n2,n3)
-      real*8 scale
-      integer*8  planfw
-      data ifirst/.true./
-      call nwpw_timing_start(10)
-
-      do k=1,n3
-         do j=1,n2
-            do i=1,n1
-              r(i,j,k) = rin(i,j,k)
-            end do
-         end do
-      end do
-      if (ifirst) then
-         call dfftw_plan_dft_r2c_3d(planfw,n1,n2,n3,r,c,64)
-         ifirst=.false.
+      call nwpw_timing_print_final(oprint,1)
+      if (oprint) then
+         call util_date(dd)
+         write(*,*)
+         write(*,*) "       >>> job ended at      ",dd," <<<"
+         write(*,*)
       end if
-      call dfftw_execute_dft_r2c(planfw,r,c) 
-      call nwpw_timing_end(10)
-      return 
+
+      stop
+
+ 100  format(8x,"****************************************************")
+ 101  format(8x,"*                                                  *")
+ 102  format(8x,"*     Simplest Parallel 3d FFT Test Calculation    *")
+ 103  format(8x,"*                                                  *")
+ 104  format(8x,"*       FFT0-fftpack version 0.0  - 07/03/15       *")
+ 105  format(8x,"*                                                  *")
+ 106  format(8x,"*  This code was developed by Eric J. Bylaska for  *")
+ 107  format(8x,"*  NERSC NESAP Dungeon session with Intel on July  *")
+ 108  format(8x,"*  8-10, 2015 in Hillsboro, OR                     *")
+ 109  format(8x,"*                                                  *")
+ 110  format(8x,"****************************************************")
+
+ 200  format(1x,"taskid               = ",I6)
+ 201  format(1x,"number of processors = ",I6)
+ 202  format(1x,"FFT nx,ny,nz =",3I5)
+ 203  format(1x,"nfft3d       =",I10," (",I10," per processor)")
+ 204  format(1x,"n2ft3d       =",I10," (",I10," per processor)")
+ 205  format(1x,"number of orbitals                =",I6)
+ 206  format(1x,"number of FFTs per CPMD iteration =",I6)
+ 207  format(1x,"number of CPMD iterations         =",I6)
+ 300  format(8x,"iteration",29x,"current time")
+ 301  format(8x,"--------------------------------------------------")
+ 302  format(8x,I5,26x,F11.3,' seconds') 
       end 
-#endif
-#ifdef USE_NEWFFT_FORWARD
-      subroutine forward(rin,c,n1,n2,n3)
+
+
+
+      subroutine fft_forward(n1,n2,n3,myrin,myc)
       implicit none
       integer n1,n2,n3
-      real*8 rin(*)
-      complex*16 c(*)
-      integer n2ft3d
+      double precision     myrin(*)
+      double complex       myc(*)
+      integer n2ft3d,i
 
-      call nwpw_timing_start(10)
       call D3dB_n2ft3d(1,n2ft3d)
-      call dcopy(n2ft3d,rin,1,c,1)
-      call D3dB_rc_fft3f(1,c)
-      call nwpw_timing_end(10)
+      call dcopy(n2ft3d,myrin,1,myc,1)
+      call D3dB_rc_fft3f(1,myc)
       return 
       end 
-#endif
 
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-#ifdef USE_OLDFFT_BACKWARD
-      subroutine backward(c,rout,n1,n2,n3)
-      implicit none
-      integer n1,n2,n3,i,j,k
-      logical ifirst
-      save ifirst,planbw
-      real*8 r(n1,n2,n3),scale
-      real*8 rout(n1+2,n2,n3)
-      complex*16 c(n1/2+1,n2,n3),tempk(n1/2+1,n2,n3)
-      integer*8  planbw
-      data ifirst/.true./
-
-      call nwpw_timing_start(11)
-       do i=1,n1/2+1
-         do j=1,n2
-          do k=1,n3
-            tempk(i,j,k)=c(i,j,k)
-          enddo
-         enddo
-        enddo
-   
-      if (ifirst) then
-       call dfftw_plan_dft_c2r_3d(planbw,n1,n2,n3,c,r,64)
-       ifirst=.false.
-       end if
-      scale = 1.d0/(n1*n2*n3) 
-       call dfftw_execute_dft_c2r(planbw,c,r)  
-       do k=1,n3
-           do j=1,n2
-              do i=1,n1
-                 rout(i,j,k) = scale*r(i,j,k) 
-              end do
-              rout(n1+1,j,k) = 0.0d0
-              rout(n1+2,j,k) = 0.0d0
-           end do
-       end do
-
-       do i=1,n1/2+1
-         do j=1,n2
-          do k=1,n3
-            c(i,j,k)=tempk(i,j,k)
-          enddo
-         enddo
-        enddo
-
-       call nwpw_timing_end(11)
-
-       return 
-       end 
-#endif
-#ifdef USE_NEWFFT_BACKWARD
-
-      subroutine backward(c,rout,n1,n2,n3)
+      subroutine fft_backward(n1,n2,n3,c,rout)
       implicit none
       integer n1,n2,n3
-      real*8 scale
       real*8 rout(*)
       complex*16 c(*)
+
+      real*8 scale
       integer n2ft3d
 
-      call nwpw_timing_start(11)
-      scale = 1.d0/(n1*n2*n3) 
+      scale = 1.0d0/dble(n1*n2*n3) 
       call D3dB_n2ft3d(1,n2ft3d)
       call dcopy(n2ft3d,c,1,rout,1)
       call D3dB_cr_fft3b(1,rout)
       call dscal(n2ft3d,scale,rout,1)
-      call nwpw_timing_end(11)
       return
       end
-#endif
    
-
-      subroutine nwpw_timing_init()
-      implicit none
-
-      real*8 nwpw_tim1(50),nwpw_tim2(50)
-      real*8 times(50)
-      common / nwpw_timing_block / times
-      common / nwpw_timing2_block / nwpw_tim1,nwpw_tim2
-      integer i
-      do i=1,50
-         times(i) = 0.0d0
-      end do
-      return
-      end
-      subroutine nwpw_timing_start(counter)
-      implicit none
-      integer counter
-
-      real*8 nwpw_tim1(50),nwpw_tim2(50)
-      real*8 times(50)
-      common / nwpw_timing_block / times
-      common / nwpw_timing2_block / nwpw_tim1,nwpw_tim2
-
-      call current_second(nwpw_tim1(counter))
-      return
-      end
-      subroutine nwpw_timing_end(counter)
-      implicit none
-      integer counter
-
-      real*8 nwpw_tim1(50),nwpw_tim2(50)
-      real*8 times(50)
-      common / nwpw_timing_block / times
-      common / nwpw_timing2_block / nwpw_tim1,nwpw_tim2
-
-      call current_second(nwpw_tim2(counter))
-
-      times(counter) = times(counter)
-     >               + (nwpw_tim2(counter)-nwpw_tim1(counter))
-      return
-      end
-      real*8 function nwpw_timing(counter)
-      implicit none
-      integer counter
-
-      real*8 nwpw_tim1(50),nwpw_tim2(50)
-      real*8 times(50)
-      common / nwpw_timing_block / times
-      common / nwpw_timing2_block / nwpw_tim1,nwpw_tim2
-
-      nwpw_timing = times(counter)
-      return
-      end
-      SUBROUTINE current_second(T)
-      real*8 T
-      real*4 dummy,etime
-      real*4 s(2)
-      real   t2(2)
-
-      dummy = etime(s)
-      T = dble(s(1))
-
-      RETURN
-      END
 
