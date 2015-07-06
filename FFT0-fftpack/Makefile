@@ -1,12 +1,18 @@
 SRCDIR = .
-OBJECTS = main.o D3dB.o hilbert.o hcurve.o olist.o Parallel-mpi.o 
+OBJECTS = main.o D3dB.o hilbert.o hcurve.o olist.o Parallel-mpi.o util_date.o nwpw_timing.o  #blas.o
 
 LIBDIR1 = ../lib
-LIBRARY = -lfftpack
+LIBRARY = -lfftpack -lblas
 
-OPTIONS = -O3
+#OPTIONS = -O3 -ffast-math -Wuninitialized
+#OPTIONS = -g 
+OPTIONS = -O2 -fopenmp
+#OPTIONS += -fno-automatic -fbounds-check 
+#OPTIONS += -fmax-stack-var-size=327680
+OPTIONS += -frecursive
+
 FFLAGS =  $(OPTIONS) -L$(LIBDIR1) 
-FC = mpif77
+FC = mpif90
 
 main.x:   ${OBJECTS} 
 	$(FC) -o main-mpi.x ${FFLAGS} ${OBJECTS} ${LIBRARY}
