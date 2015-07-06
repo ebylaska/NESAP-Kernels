@@ -3,7 +3,7 @@
       integer np_min,np_max,nfft3d_max,n2ft3d_max,gridmapping
       integer nthreads_max,norbitals,niter
       parameter (norbitals=100,niter=5)
-      parameter (nx=160,ny=160,nz=160)
-      parameter (np_min=2,np_max=500,gridmapping=2,nthreads_max=8)
+      parameter (nx=128,ny=128,nz=128)
+      parameter (np_min=1,np_max=500,gridmapping=2,nthreads_max=8)
       parameter (nfft3d_max=(nx/2+1)*ny*nz/np_min)
       parameter (n2ft3d_max=2*nfft3d_max)

@@ -1820,32 +1820,20 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer function Parallel_threadid()
       implicit none
 #include "Parallel.fh"
-#ifdef USE_OPENMP
       integer  omp_get_thread_num
       external omp_get_thread_num
-#endif
 
-#ifdef USE_OPENMP
       Parallel_threadid = omp_get_thread_num()
-#else
-      Parallel_threadid = 0
-#endif
       return
       end
 
       integer function Parallel_nthreads()
       implicit none
 #include "Parallel.fh"
-#ifdef USE_OPENMP
       integer  omp_get_num_threads
       external omp_get_num_threads
-#endif
 
-#ifdef USE_OPENMP
       Parallel_nthreads = omp_get_num_threads()
-#else
-      Parallel_nthreads = 1
-#endif
 
       return
       end
@@ -1853,16 +1841,10 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer function Parallel_maxthreads()
       implicit none
 #include "Parallel.fh"
-#ifdef USE_OPENMP
       integer  omp_get_max_threads
       external omp_get_max_threads
-#endif
 
-#ifdef USE_OPENMP
       Parallel_maxthreads = omp_get_max_threads()
-#else
-      Parallel_maxthreads = 1
-#endif
 
       return
       end
