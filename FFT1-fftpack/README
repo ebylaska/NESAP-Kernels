@@ -1,1 +1,8 @@
-How to run?
+This kernel does the simplest OpenMP parallelization.  It just puts OpenMP directives around do loops.  This is very slow, but stable.
+
+To run:
+make clean
+make
+main-mpi.x  or mpirun -np 2 main-mpi.x
+
+
