@@ -1,0 +1,74 @@
+#########################################################################
+#									#
+# Sample makefile header for running on Abe, 				#
+#  The makefile targets are appended to  the end of this file		#
+#	 Don't change anything that comes before the targets 		#
+#									#
+#									#
+#########################################################################
+
+RM		= rm -f
+LN		= ln -s
+ECHO		= echo
+
+
+C++ 		= mpicxx
+CC		= mpicxx
+FORT 		= gfortran
+AR		= ar
+RANLIB		= ranlib
+C++LINK		= $(C++)
+CLINK		= $(CC)
+
+
+
+# ARCH_FLAGS	= -DLINUX 
+ARCH_FLAGS	= -DMPICH_IGNORE_CXX_SEEK
+OPTIMIZATION	=  -O3
+#DEBUG		= -g
+
+
+C++FLAGS        += $(INCLUDES) $(ARCH_FLAGS) $(WARNINGS) $(OPTIMIZATION) \
+                  $(XTRAFLAGS) $(DEBUG)
+
+CFLAGS		+= $(INCLUDES) $(ARCH_FLAGS) $(WARNINGS) $(OPTIMIZATION) \
+                  $(XTRAFLAGS) $(DEBUG)
+
+FFLAGS		= $(ARCH_FLAGS) -O2
+
+
+ARFLAGS		= ru
+
+ 
+#LDFLAGS		= $(WARNINGS) $(OPTIMIZATION) $(DEBUG)  -shared-intel
+LDFLAGS		= $(WARNINGS) $(OPTIMIZATION) $(DEBUG) 
+
+ARCH_HAS_X	= arch_has_X
+
+
+
+#########################################################################
+# End of the System dependent prefix
+#########################################################################
+
+
+#########################################################################
+#									#
+# Suffixes for compiling most normal C++, C, and f77 files		#
+#									#
+#########################################################################
+.SUFFIXES:
+.SUFFIXES: .C .c .f .o
+
+.C.o:
+		$(C++) $(C++FLAGS) -c $<
+		@$(ECHO)
+
+.c.o:
+		$(CC) $(CFLAGS) -c $<
+		@$(ECHO)
+
+
+.f.o: *.f
+		$(FORT)  -c $(FFLAGS) $<
+
