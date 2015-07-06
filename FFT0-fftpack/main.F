@@ -6,12 +6,12 @@
 #include "fft.fh"
 
 *     **** local variables ****
-      integer np,taskid,MASTER,nthr
+      integer np,taskid,MASTER,nthr,isumer
       parameter (MASTER=0)
 
       logical oprint,oprint2
       integer it,k,n2ft3d,nfft3d,mythr
-      real*8  error,cpu0,cpu1,cpu2,cpu3,rc_time,cr_time
+      real*8  error,cpu0,cpu1,cpu2,cpu3,rc_time,cr_time,sumer
       real*8 fftx_flop,ffty_flop,fftz_flop,fft3d_flop,cr_flop,rc_flop
       character*26 dd
 
@@ -24,6 +24,8 @@
 *     **** external functions ****
       integer  Parallel_maxthreads,Parallel_threadid
       external Parallel_maxthreads,Parallel_threadid
+      integer  Parallel_thread_sync
+      external Parallel_thread_sync
       real*8   nwpw_timing
       external nwpw_timing
 
@@ -100,12 +102,12 @@
       cr_time = 0.0d0
       call nwpw_timing_start(2)
       if (oprint) call current_second(cpu0)
-!$OMP PARALLEL private(k,it,oprint2,mythr) shared(y1,y2,y1k)
-!$OMP BARRIER
+!$OMP PARALLEL private(k,it,oprint2,mythr) shared(y1,y2,y1k,cpu0)
       mythr = Parallel_threadid()
       oprint2 = oprint.and.(Parallel_threadid().eq.MASTER)
 
       do it=1,niter
+!$OMP BARRIER
          if (oprint2) call current_second(cpu1)
          do k=1,norbitals+1+4
             call fft_forward(nx,ny,nz,y1,n2ft3d,y1k,nfft3d)
@@ -120,6 +122,7 @@
             cr_time = cr_time + (cpu3-cpu2)
             write(*,302) it,cpu3-cpu0
          end if
+!$OMP BARRIER
       end do
 !$OMP END PARALLEL
 

@@ -800,7 +800,6 @@ c      do i=1,nq1(nb)
       end do
       call zeroend_fftb(nx1(nb),nq1(nb),1,1,A)
       call nwpw_timing_end(3)
-!$OMP FLUSH (A)
 
 
       end if

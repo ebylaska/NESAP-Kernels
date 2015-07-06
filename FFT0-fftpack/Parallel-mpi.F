@@ -1800,18 +1800,11 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
 #include "Parallel.fh"
 
-#ifdef USE_OPENMP
       integer  omp_get_thread_num,omp_get_num_threads
       external omp_get_thread_num,omp_get_num_threads
-#endif
 
-#ifdef USE_OPENMP
       threadid = omp_get_thread_num()
       nthreads = omp_get_num_threads()
-#else
-      threadid = 0
-      nthreads = 1
-#endif
 
       !write(*,*) "---threadid=",threadid
       return
@@ -1850,6 +1843,31 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       end
 
 
+*     *************************************
+*     *                                   *
+*     *        Parallel_thread_sync       *
+*     *                                   *
+*     *************************************
+
+      integer function Parallel_thread_sync()
+      implicit none
+
+#include "Parallel.fh"
+
+      integer i
+      integer isumer
+      common /thread_sumer/ isumer
+
+      isumer = 0
+!$OMP DO private(i) reduction(+:isumer)
+      do i=1,20
+         isumer = isumer + 1
+      end do
+!$OMP END DO
+
+      Parallel_thread_sync = isumer
+      return
+      end
 
 
 
