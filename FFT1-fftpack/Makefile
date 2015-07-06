@@ -9,7 +9,7 @@ LIBRARY = -lfftpack -lblas
 OPTIONS = -O2 -fopenmp
 #OPTIONS += -fno-automatic -fbounds-check 
 #OPTIONS += -fmax-stack-var-size=327680
-OPTIONS += -frecursive
+#OPTIONS += -frecursive
 
 FFLAGS =  $(OPTIONS) -L$(LIBDIR1) 
 FC = mpif90
