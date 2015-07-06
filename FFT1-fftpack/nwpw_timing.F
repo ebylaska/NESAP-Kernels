@@ -269,15 +269,27 @@ c     **** external functions ****
       end
 
 
+c      SUBROUTINE current_second(T)
+c      real*8 T
+c      real*4 dummy,etime
+c      real*4 s(2)
+c      real   t2(2)
+c
+c      dummy = etime(s)
+c      T = dble(s(1))
+c
+c      RETURN
+c      END
+
       SUBROUTINE current_second(T)
+      implicit none  
       real*8 T
-      real*4 dummy,etime
-      real*4 s(2)
-      real   t2(2)
+      real*8 MPI_Wtime
+      external MPI_Wtime
 
-      dummy = etime(s)
-      T = dble(s(1))
-
+      T=MPI_Wtime()
+      
       RETURN
       END
+
 
