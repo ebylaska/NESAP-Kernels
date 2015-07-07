@@ -1,5 +1,3 @@
-#define NBLOCKS 2
-
 *
 * $Id: D3dB_pfft.F 26682 2015-01-09 23:57:32Z mjacquelin $
 *
@@ -20,11 +18,11 @@
 *     *                                 *
 *     ***********************************
 
-      subroutine D3dB_pfft_init()
+      subroutine D3dB_pfft_init(lattice_unitg,lattice_ggcut)
       implicit none
+      real*8 lattice_unitg(3,3),lattice_ggcut(2)
 
 #include "D3dB.fh"
-#include "D3dB_pfft.fh"
 
 *     **** local variables ****
       integer taskid,MASTER
@@ -39,12 +37,8 @@
       integer i,j,k
       integer index,index2
       double precision ggcut,g1,g2,g3,gg
-
-*     **** external functions ***
-      integer  control_pfft3_qsize
-      real*8   lattice_ggcut,lattice_wggcut,lattice_unitg
-      external control_pfft3_qsize
-      external lattice_ggcut,lattice_wggcut,lattice_unitg
+      logical zero_arow2((nx/2+1)*nz)
+      logical zero_arow3((nx/2+1)*ny)
 
 
       call Parallel2d_taskid_i(taskid)
@@ -59,17 +53,14 @@ c     ****************************
       if (mapping.eq.1) then
          do nbb=0,1
 
-            if (nb.eq.0) then
-               ggcut = lattice_ggcut()
-            else
-               ggcut = lattice_wggcut()
-            end if
+             ggcut = lattice_ggcut(nbb+1)
+
 
 *           **** find zero_row3 - (i,j,*) rows that are zero ****
             do q=1,(nxh+1)*nq(1)
                zero_row3(q,nbb) =.true.
             end do
-            do q=1,(nxh+1)*ny(1)
+            do q=1,(nxh+1)*ny1(1)
                zero_arow3(q) =.true.
             end do
 
@@ -162,11 +153,7 @@ c     *****************************************
 
          do nbb=0,1
 
-            if (nbb.eq.0) then
-               ggcut = lattice_ggcut()
-            else
-               ggcut = lattice_wggcut()
-            end if
+            ggcut = lattice_ggcut(nbb+1)
 
 *           **** find zero_row3 - (i,j,*) rows that are zero ****
             do q = 1,nq3(1)
@@ -247,7 +234,7 @@ c     *****************************************
                q = q_map2(k+(i-1)*(nz1(1)),1)
                p = p_map2(k+(i-1)*(nz1(1)),1)
 
-               zero_arow2(i+(nxh+1)*(k-1)) = zero_slab23(i,nb)
+               zero_arow2(i+(nxh+1)*(k-1)) = zero_slab23(i,nbb)
                if (p.eq.taskid) then
                   zero_row2(q,nbb) = zero_slab23(i,nbb)
                end if
@@ -698,7 +685,7 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 
       subroutine D3dB_c_transpose_jk_init(nbb,zero_arow3)
       implicit none
-      integer nb
+      integer nbb
       logical zero_arow3(*)
 
 #include "D3dB.fh"
@@ -708,11 +695,11 @@ c     integer iq_to_i1((NFFT1/2+1)*NFFT2*NSLABS)
 c     integer iq_to_i2((NFFT1/2+1)*NFFT2*NSLABS)
 c     integer i1_start(NFFT3+1)
 c     integer i2_start(NFFT3+1)
-      integer iq_to_i1(nfft3d_max,NBLOCKS)
-      integer iq_to_i2(nfft3d_max,NBLOCKS)
-      integer i1_start(nz+1,NBLOCKS)
-      integer i2_start(nz+1,NBLOCKS)
-      common / trans_blk / iq_to_i1,iq_to_i2,i1_start,i2_start
+      integer iq_to_i1(nfft3d_max,0:1)
+      integer iq_to_i2(nfft3d_max,0:1)
+      integer i1_start(nz+1,0:1)
+      integer i2_start(nz+1,0:1)
+      common / ptrans_blk / iq_to_i1,iq_to_i2,i1_start,i2_start
 
 
 *     **** local variables ****
@@ -725,7 +712,6 @@ c     integer i2_start(NFFT3+1)
       logical value
 
 
-*     **** allocate trans_blk common block ****
       call Parallel2d_taskid_i(taskid)
       call Parallel2d_np_i(np)
 
@@ -734,43 +720,43 @@ c     integer i2_start(NFFT3+1)
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
-         i1_start(it+1,nb) = index1
-         i2_start(it+1,nb) = index2
+         i1_start(it+1,nbb) = index1
+         i2_start(it+1,nbb) = index2
 
-         do k=1,nz1(nb)
-         do j=1,ny1(nb)
+         do k=1,nz1(1)
+         do j=1,ny1(1)
 
 *           **** packing scheme **** 
-            call D3dB_ktoqp(nb,k,qhere,phere)
-            call D3dB_ktoqp(nb,j,qto,pto)
+            call D3dB_ktoqp(1,k,qhere,phere)
+            call D3dB_ktoqp(1,j,qto,pto)
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
-               do i=1,(nx1(nb)/2+1)
-                  itmp = i + (j-1)*(nx1(nb)/2+1) 
-     >                     + (qhere-1)*(nx1(nb)/2+1)*ny1(nb)
+               do i=1,(nx1(1)/2+1)
+                  itmp = i + (j-1)*(nx1(1)/2+1) 
+     >                     + (qhere-1)*(nx1(1)/2+1)*ny1(1)
 c                 iq_to_i1(itmp) = index1
-                  iq_to_i1(itmp,nb) = index1
+                  iq_to_i1(itmp,nbb) = index1
                   index1 = index1 + 1
                end do
             end if
              
 *           **** unpacking scheme ****
-            call D3dB_ktoqp(nb,j,qhere,phere)
-            call D3dB_ktoqp(nb,k,qfrom,pfrom)
+            call D3dB_ktoqp(1,j,qhere,phere)
+            call D3dB_ktoqp(1,k,qfrom,pfrom)
             if ((phere.eq.taskid).and.(pfrom.eq.proc_from)) then
-               do i=1,(nx1(nb)/2+1)
-                  itmp = i + (k-1)*(nx1(nb)/2+1) 
-     >                     + (qhere-1)*(nx1(nb)/2+1)*ny1(nb)
+               do i=1,(nx1(1)/2+1)
+                  itmp = i + (k-1)*(nx1(1)/2+1) 
+     >                     + (qhere-1)*(nx1(1)/2+1)*ny1(1)
 c                 iq_to_i2(itmp) = index2
-                  iq_to_i2(itmp,nb) = index2
+                  iq_to_i2(itmp,nbb) = index2
                   index2 = index2 + 1
                end do
             end if
          end do
          end do
       end do
-      i1_start(np+1,nb) = index1
-      i2_start(np+1,nb) = index2
+      i1_start(np+1,nbb) = index1
+      i2_start(np+1,nbb) = index2
 
       return
       end
@@ -796,7 +782,7 @@ c                 iq_to_i2(itmp) = index2
 *       then transpose2                             *
 *****************************************************
       implicit none
-      integer nb
+      integer nbb
       complex*16  A(*)
       complex*16  tmp1(*),tmp2(*)
 
@@ -804,11 +790,11 @@ c                 iq_to_i2(itmp) = index2
 #include "D3dB.fh"
 
 *     **** indexing variables ****
-      integer iq_to_i1(nfft3d_max,NBLOCKS)
-      integer iq_to_i2(nfft3d_max,NBLOCKS)
-      integer i1_start(nz+1,NBLOCKS)
-      integer i2_start(nz+1,NBLOCKS)
-      common / trans_blk / iq_to_i1,iq_to_i2,i1_start,i2_start
+      integer iq_to_i1(nfft3d_max,0:1)
+      integer iq_to_i2(nfft3d_max,0:1)
+      integer i1_start(nz+1,0:1)
+      integer i2_start(nz+1,0:1)
+      common / ptrans_blk / iq_to_i1,iq_to_i2,i1_start,i2_start
 
 
 
@@ -831,20 +817,15 @@ c                 iq_to_i2(itmp) = index2
 
 
 *     **** pack A(i) array ****
-#ifndef CRAY
-!DIR$ ivdep
-#endif
-      do i=1,nfft3d(nb) 
-         tmp1(iq_to_i1(i,nb)) = A(i)
+      do i=1,nfft3d(1) 
+         tmp1(iq_to_i1(i,nbb)) = A(i)
       end do
 
 *     **** it = 0, transpose data on same thread ****  
-      msglen = i2_start(2,nb) - i2_start(1,nb)
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+      msglen = i2_start(2,nbb) - i2_start(1,nbb)
+
       do i=1,msglen
-         tmp2(i2_start(1,nb)+i-1) = tmp1(i1_start(1,nb)+i-1)
+         tmp2(i2_start(1,nbb)+i-1) = tmp1(i1_start(1,nbb)+i-1)
       end do
          
 
@@ -858,11 +839,11 @@ c                 iq_to_i2(itmp) = index2
          msgtype = 1
          source=proc_from
          type   = 1
-         msglen = i2_start(it+2,nb) - i2_start(it+1,nb)
+         msglen = i2_start(it+2,nbb) - i2_start(it+1,nbb)
          
          if (msglen.gt.0) then
             reqcnt = reqcnt + 1
-            call MPI_IRECV(tmp2(i2_start(it+1,nb)),
+            call MPI_IRECV(tmp2(i2_start(it+1,nbb)),
      >                    msglen,MPI_DOUBLE_COMPLEX,
      >                    Parallel2d_convert_taskid_i(source),
      >                    msgtype,MPI_COMM_WORLD,
@@ -876,11 +857,11 @@ c                 iq_to_i2(itmp) = index2
 
 *        **** synchronous send of tmp ****
          proc_to   = mod((taskid)+it, np) 
-         msglen    = i1_start(it+2,nb) - i1_start(it+1,nb)
+         msglen    = i1_start(it+2,nbb) - i1_start(it+1,nbb)
          msgtype   = 1
       
          if (msglen.gt.0) then
-            call MPI_SEND(tmp1(i1_start(it+1,nb)),
+            call MPI_SEND(tmp1(i1_start(it+1,nbb)),
      >                     msglen,MPI_DOUBLE_COMPLEX,
      >                     Parallel2d_convert_taskid_i(proc_to),
      >                     msgtype,MPI_COMM_WORLD,mpierr)
@@ -894,8 +875,8 @@ c                 iq_to_i2(itmp) = index2
 
 
 *     **** unpack A(i) array ****
-      do i=1,nfft3d(nb) !***(nx(nb)/2+1)*ny1(nb)*nq(nb)
-         A(i) = tmp2(iq_to_i2(i,nb))
+      do i=1,nfft3d(1) !***(nx(nb)/2+1)*ny1(nb)*nq(nb)
+         A(i) = tmp2(iq_to_i2(i,nbb))
       end do
 
       return
@@ -933,11 +914,11 @@ c                 iq_to_i2(itmp) = index2
 
 
 *     **** indexing variables ****
-      integer h_iq_to_i1(nfft3d_max,6,NBLOCKS)
-      integer h_iq_to_i2(nfft3d_max,6,NBLOCKS)
-      integer h_i1_start(np_max+1,6,NBLOCKS)
-      integer h_i2_start(np_max+1,6,NBLOCKS)
-      common / trans_blk_ijk / h_iq_to_i1,
+      integer h_iq_to_i1(nfft3d_max,6,0:1)
+      integer h_iq_to_i2(nfft3d_max,6,0:1)
+      integer h_i1_start(np_max+1,6,0:1)
+      integer h_i2_start(np_max+1,6,0:1)
+      common / ptrans_blk_ijk / h_iq_to_i1,
      >                         h_iq_to_i2,
      >                         h_i1_start,
      >                         h_i2_start
@@ -964,22 +945,22 @@ c                 iq_to_i2(itmp) = index2
 
 
 *     **** pack A(i) array ****
-      if ((op.eq.1).or.(op.eq.5)) nnfft3d = (nx1(nb)/2+1)*nq1(nb)
-      if ((op.eq.2).or.(op.eq.4)) nnfft3d = (ny1(nb))    *nq2(nb)
-      if ((op.eq.3).or.(op.eq.6)) nnfft3d = (nz1(nb))    *nq3(nb)
+      if ((op.eq.1).or.(op.eq.5)) nnfft3d = (nx1(1)/2+1)*nq1(1)
+      if ((op.eq.2).or.(op.eq.4)) nnfft3d = (ny1(1))    *nq2(1)
+      if ((op.eq.3).or.(op.eq.6)) nnfft3d = (nz1(1))    *nq3(1)
 
 !$OMP PARALLEL DO private(i) schedule(dynamic,100)
       do i=1,nnfft3d
-         tmp1(h_iq_to_i1(i,op,nb)) = A(i)
+         tmp1(h_iq_to_i1(i,op,nbb)) = A(i)
       end do
 !$OMP END PARALLEL DO
 
 
 *     **** it = 0, transpose data on same thread ****  
-      msglen = h_i2_start(2,op,nb)
-     >       - h_i2_start(1,op,nb)
-      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nb)),1,
-     >                    tmp2(h_i2_start(1,op,nb)),1)
+      msglen = h_i2_start(2,op,nbb)
+     >       - h_i2_start(1,op,nbb)
+      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),1,
+     >                    tmp2(h_i2_start(1,op,nbb)),1)
 
 cc!$OMP PARALLEL DO private(i) schedule(dynamic,100) default(shared)
 cc      do i=1,msglen
@@ -998,12 +979,12 @@ cccc!$OMP END PARALLEL DO
          msgtype = 1
          source=proc_from
          type   = 1
-         msglen = h_i2_start(it+2,op,nb) - h_i2_start(it+1,op,nb)
+         msglen = h_i2_start(it+2,op,nbb) - h_i2_start(it+1,op,nbb)
          
 
          if (msglen.gt.0) then
             reqcnt = reqcnt + 1
-            call MPI_IRECV(tmp2(h_i2_start(it+1,op,nb)),
+            call MPI_IRECV(tmp2(h_i2_start(it+1,op,nbb)),
      >                    msglen,MPI_DOUBLE_COMPLEX,
      >                    Parallel2d_convert_taskid_i(source),
      >                    msgtype,MPI_COMM_WORLD,
@@ -1017,11 +998,11 @@ cccc!$OMP END PARALLEL DO
 
 *        **** synchronous send of tmp ****
          proc_to   = mod((taskid)+it, np) 
-         msglen    = h_i1_start(it+2,op,nb)- h_i1_start(it+1,op,nb)
+         msglen    = h_i1_start(it+2,op,nbb) - h_i1_start(it+1,op,nbb)
          msgtype   = 1
       
          if (msglen.gt.0) then
-            call MPI_SEND(tmp1(h_i1_start(it+1,op,nb)),
+            call MPI_SEND(tmp1(h_i1_start(it+1,op,nbb)),
      >                     msglen,MPI_DOUBLE_COMPLEX,
      >                     Parallel2d_convert_taskid_i(proc_to),
      >                     msgtype,MPI_COMM_WORLD,mpierr)
@@ -1035,13 +1016,13 @@ cccc!$OMP END PARALLEL DO
 
 
 *     **** unpack A(i) array ****
-      if ((op.eq.4).or.(op.eq.6)) nnfft3d = (nx1(nb)/2+1)*nq1(nb)
-      if ((op.eq.1).or.(op.eq.3)) nnfft3d = (ny1(nb))    *nq2(nb)
-      if ((op.eq.2).or.(op.eq.5)) nnfft3d = (nz1(nb))    *nq3(nb)
+      if ((op.eq.4).or.(op.eq.6)) nnfft3d = (nx1(1)/2+1)*nq1(1)
+      if ((op.eq.1).or.(op.eq.3)) nnfft3d = (ny1(1))    *nq2(1)
+      if ((op.eq.2).or.(op.eq.5)) nnfft3d = (nz1(1))    *nq3(1)
 
 !$OMP PARALLEL DO private(i) schedule(dynamic,100)
       do i=1,nnfft3d
-         A(i) = tmp2(h_iq_to_i2(i,op,nb))
+         A(i) = tmp2(h_iq_to_i2(i,op,nbb))
       end do 
 !$OMP END PARALLEL DO
 
@@ -1066,11 +1047,11 @@ cccc!$OMP END PARALLEL DO
 
 
 *     *** hilbert tranpose data structure ****
-      integer h_iq_to_i1(nfft3d_max,6,NBLOCKS)
-      integer h_iq_to_i2(nfft3d_max,6,NBLOCKS)
-      integer h_i1_start(np_max+1,6,NBLOCKS)
-      integer h_i2_start(np_max+1,6,NBLOCKS)
-      common / trans_blk_ijk / h_iq_to_i1,
+      integer h_iq_to_i1(nfft3d_max,6,0:1)
+      integer h_iq_to_i2(nfft3d_max,6,0:1)
+      integer h_i1_start(np_max+1,6,0:1)
+      integer h_i2_start(np_max+1,6,0:1)
+      common / ptrans_blk_ijk / h_iq_to_i1,
      >                         h_iq_to_i2,
      >                         h_i1_start,
      >                         h_i2_start
@@ -1098,31 +1079,31 @@ cccc!$OMP END PARALLEL DO
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
-         h_i1_start(it+1,1,nb) = index1
-         h_i2_start(it+1,1,nb) = index2
+         h_i1_start(it+1,1,nbb) = index1
+         h_i2_start(it+1,1,nbb) = index2
 
-         do k=1,nz1(nb)
-         do j=1,ny1(nb)
-         do i=1,(nx1(nb)/2+1)
+         do k=1,nz1(1)
+         do j=1,ny1(1)
+         do i=1,(nx1(1)/2+1)
 
 *           **** packing scheme **** 
-            phere = p_map1((j-1)+(k-1)*ny1(nb)+1,nb)
-            qhere = q_map1((j-1)+(k-1)*ny1(nb)+1,nb)
+            phere = p_map1((j-1)+(k-1)*ny1(1)+1,1)
+            qhere = q_map1((j-1)+(k-1)*ny1(1)+1,1)
 
-            pto   = p_map2((k-1)+(i-1)*nz1(nb)+1,nb)
-            qto   = q_map2((k-1)+(i-1)*nz1(nb)+1,nb)
+            pto   = p_map2((k-1)+(i-1)*nz1(1)+1,1)
+            qto   = q_map2((k-1)+(i-1)*nz1(1)+1,1)
             
            
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
-               itmp = i + (qhere-1)*(nx1(nb)/2+1)
-               h_iq_to_i1(itmp,1,nb) = index1
+               itmp = i + (qhere-1)*(nx1(1)/2+1)
+               h_iq_to_i1(itmp,1,nbb) = index1
                index1 = index1 + 1
             end if
              
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
-               itmp = j + (qto-1)*ny1(nb)
-               h_iq_to_i2(itmp,1,nb) = index2
+               itmp = j + (qto-1)*ny1(1)
+               h_iq_to_i2(itmp,1,nbb) = index2
                index2 = index2 + 1
             end if
 
@@ -1131,8 +1112,8 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,1,nb) = index1
-      h_i2_start(np+1,1,nb) = index2
+      h_i1_start(np+1,1,nbb) = index1
+      h_i2_start(np+1,1,nbb) = index2
 
 
 
@@ -1148,30 +1129,30 @@ cccc!$OMP END PARALLEL DO
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
-         h_i1_start(it+1,2,nb) = index1
-         h_i2_start(it+1,2,nb) = index2
+         h_i1_start(it+1,2,nbb) = index1
+         h_i2_start(it+1,2,nbb) = index2
 
-         do k=1,nz1(nb)
-         do j=1,ny1(nb)
-         do i=1,(nx1(nb)/2+1)
+         do k=1,nz1(1)
+         do j=1,ny1(1)
+         do i=1,(nx1(1)/2+1)
 
 *           **** packing scheme ****
-            phere = p_map2((k-1)+(i-1)*nz1(nb)+1,nb)
-            qhere = q_map2((k-1)+(i-1)*nz1(nb)+1,nb)
+            phere = p_map2((k-1)+(i-1)*nz1(1)+1,1)
+            qhere = q_map2((k-1)+(i-1)*nz1(1)+1,1)
 
-            pto   = p_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
-            qto   = q_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
+            pto   = p_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
+            qto   = q_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
-               itmp = j + (qhere-1)*ny1(nb)
-               h_iq_to_i1(itmp,2,nb) = index1
+               itmp = j + (qhere-1)*ny1(1)
+               h_iq_to_i1(itmp,2,nbb) = index1
                index1 = index1 + 1
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
-               itmp = k + (qto-1)*nz1(nb)
-               h_iq_to_i2(itmp,2,nb) = index2
+               itmp = k + (qto-1)*nz1(1)
+               h_iq_to_i2(itmp,2,nbb) = index2
                index2 = index2 + 1
             end if
 
@@ -1180,8 +1161,8 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,2,nb) = index1
-      h_i2_start(np+1,2,nb) = index2
+      h_i1_start(np+1,2,nbb) = index1
+      h_i2_start(np+1,2,nbb) = index2
 
 
 
@@ -1197,31 +1178,31 @@ cccc!$OMP END PARALLEL DO
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
-         h_i1_start(it+1,3,nb) = index1
-         h_i2_start(it+1,3,nb) = index2
+         h_i1_start(it+1,3,nbb) = index1
+         h_i2_start(it+1,3,nbb) = index2
 
-         do k=1,nz1(nb)
-         do j=1,ny1(nb)
-         do i=1,(nx1(nb)/2+1)
+         do k=1,nz1(1)
+         do j=1,ny1(1)
+         do i=1,(nx1(1)/2+1)
 
 *           **** packing scheme ****
-            phere = p_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
-            qhere = q_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
+            phere = p_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
+            qhere = q_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
 
-            pto   = p_map2((k-1)+(i-1)*nz1(nb)+1,nb)
-            qto   = q_map2((k-1)+(i-1)*nz1(nb)+1,nb)
+            pto   = p_map2((k-1)+(i-1)*nz1(1)+1,1)
+            qto   = q_map2((k-1)+(i-1)*nz1(1)+1,1)
 
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
-               itmp = k + (qhere-1)*nz1(nb)
-               h_iq_to_i1(itmp,3,nb) = index1
+               itmp = k + (qhere-1)*nz1(1)
+               h_iq_to_i1(itmp,3,nbb) = index1
                index1 = index1 + 1
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
-               itmp = j + (qto-1)*ny1(nb)
-               h_iq_to_i2(itmp,3,nb) = index2
+               itmp = j + (qto-1)*ny1(1)
+               h_iq_to_i2(itmp,3,nbb) = index2
                index2 = index2 + 1
             end if
 
@@ -1230,8 +1211,8 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,3,nb) = index1
-      h_i2_start(np+1,3,nb) = index2
+      h_i1_start(np+1,3,nbb) = index1
+      h_i2_start(np+1,3,nbb) = index2
 
 
 
@@ -1245,31 +1226,31 @@ cccc!$OMP END PARALLEL DO
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
-         h_i1_start(it+1,4,nb) = index1
-         h_i2_start(it+1,4,nb) = index2
+         h_i1_start(it+1,4,nbb) = index1
+         h_i2_start(it+1,4,nbb) = index2
 
-         do k=1,nz1(nb)
-         do j=1,ny1(nb)
-         do i=1,(nx1(nb)/2+1)
+         do k=1,nz1(1)
+         do j=1,ny1(1)
+         do i=1,(nx1(1)/2+1)
 
 *           **** packing scheme ****
-            phere = p_map2((k-1)+(i-1)*nz1(nb)+1,nb)
-            qhere = q_map2((k-1)+(i-1)*nz1(nb)+1,nb)
+            phere = p_map2((k-1)+(i-1)*nz1(1)+1,1)
+            qhere = q_map2((k-1)+(i-1)*nz1(1)+1,1)
 
-            pto   = p_map1((j-1)+(k-1)*ny1(nb)+1,nb)
-            qto   = q_map1((j-1)+(k-1)*ny1(nb)+1,nb)
+            pto   = p_map1((j-1)+(k-1)*ny1(1)+1,1)
+            qto   = q_map1((j-1)+(k-1)*ny1(1)+1,1)
 
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
-               itmp = j + (qhere-1)*ny1(nb)
-               h_iq_to_i1(itmp,4,nb) = index1
+               itmp = j + (qhere-1)*ny1(1)
+               h_iq_to_i1(itmp,4,nbb) = index1
                index1 = index1 + 1
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
-               itmp = i + (qto-1)*(nx1(nb)/2+1)
-               h_iq_to_i2(itmp,4,nb) = index2
+               itmp = i + (qto-1)*(nx1(1)/2+1)
+               h_iq_to_i2(itmp,4,nbb) = index2
                index2 = index2 + 1
             end if
 
@@ -1278,8 +1259,8 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,4,nb) = index1
-      h_i2_start(np+1,4,nb) = index2
+      h_i1_start(np+1,4,nbb) = index1
+      h_i2_start(np+1,4,nbb) = index2
 
 
 
@@ -1294,31 +1275,31 @@ cccc!$OMP END PARALLEL DO
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
-         h_i1_start(it+1,5,nb) = index1
-         h_i2_start(it+1,5,nb) = index2
+         h_i1_start(it+1,5,nbb) = index1
+         h_i2_start(it+1,5,nbb) = index2
 
-         do k=1,nz1(nb)
-         do j=1,ny1(nb)
-         do i=1,(nx1(nb)/2+1)
+         do k=1,nz1(1)
+         do j=1,ny1(1)
+         do i=1,(nx1(1)/2+1)
 
 *           **** packing scheme ****
-            phere = p_map1((j-1)+(k-1)*ny1(nb)+1,nb)
-            qhere = q_map1((j-1)+(k-1)*ny1(nb)+1,nb)
+            phere = p_map1((j-1)+(k-1)*ny1(1)+1,1)
+            qhere = q_map1((j-1)+(k-1)*ny1(1)+1,1)
 
-            pto   = p_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
-            qto   = q_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
+            pto   = p_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
+            qto   = q_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
 
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
-               itmp = i + (qhere-1)*(nx1(nb)/2+1)
-               h_iq_to_i1(itmp,5,nb) = index1
+               itmp = i + (qhere-1)*(nx1(1)/2+1)
+               h_iq_to_i1(itmp,5,nbb) = index1
                index1 = index1 + 1
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
-               itmp = k + (qto-1)*nz1(nb)
-               h_iq_to_i2(itmp,5,nb) = index2
+               itmp = k + (qto-1)*nz1(1)
+               h_iq_to_i2(itmp,5,nbb) = index2
                index2 = index2 + 1
             end if
 
@@ -1327,8 +1308,8 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,5,nb) = index1
-      h_i2_start(np+1,5,nb) = index2
+      h_i1_start(np+1,5,nbb) = index1
+      h_i2_start(np+1,5,nbb) = index2
 
 
 
@@ -1344,31 +1325,31 @@ cccc!$OMP END PARALLEL DO
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
-         h_i1_start(it+1,6,nb) = index1
-         h_i2_start(it+1,6,nb) = index2
+         h_i1_start(it+1,6,nbb) = index1
+         h_i2_start(it+1,6,nbb) = index2
 
-         do k=1,nz1(nb)
-         do j=1,ny1(nb)
-         do i=1,(nx1(nb)/2+1)
+         do k=1,nz1(1)
+         do j=1,ny1(1)
+         do i=1,(nx1(1)/2+1)
 
 *           **** packing scheme ****
-            phere = p_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
-            qhere = q_map3((i-1)+(j-1)*(nx1(nb)/2+1)+1,nb)
+            phere = p_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
+            qhere = q_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
 
-            pto   = p_map1((j-1)+(k-1)*ny1(nb)+1,nb)
-            qto   = q_map1((j-1)+(k-1)*ny1(nb)+1,nb)
+            pto   = p_map1((j-1)+(k-1)*ny1(1)+1,1)
+            qto   = q_map1((j-1)+(k-1)*ny1(1)+1,1)
 
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
-               itmp = k + (qhere-1)*nz1(nb)
-               h_iq_to_i1(itmp,6,nb) = index1
+               itmp = k + (qhere-1)*nz1(1)
+               h_iq_to_i1(itmp,6,nbb) = index1
                index1 = index1 + 1
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
-               itmp = i + (qto-1)*(nx1(nb)/2+1)
-               h_iq_to_i2(itmp,6,nb) = index2
+               itmp = i + (qto-1)*(nx1(1)/2+1)
+               h_iq_to_i2(itmp,6,nbb) = index2
                index2 = index2 + 1
             end if
 
@@ -1377,8 +1358,8 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,6,nb) = index1
-      h_i2_start(np+1,6,nb) = index2
+      h_i1_start(np+1,6,nbb) = index1
+      h_i2_start(np+1,6,nbb) = index2
 
       return
       end
