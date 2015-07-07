@@ -35,7 +35,9 @@
 
 
 *     **** common block for zero_row ****
-      integer zero_row2(2,0:1),zero_row3(2,0:1),zero_slab23(2,0:1)
+      logical zero_row2(nfft3d_max,0:1)
+      logical zero_row3(nfft3d_max,0:1)
+      logical zero_slab23(nx/2+1,0:1)
       common / zero_row_block / zero_row2,zero_row3,zero_slab23
 
 
