@@ -697,9 +697,19 @@ c     integer i1_start(NFFT3+1)
 c     integer i2_start(NFFT3+1)
       integer iq_to_i1(nfft3d_max,0:1)
       integer iq_to_i2(nfft3d_max,0:1)
+      integer iz_to_i2(nfft3d_max,0:1)
       integer i1_start(nz+1,0:1)
       integer i2_start(nz+1,0:1)
-      common / ptrans_blk / iq_to_i1,iq_to_i2,i1_start,i2_start
+      common / ptrans_blk1 / iq_to_i1,iq_to_i2,iz_to_i2,
+     >                       i1_start,i2_start
+
+      integer jq_to_i1(nfft3d_max,0:1)
+      integer jq_to_i2(nfft3d_max,0:1)
+      integer jz_to_i2(nfft3d_max,0:1)
+      integer j1_start(nz+1,0:1)
+      integer j2_start(nz+1,0:1)
+      common / ptrans_blk2 / jq_to_i1,jq_to_i2,jz_to_i2,
+     >                       j1_start,j2_start
 
 
 *     **** local variables ****
@@ -707,8 +717,8 @@ c     integer i2_start(NFFT3+1)
       integer pto,qto,np,taskid
       integer pfrom,qfrom
       integer phere,qhere
-      integer index1,index2,itmp
-      integer i,j,k,it
+      integer index1,index2,index3,itmp,jndex1,jndex2,jndex3
+      integer i,j,k,it,ii,jj
       logical value
 
 
@@ -716,12 +726,16 @@ c     integer i2_start(NFFT3+1)
       call Parallel2d_np_i(np)
 
       index1 = 1 
+      jndex1 = 1 
       index2 = 1
+      jndex2 = 1
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
          i1_start(it+1,nbb) = index1
          i2_start(it+1,nbb) = index2
+         j1_start(it+1,nbb) = jndex1
+         j2_start(it+1,nbb) = jndex2
 
          do k=1,nz1(1)
          do j=1,ny1(1)
@@ -732,11 +746,20 @@ c     integer i2_start(NFFT3+1)
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
                do i=1,(nx1(1)/2+1)
+                  ii = i + (nx1(1)/2+1)*(k-1)
+                  jj = i + (nx1(1)/2+1)*(j-1)
                   itmp = i + (j-1)*(nx1(1)/2+1) 
      >                     + (qhere-1)*(nx1(1)/2+1)*ny1(1)
-c                 iq_to_i1(itmp) = index1
-                  iq_to_i1(itmp,nbb) = index1
-                  index1 = index1 + 1
+
+                  if (.not.zero_arow3(ii)) then
+                     iq_to_i1(index1,nbb) = itmp
+                     index1 = index1 + 1
+                  end if
+                  if (.not.zero_arow3(jj)) then
+                     jq_to_i1(jndex1,nbb) = itmp
+                     jndex1 = jndex1 + 1
+                  end if
+
                end do
             end if
              
@@ -745,11 +768,27 @@ c                 iq_to_i1(itmp) = index1
             call D3dB_ktoqp(1,k,qfrom,pfrom)
             if ((phere.eq.taskid).and.(pfrom.eq.proc_from)) then
                do i=1,(nx1(1)/2+1)
+                  ii = i + (nx1(1)/2+1)*(k-1)
+                  jj = i + (nx1(1)/2+1)*(j-1)
                   itmp = i + (k-1)*(nx1(1)/2+1) 
      >                     + (qhere-1)*(nx1(1)/2+1)*ny1(1)
 c                 iq_to_i2(itmp) = index2
-                  iq_to_i2(itmp,nbb) = index2
-                  index2 = index2 + 1
+                  if (zero_arow3(ii)) then
+                     iz_to_i2(index3,nbb) = itmp
+                     index3 = index3 + 1
+                  else
+                     iq_to_i2(index2,nbb) = itmp
+                     index2 = index2 + 1
+                  end if
+
+                  if (zero_arow3(jj)) then
+                     jz_to_i2(jndex3,nbb) = itmp
+                     jndex3 = jndex3 + 1
+                  else
+                     jq_to_i2(jndex2,nbb) = itmp
+                     jndex2 = jndex2 + 1
+                  end if
+
                end do
             end if
          end do
@@ -757,6 +796,8 @@ c                 iq_to_i2(itmp) = index2
       end do
       i1_start(np+1,nbb) = index1
       i2_start(np+1,nbb) = index2
+      j1_start(np+1,nbb) = jndex1
+      j2_start(np+1,nbb) = jndex2
 
       return
       end
@@ -912,17 +953,18 @@ c                 iq_to_i2(itmp) = index2
 #include "D3dB.fh"
 #include "mpif.h"
 
-
-*     **** indexing variables ****
+*     *** hilbert tranpose data structure ****
       integer h_iq_to_i1(nfft3d_max,6,0:1)
       integer h_iq_to_i2(nfft3d_max,6,0:1)
+      integer h_iz_to_i2(nfft3d_max,6,0:1)
+      integer h_iz_to_i2_count(6,0:1)
       integer h_i1_start(np_max+1,6,0:1)
       integer h_i2_start(np_max+1,6,0:1)
       common / ptrans_blk_ijk / h_iq_to_i1,
      >                         h_iq_to_i2,
+     >                         h_iz_to_i2_count,
      >                         h_i1_start,
      >                         h_i2_start
-
 
 
 *     **** local variables ***
@@ -1049,19 +1091,22 @@ cccc!$OMP END PARALLEL DO
 *     *** hilbert tranpose data structure ****
       integer h_iq_to_i1(nfft3d_max,6,0:1)
       integer h_iq_to_i2(nfft3d_max,6,0:1)
+      integer h_iz_to_i2(nfft3d_max,6,0:1)
+      integer h_iz_to_i2_count(6,0:1)
       integer h_i1_start(np_max+1,6,0:1)
       integer h_i2_start(np_max+1,6,0:1)
       common / ptrans_blk_ijk / h_iq_to_i1,
      >                         h_iq_to_i2,
+     >                         h_iz_to_i2_count,
      >                         h_i1_start,
      >                         h_i2_start
 
 *     **** local variables ****
-      logical value
+      logical value,iszero
       integer proc_to,proc_from
       integer pto,qto,np,taskid
       integer phere,qhere
-      integer index1,index2,itmp
+      integer index1,index2,index3,itmp
       integer i,j,k,it
 
 
@@ -1071,11 +1116,13 @@ cccc!$OMP END PARALLEL DO
 
 *     ********************************************************
 *     **** map1to2 mapping - done - tranpose operation #1 ****
+*     ****   (ny,nz,nx/2+1)  <-- (nx/2+1,ny,nz)            ***
+*     ****   use zero_arow2                                ***
 *     ********************************************************
 
-*     **** allocate trans_blk_ijk common block ****
       index1 = 1 
       index2 = 1
+      index3 = 1
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
@@ -1085,6 +1132,7 @@ cccc!$OMP END PARALLEL DO
          do k=1,nz1(1)
          do j=1,ny1(1)
          do i=1,(nx1(1)/2+1)
+            iszero = zero_arow2(i+(k-1)*(nx1(1)/2+1))
 
 *           **** packing scheme **** 
             phere = p_map1((j-1)+(k-1)*ny1(1)+1,1)
@@ -1096,15 +1144,22 @@ cccc!$OMP END PARALLEL DO
            
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
                itmp = i + (qhere-1)*(nx1(1)/2+1)
-               h_iq_to_i1(itmp,1,nbb) = index1
-               index1 = index1 + 1
+               if (.not.iszero) then
+                  h_iq_to_i1(index1,1,nbb) = itmp
+                  index1 = index1 + 1
+               end if
             end if
              
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
                itmp = j + (qto-1)*ny1(1)
-               h_iq_to_i2(itmp,1,nbb) = index2
-               index2 = index2 + 1
+               if (.not.iszero) then
+                  h_iq_to_i2(index2,1,nbb) = itmp
+                  index2 = index2 + 1
+               else
+                  h_iz_to_i2(index3,1,nbb) = itmp
+                  index3 = index3 + 1
+               end if
             end if
 
          end do
@@ -1114,6 +1169,7 @@ cccc!$OMP END PARALLEL DO
       end do
       h_i1_start(np+1,1,nbb) = index1
       h_i2_start(np+1,1,nbb) = index2
+      h_iz_to_i2_count(1,nbb) = index3 - 1
 
 
 
@@ -1121,11 +1177,14 @@ cccc!$OMP END PARALLEL DO
 
 *     *********************************************************
 *     **** map2to3 mapping - done - transpose operation #2 ****
+*     ****    (nz,nx/2+1,ny)  <-- (ny,nz,nx/2+1)           ****
+*     ****    use zero_arow3                               ****
 *     *********************************************************
 
 *     **** allocate trans_blk_ijk common block ****
       index1 = 1
       index2 = 1
+      index3 = 1
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
@@ -1135,6 +1194,7 @@ cccc!$OMP END PARALLEL DO
          do k=1,nz1(1)
          do j=1,ny1(1)
          do i=1,(nx1(1)/2+1)
+            iszero = zero_arow3(i+(j-1)*(nx1(1)/2+1))
 
 *           **** packing scheme ****
             phere = p_map2((k-1)+(i-1)*nz1(1)+1,1)
@@ -1145,15 +1205,22 @@ cccc!$OMP END PARALLEL DO
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
                itmp = j + (qhere-1)*ny1(1)
-               h_iq_to_i1(itmp,2,nbb) = index1
-               index1 = index1 + 1
+               if (.not.iszero) then
+                  h_iq_to_i1(index1,2,nbb) = itmp
+                  index1 = index1 + 1
+               end if
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
                itmp = k + (qto-1)*nz1(1)
-               h_iq_to_i2(itmp,2,nbb) = index2
-               index2 = index2 + 1
+               if (.not.iszero) then
+                  h_iq_to_i2(index2,2,nbb) = itmp
+                  index2 = index2 + 1
+               else
+                  h_iz_to_i2(index3,2,nbb) = itmp
+                  index3 = index3 + 1
+               end if
             end if
 
          end do
@@ -1161,8 +1228,9 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,2,nbb) = index1
-      h_i2_start(np+1,2,nbb) = index2
+      h_i1_start(np+1,2,nbb)  = index1
+      h_i2_start(np+1,2,nbb)  = index2
+      h_iz_to_i2_count(2,nbb) = index3 - 1
 
 
 
@@ -1171,10 +1239,13 @@ cccc!$OMP END PARALLEL DO
 
 *     ********************************************************
 *     **** map3to2 mapping - done - tranpose operation #3 ****
+*     ****  (ny,nz,nx/2+1)  <-- (nz,nx/2+1,ny)            ****
+*     ****   use zero_arow3                               ****
 *     ********************************************************
 
       index1 = 1
       index2 = 1
+      index3 = 1
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
@@ -1184,6 +1255,8 @@ cccc!$OMP END PARALLEL DO
          do k=1,nz1(1)
          do j=1,ny1(1)
          do i=1,(nx1(1)/2+1)
+
+            iszero = zero_arow3(i+(j-1)*(nx1(1)/2+1))
 
 *           **** packing scheme ****
             phere = p_map3((i-1)+(j-1)*(nx1(1)/2+1)+1,1)
@@ -1195,15 +1268,22 @@ cccc!$OMP END PARALLEL DO
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
                itmp = k + (qhere-1)*nz1(1)
-               h_iq_to_i1(itmp,3,nbb) = index1
-               index1 = index1 + 1
+               if (.not.iszero) then
+                  h_iq_to_i1(index1,3,nbb) = itmp
+                  index1 = index1 + 1
+               end if
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
                itmp = j + (qto-1)*ny1(1)
-               h_iq_to_i2(itmp,3,nbb) = index2
-               index2 = index2 + 1
+               if (.not.iszero) then
+                  h_iq_to_i2(index2,3,nbb) = itmp
+                  index2 = index2 + 1
+               else
+                  h_iz_to_i2(index3,3,nbb) = itmp
+                  index3 = index3 + 1
+               end if
             end if
 
          end do
@@ -1213,16 +1293,20 @@ cccc!$OMP END PARALLEL DO
       end do
       h_i1_start(np+1,3,nbb) = index1
       h_i2_start(np+1,3,nbb) = index2
+      h_iz_to_i2_count(3,nbb) = index3 - 1
 
 
 
 
 *     ********************************************************
 *     **** map2to1 mapping - done - tranpose operation #4 ****
+*     ****  (nx/2+1,ny,nz)  <-- (ny,nz,nx/2+1)            ****
+*     ****  use zero_arow2                                ****
 *     ********************************************************
 
       index1 = 1
       index2 = 1
+      index3 = 1
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
@@ -1232,6 +1316,8 @@ cccc!$OMP END PARALLEL DO
          do k=1,nz1(1)
          do j=1,ny1(1)
          do i=1,(nx1(1)/2+1)
+
+            iszero = zero_arow2(i+(k-1)*(nx1(1)/2+1))
 
 *           **** packing scheme ****
             phere = p_map2((k-1)+(i-1)*nz1(1)+1,1)
@@ -1243,15 +1329,22 @@ cccc!$OMP END PARALLEL DO
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
                itmp = j + (qhere-1)*ny1(1)
-               h_iq_to_i1(itmp,4,nbb) = index1
-               index1 = index1 + 1
+               if (.not.iszero) then
+                  h_iq_to_i1(index1,4,nbb) = itmp
+                  index1 = index1 + 1
+               end if
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
                itmp = i + (qto-1)*(nx1(1)/2+1)
-               h_iq_to_i2(itmp,4,nbb) = index2
-               index2 = index2 + 1
+               if (.not.iszero) then
+                  h_iq_to_i2(index2,4,nbb) = itmp
+                  index2 = index2 + 1
+               else
+                  h_iz_to_i2(index3,4,nbb) = itmp
+                  index3 = index3 + 1
+               end if
             end if
 
          end do
@@ -1261,6 +1354,7 @@ cccc!$OMP END PARALLEL DO
       end do
       h_i1_start(np+1,4,nbb) = index1
       h_i2_start(np+1,4,nbb) = index2
+      h_iz_to_i2_count(4,nbb) = index3 - 1
 
 
 
@@ -1272,6 +1366,7 @@ cccc!$OMP END PARALLEL DO
 
       index1 = 1
       index2 = 1
+      index3 = 1
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
@@ -1292,14 +1387,14 @@ cccc!$OMP END PARALLEL DO
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
                itmp = i + (qhere-1)*(nx1(1)/2+1)
-               h_iq_to_i1(itmp,5,nbb) = index1
+               h_iq_to_i1(index1,5,nbb) = itmp
                index1 = index1 + 1
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
                itmp = k + (qto-1)*nz1(1)
-               h_iq_to_i2(itmp,5,nbb) = index2
+               h_iq_to_i2(index2,5,nbb) = itmp
                index2 = index2 + 1
             end if
 
@@ -1308,10 +1403,9 @@ cccc!$OMP END PARALLEL DO
          end do
 
       end do
-      h_i1_start(np+1,5,nbb) = index1
-      h_i2_start(np+1,5,nbb) = index2
-
-
+      h_i1_start(np+1,5,nbb)  = index1
+      h_i2_start(np+1,5,nbb)  = index2
+      h_iz_to_i2_count(5,nbb) = index3 - 1
 
 
 
@@ -1322,6 +1416,7 @@ cccc!$OMP END PARALLEL DO
 
       index1 = 1
       index2 = 1
+      index3 = 1
       do it=0,np-1
          proc_to   = mod(taskid+it,np)
          proc_from = mod(taskid-it+np,np)
@@ -1342,14 +1437,14 @@ cccc!$OMP END PARALLEL DO
 
             if ((phere.eq.taskid).and.(pto.eq.proc_to)) then
                itmp = k + (qhere-1)*nz1(1)
-               h_iq_to_i1(itmp,6,nbb) = index1
+               h_iq_to_i1(index1,6,nbb) = itmp
                index1 = index1 + 1
             end if
 
 *           **** unpacking scheme ****
             if ((pto.eq.taskid).and.(phere.eq.proc_from)) then
                itmp = i + (qto-1)*(nx1(1)/2+1)
-               h_iq_to_i2(itmp,6,nbb) = index2
+               h_iq_to_i2(index2,6,nbb) = itmp
                index2 = index2 + 1
             end if
 
@@ -1360,251 +1455,8 @@ cccc!$OMP END PARALLEL DO
       end do
       h_i1_start(np+1,6,nbb) = index1
       h_i2_start(np+1,6,nbb) = index2
+      h_iz_to_i2_count(6,nbb) = index3 - 1
 
-      return
-      end
-
-
-*     ***********************************
-*     *                                 *
-*     *        generate_map_indexes     *
-*     *                                 *
-*     ***********************************
-
-      subroutine generate_map_indexes(taskid,np,ny,nz,p_map,q_map,nq)
-      implicit none
-      integer taskid,np
-      integer ny,nz
-      integer p_map(*)
-      integer q_map(*)
-      integer nq
-
-
-
-      !**** local variables ****
-      logical value
-      integer i,j,k,q,p
-      integer nq1,nq2,rmdr1
-      integer indx_proc(ny*nz),indx_q(ny*nz)
-
-
-      nq1   = (ny*nz)/np
-      rmdr1 = mod(ny*nz,np)
-      nq2 = nq1
-      if (rmdr1.gt.0) nq2 = nq2+1
-      nq = 0
-      p=0
-      q=1
-      do i=1,(ny*nz)
-        indx_proc(i) = p
-        indx_q(i)    = q
-
-        if (taskid.eq.p) nq = nq + 1
-        q = q+1
-        if (q.gt.nq2) then
-           q = 1
-           p = p + 1
-           p = mod(p,np)
-           if (p.ge.rmdr1) nq2 = nq1
-        end if
-      end do
-
-
-      do k=1,nz
-      do j=1,ny
-        i = p_map(j+(k-1)*ny)+1
-        p = indx_proc(i)
-        q = indx_q(i)
-        p_map(j+(k-1)*ny) = p
-        q_map(j+(k-1)*ny) = q
-      end do
-      end do
-
-      return
-      end
-
-*     ***********************************
-*     *                                 *
-*     *        expand_hilbert2d         *
-*     *                                 *
-*     ***********************************
-
-      subroutine expand_hilbert2d(np,ny,nz, 
-     >                            pmap_in, qmap_in,
-     >                            pmap_out,qmap_out)
-      implicit none
-      integer np,ny,nz
-      integer pmap_in(ny,nz)
-      integer qmap_in(ny,nz)
-      integer pmap_out(2*ny,2*nz) 
-      integer qmap_out(2*ny,2*nz)
-
-      !**** local variables ****
-      integer j,k,p,nqp
-
-
-      !*** set pmap_out ***
-      do k=1,nz
-      do j=1,ny
-         pmap_out(j,k)       = pmap_in(j,k)
-         pmap_out(j+ny,k)    = pmap_in(j,k)
-         pmap_out(j,k+nz)    = pmap_in(j,k)
-         pmap_out(j+ny,k+nz) = pmap_in(j,k)
-      end do
-      end do
-
-
-      !*** set qmap_out ***
-      do p=0,np-1
-
-         nqp=0
-         do k=1,nz
-         do j=1,ny
-           if (pmap_in(j,k).eq.p) then
-              if (qmap_in(j,k).gt.nqp) nqp = qmap_in(j,k)
-           end if
-         end do
-         end do
-
-         do k=1,nz
-         do j=1,ny
-           if (pmap_in(j,k).eq.p) then
-              qmap_out(j,k)       = qmap_in(j,k)
-              qmap_out(j+ny,k)    = qmap_in(j,k) + nqp
-              qmap_out(j,k+nz)    = qmap_in(j,k) + 2*nqp
-              qmap_out(j+ny,k+nz) = qmap_in(j,k) + 3*nqp
-           end if
-         end do
-         end do
-
-      end do
-
-      return
-      end
-         
-
-
-
-*     ***********************************
-*     *                                 *
-*     *        generate_map_indexes_2   *
-*     *                                 *
-*     ***********************************
-
-      subroutine generate_map_indexes_2(taskid,np,ny,nz,p_map,q_map,nq)
-      implicit none
-      integer taskid,np
-      integer ny,nz
-      integer p_map(*)
-      integer q_map(*)
-      integer nq
-
-
-      !**** local variables ****
-      logical value
-      integer i,j,k,q,p
-      integer nq1,nq2,rmdr1
-      integer indx_proc(ny*nz),indx_q(ny*nz)
-
-      nq = 0
-      p=0
-      q=1
-      do i=1,(ny*nz)
-        indx_proc(i) = p
-        indx_q(i)    = q
-        if (taskid.eq.p) nq = nq + 1
-
-        p = p + 1
-        if (p.ge.np) then
-          p = 0
-          q = q+1
-        end if
-      end do
-
-
-      do k=1,nz
-      do j=1,ny
-        i = p_map(j+(k-1)*ny)+1
-        p = indx_proc(i)
-        q = indx_q(i)
-        p_map(j+(k-1)*ny) = p
-        q_map(j+(k-1)*ny) = q
-      end do
-      end do
-
-      return
-      end
-
-
-*     ***********************************
-*     *                                 *
-*     *        generate_map_indexes_3   *
-*     *                                 *
-*     ***********************************
-
-      subroutine generate_map_indexes_3(taskid,np,ny,nz,p_map,q_map,nq)
-      implicit none
-      integer taskid,np
-      integer ny,nz
-      integer p_map(*)
-      integer q_map(*)
-      integer nq
-
-
-      !**** local variables ****
-      logical value
-      integer i,j,k,q,p,jj,kk,p1,q1,p2,q2
-      integer nq1,nq2,rmdr1
-
-
-      nq = 0
-      p=0
-      q=1
-      do k=1,nz
-      do j=1,ny
-        p_map(j+(k-1)*ny) = p
-        q_map(j+(k-1)*ny) = q
-        if (taskid.eq.p) nq = nq + 1
-
-        p = p + 1
-        if (p.ge.np) then
-          p = 0
-          q = q+1
-        end if
-      end do
-      end do
-
-      do k=0,(nz/2-1)
-        i = k+2
-        j = nz-k
-        p1 = p_map(1+(i-1)*ny)
-        q1 = q_map(1+(i-1)*ny)
-        p2 = p_map(1+(j-1)*ny)
-        q2 = q_map(1+(j-1)*ny)
-
-        value = .false.
-        jj=2
-        kk=1
-        do while (.not.value)
-          p = p_map(jj+(kk-1)*ny)
-          q = q_map(jj+(kk-1)*ny)
-
-          value = (p.eq.p1)
-          if (value) then
-             p_map(jj+(kk-1)*ny) = p2
-             q_map(jj+(kk-1)*ny) = q2
-             p_map(1+(j-1)*ny)   = p
-             q_map(1+(j-1)*ny)   = q
-          else
-             kk = kk+1
-             if (kk.gt.nz) then
-               kk=1
-               jj=jj+1
-             end if
-          end if
-        end do
-
-      end do
 
       return
       end
