@@ -184,7 +184,7 @@
  100  format(8x,"****************************************************")
  101  format(8x,"*                                                  *")
  102  format(8x,"*         Parallel 3d FFT Test Calculation         *")
- 103  format(8x,"*             (global parallel region)             *")
+ 103  format(8x,"*         (global OpenMP parallel region)          *")
  104  format(8x,"*       FFT0-fftpack version 0.0  - 07/03/15       *")
  105  format(8x,"*                                                  *")
  106  format(8x,"*  This code was developed by Eric J. Bylaska for  *")
