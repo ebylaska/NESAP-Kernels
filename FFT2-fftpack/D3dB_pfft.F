@@ -1,3 +1,277 @@
+#define NBLOCKS 2
+
+*
+* $Id: D3dB_pfft.F 26682 2015-01-09 23:57:32Z mjacquelin $
+*
+
+*     ***********************************************************
+*     *                                                         *
+*     *                    D3dB_pfft library                    *
+*     *                 (MPI implemenation)                     *
+*     *                                                         *
+*     *   Author - Eric Bylaska                                 *
+*     *   date   - 3/23/96                                      *
+*     *                                                         *
+*     ***********************************************************
+
+*     ***********************************
+*     *                                 *
+*     *         D3dB_pfft_init          *
+*     *                                 *
+*     ***********************************
+
+      subroutine D3dB_pfft_init()
+      implicit none
+
+#include "D3dB.fh"
+#include "D3dB_pfft.fh"
+
+*     **** local variables ****
+      integer taskid,MASTER
+      parameter (MASTER=0)
+
+      double precision eps
+      parameter (eps=1.0d-12)
+
+      logical value,yrow,zrow,yzslab
+      integer nxh,nyh,nzh,q,p
+      integer k1,k2,k3,ii,nbb
+      integer i,j,k
+      integer index,index2
+      double precision ggcut,g1,g2,g3,gg
+
+*     **** external functions ***
+      integer  control_pfft3_qsize
+      real*8   lattice_ggcut,lattice_wggcut,lattice_unitg
+      external control_pfft3_qsize
+      external lattice_ggcut,lattice_wggcut,lattice_unitg
+
+
+      call Parallel2d_taskid_i(taskid)
+      nxh = nx1(1)/2
+      nyh = ny1(1)/2
+      nzh = nz1(1)/2
+
+
+c     ****************************
+c     **** slab decomposition ****
+c     ****************************
+      if (mapping.eq.1) then
+         do nbb=0,1
+
+            if (nb.eq.0) then
+               ggcut = lattice_ggcut()
+            else
+               ggcut = lattice_wggcut()
+            end if
+
+*           **** find zero_row3 - (i,j,*) rows that are zero ****
+            do q=1,(nxh+1)*nq(1)
+               zero_row3(q,nbb) =.true.
+            end do
+            do q=1,(nxh+1)*ny(1)
+               zero_arow3(q) =.true.
+            end do
+
+
+            do k2 = -nyh+1, nyh-1
+            do k1 = 0,nxh-1
+               i=k1
+               j=k2
+               if (i.lt.0) i= i+ nx1(1)
+               if (j.lt.0) j= j+ ny1(1)
+               i=i+1
+               j=j+1
+               zrow = .true.
+               do k3 = -nzh+1, nzh-1
+                  g1 = k1*lattice_unitg(1,1)
+     >               + k3*lattice_unitg(1,2)
+     >               + k2*lattice_unitg(1,3)
+                  g2 = k1*lattice_unitg(2,1)
+     >               + k3*lattice_unitg(2,2)
+     >               + k2*lattice_unitg(2,3)
+                  g3 = k1*lattice_unitg(3,1)
+     >               + k3*lattice_unitg(3,2)
+     >               + k2*lattice_unitg(3,3)
+                  gg = g1*g1 + g2*g2 + g3*g3
+                  gg= gg-ggcut
+                  if (gg.lt.-eps) zrow = .false.
+               end do
+               if (.not.zrow) then
+                  zero_arow3(i+(nxh+1)*(j-1)) =.false.
+                  call D3dB_ktoqp(1,j,q,p)
+                  if (p.eq.taskid) then
+                    index2 = i + (nxh+1)*(q-1)
+                    zero_row3(index2,nbb) =.false.
+                  end if
+               end if
+            end do
+            end do
+
+            call D3dB_c_ptranspose_jk_init(nbb,zero_arow3)
+
+*           **** find zero_slab23 - (i,*,*) slabs that are zero ****
+            do k1 = 1,nxh+1
+               zero_slab23(k1,nbb) =.true.
+            end do
+
+            do k1=0,nxh-1
+               i=k1
+               if (i.lt.0) i=i+nx1(1)
+               i=i+1
+               yzslab = .true.
+               do k3 = -nzh+1, nzh-1
+               do k2 = -nyh+1, nyh-1
+                  g1 = k1*lattice_unitg(1,1)
+     >               + k2*lattice_unitg(1,2)
+     >               + k3*lattice_unitg(1,3)
+                  g2 = k1*lattice_unitg(2,1)
+     >               + k2*lattice_unitg(2,2)
+     >               + k3*lattice_unitg(2,3)
+                  g3 = k1*lattice_unitg(3,1)
+     >               + k2*lattice_unitg(3,2)
+     >               + k3*lattice_unitg(3,3)
+                  gg = g1*g1 + g2*g2 + g3*g3
+                  gg= gg-ggcut
+                  if (gg.lt.-eps) yzslab = .false.
+               end do
+               end do
+               if (.not.yzslab) then
+                  zero_slab23(i,nbb) =.false.
+               end if
+            end do
+
+*           **** find zero_row2 - (i,*,k) rows that are zero after fft of (i,j,*) ****
+            do k3 = 1,nz1(1)
+            do k1 = 1,nxh+1
+               call D3dB_ktoqp(1,k3,q,p)
+               if (p.eq.taskid) then
+                  index2 = k1 + (nxh+1)*(q-1)
+                  zero_row2(index2,nbb) = zero_slab23(k1,nbb)
+               end if
+            end do
+            end do
+
+         end do !*nbb*
+
+
+c     *****************************************
+c     **** mapping == 2 - 2d decomposition ****
+c     *****************************************
+      else
+
+         do nbb=0,1
+
+            if (nbb.eq.0) then
+               ggcut = lattice_ggcut()
+            else
+               ggcut = lattice_wggcut()
+            end if
+
+*           **** find zero_row3 - (i,j,*) rows that are zero ****
+            do q = 1,nq3(1)
+               zero_row3(q,nbb) =.true.
+            end do
+            do q = 1,(nxh+1)*ny1(1)
+               zero_arow3(q) =.true.
+            end do
+
+            do k2 = -nyh+1, nyh-1
+            do k1 = 0,nxh-1
+               i=k1
+               j=k2
+               if (i.lt.0) i=i+nx1(1)
+               if (j.lt.0) j=j+ny1(1)
+               i=i+1
+               j=j+1
+               zrow = .true.
+               do k3 = -nzh+1, nzh-1
+                  g1 = k1*lattice_unitg(1,1)
+     >               + k2*lattice_unitg(1,2)
+     >               + k3*lattice_unitg(1,3)
+                  g2 = k1*lattice_unitg(2,1)
+     >               + k2*lattice_unitg(2,2)
+     >               + k3*lattice_unitg(2,3)
+                  g3 = k1*lattice_unitg(3,1)
+     >               + k2*lattice_unitg(3,2)
+     >               + k3*lattice_unitg(3,3)
+                  gg = g1*g1 + g2*g2 + g3*g3
+                  gg= gg-ggcut
+                  if (gg.lt.-eps) zrow = .false.
+               end do
+               if (.not.zrow) then
+                  zero_arow3(i+(nxh+1)*(j-1)) =.false.
+                  q = q_map3(i+(j-1)*(nx1(1)/2+1),1)
+                  p = p_map3(i+(j-1)*(nx1(1)/2+1),1)
+                  if (p.eq.taskid) then
+                    zero_row3(q,nbb) =.false.
+                  end if
+               end if
+            end do
+            end do
+
+*           **** find zero_slab23 - (i,*,*) slabs that are zero ****
+            do k1 = 1,nxh+1
+               zero_slab23(k1,nbb) =.true.
+            end do
+
+            do k1 = 0,nxh-1
+               i=k1
+               if (i .lt. 0) i = i + nx1(1)
+               i=i+1
+               yzslab = .true.
+               do k3 = -nzh+1, nzh-1
+               do k2 = -nyh+1, nyh-1
+                  g1 = k1*lattice_unitg(1,1)
+     >               + k2*lattice_unitg(1,2)
+     >               + k3*lattice_unitg(1,3)
+                  g2 = k1*lattice_unitg(2,1)
+     >               + k2*lattice_unitg(2,2)
+     >               + k3*lattice_unitg(2,3)
+                  g3 = k1*lattice_unitg(3,1)
+     >               + k2*lattice_unitg(3,2)
+     >               + k3*lattice_unitg(3,3)
+                  gg = g1*g1 + g2*g2 + g3*g3
+                  gg= gg-ggcut
+                  if (gg.lt.-eps) yzslab = .false.
+               end do
+               end do
+               if (.not.yzslab) then
+                  zero_slab23(i,nbb) = .false.
+               end if
+            end do
+
+*           **** find zero_row2 - (i,*,k) rows that are zero after fft of (i,j,*) ****
+            do k = 1,nz1(1)
+            do i = 1,nxh+1
+               q = q_map2(k+(i-1)*(nz1(1)),1)
+               p = p_map2(k+(i-1)*(nz1(1)),1)
+
+               zero_arow2(i+(nxh+1)*(k-1)) = zero_slab23(i,nb)
+               if (p.eq.taskid) then
+                  zero_row2(q,nbb) = zero_slab23(i,nbb)
+               end if
+            end do
+            end do
+
+            call D3dB_c_ptranspose_ijk_init(nbb,zero_arow2,zero_arow3)
+
+         end do !*nbb*
+
+      end if
+
+      return
+      end
+
+
+
+
+
+
+
+
+
+
 
 *     ***********************************
 *     *					*
