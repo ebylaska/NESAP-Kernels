@@ -9,7 +9,7 @@ LIBRARY = -lfftpack -lblas
 OPTIONS = -O2 -fopenmp -g
 #OPTIONS += -fno-automatic -fbounds-check 
 #OPTIONS += -fmax-stack-var-size=327680
-OPTIONS += -frecursive
+#OPTIONS += -frecursive
 
 FFLAGS =  $(OPTIONS) -L$(LIBDIR1) 
 FC = mpif90
@@ -19,6 +19,6 @@ main.x:   ${OBJECTS}
 
 
 clean: 
-	rm -f core phase-mpi.x ${OBJECTS} $(TOBJECTS)
+	rm -f core main-mpi.x ${OBJECTS} $(TOBJECTS)
 
 

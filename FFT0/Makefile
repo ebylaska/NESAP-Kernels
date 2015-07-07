@@ -6,7 +6,7 @@ LIBRARY = -lfftw3
 
 OPTIONS = -O3
 FFLAGS =  $(OPTIONS) -L$(LIBDIR1) 
-FC = mpif77
+FC = mpif90
 
 main.x:   ${OBJECTS} 
 	$(FC) -o main-mpi.x ${FFLAGS} ${OBJECTS} ${LIBRARY}

@@ -6,12 +6,12 @@
 #include "fft.fh"
 
 *     **** local variables ****
-      integer np,taskid,MASTER,nthr,isumer
+      integer np,taskid,MASTER,nthr
       parameter (MASTER=0)
 
       logical oprint,oprint2
       integer it,k,n2ft3d,nfft3d,mythr
-      real*8  error,cpu0,cpu1,cpu2,cpu3,rc_time,cr_time,sumer
+      real*8  error,cpu0,cpu1,cpu2,cpu3,rc_time,cr_time
       real*8 fftx_flop,ffty_flop,fftz_flop,fft3d_flop,cr_flop,rc_flop
       character*26 dd
 
@@ -24,8 +24,6 @@
 *     **** external functions ****
       integer  Parallel_maxthreads,Parallel_threadid
       external Parallel_maxthreads,Parallel_threadid
-      integer  Parallel_thread_sync
-      external Parallel_thread_sync
       real*8   nwpw_timing
       external nwpw_timing
 
@@ -102,32 +100,23 @@
       cr_time = 0.0d0
       call nwpw_timing_start(2)
       if (oprint) call current_second(cpu0)
-!$OMP PARALLEL private(k,it,oprint2,mythr) shared(y1,y2,y1k,cpu0)
-      mythr = Parallel_threadid()
-      oprint2 = oprint.and.(Parallel_threadid().eq.MASTER)
 
       do it=1,niter
-         if (oprint2) call current_second(cpu1)
+         if (oprint) call current_second(cpu1)
          do k=1,norbitals+1+4
             call fft_forward(nx,ny,nz,y1,n2ft3d,y1k,nfft3d)
          end do
-         if (oprint2) call current_second(cpu2)
-!         do k=1,norbitals+1+3
-!            call fft_backward(nx,ny,nz,y1k,nfft3d,y2,n2ft3d)
-!         end do
-         if (oprint2) call current_second(cpu3)
-         if (oprint2) then
+         if (oprint) call current_second(cpu2)
+         do k=1,norbitals+1+3
+            call fft_backward(nx,ny,nz,y1k,nfft3d,y2,n2ft3d)
+         end do
+         if (oprint) call current_second(cpu3)
+         if (oprint) then
             rc_time = rc_time + (cpu2-cpu1)
             cr_time = cr_time + (cpu3-cpu2)
             write(*,302) it,cpu3-cpu0
          end if
       end do
-
-!$OMP BARRIER
-
-      write(*,*) mythr, "EXITING PARALLEL"
-
-!$OMP END PARALLEL
 
       if (oprint) then
          call util_date(dd)
@@ -188,9 +177,9 @@
 
  100  format(8x,"****************************************************")
  101  format(8x,"*                                                  *")
- 102  format(8x,"*         Parallel 3d FFT Test Calculation         *")
- 103  format(8x,"*         (global OpenMP parallel region)          *")
- 104  format(8x,"*       FFT0-fftpack version 0.0  - 07/03/15       *")
+ 102  format(8x,"*   Fermi Sphere Parallel 3d FFT Test Calculation  *")
+ 103  format(8x,"*          (local OpenMP parallel regions)         *")
+ 104  format(8x,"*       FFT2-fftpack version 0.0  - 07/03/15       *")
  105  format(8x,"*                                                  *")
  106  format(8x,"*  This code was developed by Eric J. Bylaska for  *")
  107  format(8x,"*  NERSC NESAP Dungeon session with Intel on July  *")

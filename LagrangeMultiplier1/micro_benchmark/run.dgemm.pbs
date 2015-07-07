@@ -1,0 +1,28 @@
+#PBS -q regular
+#PBS -l nodes=1
+#PBS -l walltime=02:00:00
+#PBS -N NWCHEM
+#PBS -e NWCHEM.$PBS_JOBID.err
+#PBS -o NWCHEM.$PBS_JOBID.out
+
+
+
+
+cd $PBS_O_WORKDIR;
+#for c in 15 30; do echo "---------$c-------------\n" ; export OMP_NUM_THREADS=$c;export KMP_AFFINITY=balanced,granularity=fine; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mic < tmpparams.dgemm ; done 
+#for c in 60 240; do echo "---------$c-------------\n" ; export OMP_NUM_THREADS=$c;export KMP_AFFINITY=balanced,granularity=fine; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mic < tmpparams.dgemm ; done 
+#for c in 15; do echo "---------$c-------------\n" ; export OMP_NUM_THREADS=$c;export KMP_AFFINITY=balanced,granularity=fine; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.fmf.mic < tmpparams.dgemm.small ; done 
+
+#for c in 120; do echo "---------$c-------------\n" ; export OMP_NUM_THREADS=$c;export KMP_AFFINITY=balanced,granularity=fine; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mkl.mic < tmpparams.dgemm ; done 
+#for c in 180; do echo "---------$c-------------\n" ; export OMP_NUM_THREADS=$c;export KMP_AFFINITY=balanced,granularity=fine; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mkl.mic < tmpparams.dgemm ; done 
+
+##that would only use 15 cores ?
+#for c in 60; do echo "---------$c-------------\n" ; export OMP_NUM_THREADS=$c;export KMP_AFFINITY=compact,granularity=fine; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mic < tmpparams.dgemm ; done 
+##should do exactly the same
+#t=60; for c in 15; do echo "---------$c-------------\n" ; echo "*************$t************\n" ;export OMP_NUM_THREADS=$t;export KMP_AFFINITY=balanced,granularity=fine; export KMP_PLACE_THREADS=$cCx4T,0O, ; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mkl.mic < tmpparams.dgemm ; done 
+#t=45; for c in 15; do echo "---------$c-------------\n" ; echo "*************$t************\n" ;export OMP_NUM_THREADS=$t;export KMP_AFFINITY=balanced,granularity=fine; export KMP_PLACE_THREADS=$cCx3T,0O, ; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mkl.mic < tmpparams.dgemm ; done 
+#t=30; for c in 15; do echo "---------$c-------------\n" ; echo "*************$t************\n" ;export OMP_NUM_THREADS=$t;export KMP_AFFINITY=balanced,granularity=fine; export KMP_PLACE_THREADS=$cCx2T,0O, ; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mkl.mic < tmpparams.dgemm ; done 
+#t=15; for c in 15; do echo "---------$c-------------\n" ; echo "*************$t************\n" ;export OMP_NUM_THREADS=$t;export KMP_AFFINITY=balanced,granularity=fine; export KMP_PLACE_THREADS=$cCx1T,0O, ; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mkl.mic < tmpparams.dgemm ; done 
+#t=80; for c in 20; do echo "---------$c-------------\n" ; echo "*************$t************\n" ;export OMP_NUM_THREADS=$t;export KMP_AFFINITY=balanced,granularity=fine; export KMP_PLACE_THREADS=$cCx1T,0O, ; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple.x.mkl.mic < tmpparams.dgemm ; done 
+
+for c in 60 240; do echo "---------$c-------------\n" ; export OMP_NUM_THREADS=$c;export KMP_AFFINITY=balanced,granularity=fine; mpirun.mic -n 1 -ppn 1 -hosts `hostname`-mic0 ./dgemm_simple_nomkl.x.mic < tmpparams.dgemm ; done 

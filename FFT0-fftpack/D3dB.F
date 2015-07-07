@@ -756,12 +756,14 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 *     ***   A(nz(nb),kx,ky) <- fft1d^(-1)[A(kz,kx,ky)]  ***
 *     *********************t****************************
       call nwpw_timing_start(3)
-      istart = 1 + mythr*nq3(nb)/nthr
-      iend   = (mythr+1)*nq3(nb)/nthr
-c      do i=1,nq3(nb)
-      do i=istart,iend
+c      istart = 1 + mythr*nq3(nb)/nthr
+c      iend   = (mythr+1)*nq3(nb)/nthr
+c      do i=istart,iend
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,nq3(nb)
         call dcfftb(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,mythr+1))
       end do
+!$omp end do
 
       call nwpw_timing_end(3)
 
@@ -774,12 +776,15 @@ c      do i=1,nq3(nb)
 *     ***   A(ny(nb),nz(nb),kx) <- fft1d^(-1)[A(ky,nz(nb),kx)]  ***
 *     *************************************************
       call nwpw_timing_start(3)
-      istart = 1 + mythr*nq2(nb)/nthr
-      iend   = (mythr+1)*nq2(nb)/nthr
-c      do i=1,nq2(nb)
-      do i=istart,iend
+c      istart = 1 + mythr*nq2(nb)/nthr
+c      iend   = (mythr+1)*nq2(nb)/nthr
+c      do i=istart,iend
+
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,nq2(nb)
         call dcfftb(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,mythr+1))
       end do
+!$omp end do
       call nwpw_timing_end(3)
 
       call nwpw_timing_start(4)
@@ -792,15 +797,16 @@ c      do i=1,nq2(nb)
 *     *************************************************
       call nwpw_timing_start(3)
       call cshift1_fftb(nx1(nb),nq1(nb),1,1,A)
-      istart = 1 + mythr*nq1(nb)/nthr
-      iend   = (mythr+1)*nq1(nb)/nthr
-c      do i=1,nq1(nb)
-      do i=istart,iend
+c      istart = 1 + mythr*nq1(nb)/nthr
+c      iend   = (mythr+1)*nq1(nb)/nthr
+c      do i=istart,iend
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,nq1(nb)
         call drfftb(nx1(nb),A(1+(i-1)*nxh),tmpx(1,nb,mythr+1))
       end do
+!$omp end do
       call zeroend_fftb(nx1(nb),nq1(nb),1,1,A)
       call nwpw_timing_end(3)
-!$OMP FLUSH (A)
 
 
       end if
@@ -821,19 +827,21 @@ c      do i=1,nq1(nb)
       integer  Parallel_threadid,Parallel_nthreads
       external Parallel_threadid,Parallel_nthreads
 
-      mythr = Parallel_threadid()
-      nthr  = Parallel_nthreads()
-      jstart = 1 + mythr*(ny*nq*ne)/nthr
-      jend   = (mythr+1)*(ny*nq*ne)/nthr
+c      mythr = Parallel_threadid()
+c      nthr  = Parallel_nthreads()
+c      jstart = 1 + mythr*(ny*nq*ne)/nthr
+c      jend   = (mythr+1)*(ny*nq*ne)/nthr
       !indx = 1
-c      do j=1,(ny*nq*ne)
-      do j=jstart,jend
+c      do j=jstart,jend
+!$omp do private(i,j,indx) schedule(dynamic,100)
+      do j=1,(ny*nq*ne)
          indx = 1 + (j-1)*(nx+2)
          do i=2,nx
             A(indx+i-1) = A(indx+i)
          end do
          !indx = indx + (nx+2)
       end do
+!$omp end do
 
       return
       end 
@@ -848,17 +856,19 @@ c      do j=1,(ny*nq*ne)
       external Parallel_threadid,Parallel_nthreads
       !indx  = nx+1
 
-      mythr = Parallel_threadid()
-      nthr  = Parallel_nthreads()
-      istart = 1 + mythr*(ny*nq*ne)/nthr
-      iend   = (mythr+1)*(ny*nq*ne)/nthr
-c      do i=1,(ny*nq*ne)
-      do i=istart,iend
+c      mythr = Parallel_threadid()
+c      nthr  = Parallel_nthreads()
+c      istart = 1 + mythr*(ny*nq*ne)/nthr
+c      iend   = (mythr+1)*(ny*nq*ne)/nthr
+c      do i=istart,iend
+!$omp do private(i,indx) schedule(dynamic,100)
+      do i=1,(ny*nq*ne)
          indx      = nx+1 + (i-1)*(nx+2)
          A(indx)   = 0.0d0
          A(indx+1) = 0.0d0
          !indx      = indx + (nx+2)
       end do
+!$omp end do
 
       return
       end 
@@ -1010,12 +1020,14 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 *     ***   A(kx,ny(nb),nz(nb)) <- fft1d[A(nx(nb),ny(nb),nz(nb))]  ***
 *     ********************************************
       call nwpw_timing_start(3)
-      istart = 1 + mythr*nq1(nb)/nthr
-      iend   = (mythr+1)*nq1(nb)/nthr
-c      do i=1,nq1(nb)
-      do i=istart,iend
+c      istart = 1 + mythr*nq1(nb)/nthr
+c      iend   = (mythr+1)*nq1(nb)/nthr
+c      do i=istart,iend
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,nq1(nb)
         call drfftf(nx1(nb),A(1+(i-1)*nxh),tmpx(1,nb,mythr+1))
       end do
+!$omp end do
 
       call cshift_fftf(nx1(nb),nq1(nb),1,1,A)
       call nwpw_timing_end(3)
@@ -1030,12 +1042,14 @@ c      do i=1,nq1(nb)
 *     ***   A(ky,nz(nb),kx) <- fft1d[A(ny(nb),nz(nb),kx)]  ***
 *     ********************************************
       call nwpw_timing_start(3)
-      istart = 1 + mythr*nq2(nb)/nthr
-      iend   = (mythr+1)*nq2(nb)/nthr
-c      do i=1,nq2(nb)
-      do i=istart,iend
+c      istart = 1 + mythr*nq2(nb)/nthr
+c      iend   = (mythr+1)*nq2(nb)/nthr
+c      do i=istart,iend
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,nq2(nb)
         call dcfftf(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,mythr+1))
       end do
+!$omp end do
       call nwpw_timing_end(3)
 
       call nwpw_timing_start(4)
@@ -1047,12 +1061,14 @@ c      do i=1,nq2(nb)
 *     ***   A(kz,kx,ky) <- fft1d[A(nz(nb),kx,ky)]  ***
 *     ********************************************
       call nwpw_timing_start(3)
-      istart = 1 + mythr*nq3(nb)/nthr
-      iend   = (mythr+1)*nq3(nb)/nthr
-c      do i=1,nq3(nb)
-      do i=istart,iend
+c      istart = 1 + mythr*nq3(nb)/nthr
+c      iend   = (mythr+1)*nq3(nb)/nthr
+c      do i=istart,iend
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,nq3(nb)
         call dcfftf(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,mythr+1))
       end do
+!$omp end do
       call nwpw_timing_end(3)
 
       end if
@@ -1073,12 +1089,14 @@ c      do i=1,nq3(nb)
       external Parallel_threadid,Parallel_nthreads
 
       !indx = 1
-      mythr = Parallel_threadid()
-      nthr  = Parallel_nthreads()
-      jstart = 1 + mythr*(ny*nq*ne)/nthr
-      jend   = (mythr+1)*(ny*nq*ne)/nthr
-c      do j=1,(ny*nq*ne)
-      do j=jstart,jend
+c      mythr = Parallel_threadid()
+c      nthr  = Parallel_nthreads()
+c      jstart = 1 + mythr*(ny*nq*ne)/nthr
+c      jend   = (mythr+1)*(ny*nq*ne)/nthr
+c      do j=jstart,jend
+
+!$omp do private(i,j,indx) schedule(dynamic,100)
+      do j=1,(ny*nq*ne)
          indx = 1 + (j-1)*(nx+2)
          do i=nx,2,-1
             A(indx+i) = A(indx+i-1)
@@ -1087,6 +1105,7 @@ c      do j=1,(ny*nq*ne)
          A(indx+nx+1) = 0.0d0
          !indx = indx + (nx+2)
       end do
+!$omp end do
 
       return
       end 
@@ -1174,13 +1193,16 @@ c      do j=1,(ny*nq*ne)
       integer  Parallel_threadid,Parallel_nthreads
       external Parallel_threadid,Parallel_nthreads
 
-      mythr = Parallel_threadid()
-      nthr  = Parallel_nthreads()
-      istart = 1 + mythr*n2ft3d_map(nb)/nthr
-      iend   = (mythr+1)*n2ft3d_map(nb)/nthr
-      do i=istart,iend
+c      mythr = Parallel_threadid()
+c      nthr  = Parallel_nthreads()
+c      istart = 1 + mythr*n2ft3d_map(nb)/nthr
+c      iend   = (mythr+1)*n2ft3d_map(nb)/nthr
+c      do i=istart,iend
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,n2ft3d_map(nb)
          A(i) = scale*A(i)
       end do
+!$omp end do
       return
       end
 
@@ -1333,13 +1355,16 @@ c      do j=1,(ny*nq*ne)
       integer i,istart,iend,mythr,nthr
       integer Parallel_threadid,Parallel_nthreads
 
-      mythr = Parallel_threadid()
-      nthr  = Parallel_nthreads()
-      istart = 1 + mythr*n2ft3d_map(nb)/nthr
-      iend   = (mythr+1)*n2ft3d_map(nb)/nthr
-      do i=istart,iend
+c      mythr = Parallel_threadid()
+c      nthr  = Parallel_nthreads()
+c      istart = 1 + mythr*n2ft3d_map(nb)/nthr
+c      iend   = (mythr+1)*n2ft3d_map(nb)/nthr
+c      do i=istart,iend
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,n2ft3d_map(nb)
          C(i) = A(i)
       end do
+!$omp end do
       return
       end
 
@@ -3173,31 +3198,40 @@ cpgi$r opt=1
       integer  Parallel2d_convert_taskid_i
       external Parallel2d_convert_taskid_i
 
-!$OMP FLUSH(A)
-!$OMP BARRIER
-!$OMP MASTER
       
       call Parallel2d_taskid_i(taskid)
       call Parallel2d_np_i(np)
-
       write(*,*) taskid, "Entering MASTER"
-
 *     **** pack A(i) array ****
       if ((op.eq.1).or.(op.eq.5)) nnfft3d = (nx1(nb)/2+1)*nq1(nb)
       if ((op.eq.2).or.(op.eq.4)) nnfft3d = (ny1(nb))    *nq2(nb)
       if ((op.eq.3).or.(op.eq.6)) nnfft3d = (nz1(nb))    *nq3(nb)
 
+
+!$omp flush(A)
+!$omp do private(i) schedule(dynamic,100)
       do i=1,nnfft3d
          tmp1(h_iq_to_i1(i,op,nb)) = A(i)
       end do
+!$omp end do
+
 
 
 *     **** it = 0, transpose data on same thread ****  
       msglen = h_i2_start(2,op,nb)
      >       - h_i2_start(1,op,nb)
-      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nb)),1,
-     >                    tmp2(h_i2_start(1,op,nb)),1)
+c      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nb)),1,
+c     >                    tmp2(h_i2_start(1,op,nb)),1)
+
+!$omp do private(i) schedule(dynamic,100)
+      do i=1,msglen
+         tmp2(h_i2_start(1,op,nb)+i) = tmp1(h_i1_start(1,op,nb)+i)
+      end do
+!$omp end do
          
+!$omp flush(tmp1)
+!$omp barrier
+!$omp master
 
 *     **** receive packed array data ****
       reqcnt = 0
@@ -3244,15 +3278,23 @@ cpgi$r opt=1
 *     **** wait for completion of mp_send, also do a sync ****
       if (np.gt.1) call Parallel_mpiWaitAll(reqcnt,request)
 
+!$omp end master
+!$omp barrier
+!$omp flush(tmp2)
 
 *     **** unpack A(i) array ****
       if ((op.eq.4).or.(op.eq.6)) nnfft3d = (nx1(nb)/2+1)*nq1(nb)
       if ((op.eq.1).or.(op.eq.3)) nnfft3d = (ny1(nb))    *nq2(nb)
       if ((op.eq.2).or.(op.eq.5)) nnfft3d = (nz1(nb))    *nq3(nb)
 
+
+!$omp do private(i) schedule(dynamic,100)
       do i=1,nnfft3d
          A(i) = tmp2(h_iq_to_i2(i,op,nb))
       end do 
+!$omp end do
+!$omp flush(A)
+
 
 
       write(*,*) "Exiting MASTER"

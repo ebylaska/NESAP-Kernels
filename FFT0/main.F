@@ -60,13 +60,9 @@ c******** Checking FFTs - should be deleted *******
         y1(k) = k*0.5
       end do
       call D3dB_r_Zero_Ends(1,y1)
-      write(*,*) "hera"
-      call forward(y1,yk1,nx,ny,nz)
-      write(*,*) "herb"
-      call backward(yk1,y2,nx,ny,nz)
-      write(*,*) "herc"
+      call forward(y1,y1k,nx,ny,nz)
+      call backward(y1k,y2,nx,ny,nz)
       call D3dB_r_Zero_Ends(1,y2)
-      write(*,*) "herd"
       c110 = 0.0d0
       do k=1,n2ft3d
          c110 = c110 + dabs(y2(k)-y1(k))

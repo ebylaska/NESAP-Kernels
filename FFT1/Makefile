@@ -1,5 +1,5 @@
 SRCDIR = .
-OBJECTS = lmbda_test.o Parallel-mpi.o nwpw_timing.o pack.o psi_lmbda.o
+OBJECTS = fft_test.o Parallel-mpi.o nwpw_timing.o pack.o
 
 #LIBRARY = ${HOME}/software/OpenBLAS/libopenblas.a
 #LIBRARY = -lblas
@@ -16,11 +16,11 @@ FC = mpiifort
 #FC = mpif90.mpich
 
 
-lmbda_test.x: ${OBJECTS}
-	$(FC) -o lmbda_test.x ${FFLAGS} ${OBJECTS} ${LIBRARY}
+fft_test.x: ${OBJECTS}
+	$(FC) -o fft_test.x ${FFLAGS} ${OBJECTS} ${LIBRARY}
 
 
 clean:
-	rm ${OBJECTS} lmbda_test.x
+	rm ${OBJECTS} fft_test.x
 
 
