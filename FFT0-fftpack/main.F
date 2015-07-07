@@ -111,9 +111,9 @@
             call fft_forward(nx,ny,nz,y1,n2ft3d,y1k,nfft3d)
          end do
          if (oprint2) call current_second(cpu2)
-         do k=1,norbitals+1+3
-            call fft_backward(nx,ny,nz,y1k,nfft3d,y2,n2ft3d)
-         end do
+!         do k=1,norbitals+1+3
+!            call fft_backward(nx,ny,nz,y1k,nfft3d,y2,n2ft3d)
+!         end do
          if (oprint2) call current_second(cpu3)
          if (oprint2) then
             rc_time = rc_time + (cpu2-cpu1)
@@ -121,6 +121,11 @@
             write(*,302) it,cpu3-cpu0
          end if
       end do
+
+!$OMP BARRIER
+
+      write(*,*) mythr, "EXITING PARALLEL"
+
 !$OMP END PARALLEL
 
       if (oprint) then
