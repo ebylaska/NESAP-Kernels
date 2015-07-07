@@ -19,6 +19,6 @@ main.x:   ${OBJECTS}
 
 
 clean: 
-	rm -f core phase-mpi.x ${OBJECTS} $(TOBJECTS)
+	rm -f core main-mpi.x ${OBJECTS} $(TOBJECTS)
 
 
