@@ -1,5 +1,5 @@
 SRCDIR = .
-OBJECTS = main.o D3dB.o hilbert.o hcurve.o olist.o Parallel-mpi.o util_date.o nwpw_timing.o  #blas.o
+OBJECTS = main.o D3dB.o D3dB_pfft.o hilbert.o hcurve.o olist.o Parallel-mpi.o util_date.o nwpw_timing.o  #blas.o
 
 LIBDIR1 = ../lib
 LIBRARY = -lfftpack -lblas
