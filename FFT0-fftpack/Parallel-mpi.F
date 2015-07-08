@@ -103,6 +103,7 @@ c     >           provided,MPI_THREAD_SERIALIZED
 
 
 *     **** set global processor group ****
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
       call MPI_Comm_group(comm_world,mpi_group,ierr)
@@ -119,6 +120,7 @@ c     >           provided,MPI_THREAD_SERIALIZED
       call MPI_Group_incl(mpi_group,np_j,tmp,group_j,ierr)
       call MPI_Comm_create(comm_world,group_j,comm_j,  ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 
 
@@ -144,6 +146,7 @@ c     >           provided,MPI_THREAD_SERIALIZED
 
       if (np_j.gt.1) then
 *      **** free comm_i and comm_j communicators ****
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
       call MPI_Comm_free(comm_i,  mpierr)
@@ -151,6 +154,7 @@ c     >           provided,MPI_THREAD_SERIALIZED
       call MPI_Comm_free(comm_j,  mpierr)
       call MPI_Group_free(group_j,mpierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -252,6 +256,7 @@ c     >           provided,MPI_THREAD_SERIALIZED
       integer mpierr
 
 *      **** free comm_i and comm_j communicators ****
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
       call MPI_Comm_free(comm_i,  mpierr)
@@ -261,6 +266,7 @@ c     >           provided,MPI_THREAD_SERIALIZED
       call MPI_Comm_free(comm_k,  mpierr)
       call MPI_Group_free(group_k,mpierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 
       return
@@ -284,6 +290,7 @@ c     implicit none
 
       integer msglen,mpierr
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          msglen = 1
@@ -291,6 +298,7 @@ c     implicit none
      >                       MPI_MAX,comm_world,mpierr)
          sum = sumall
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
       return
@@ -313,6 +321,7 @@ c     implicit none
       integer msglen,mpierr
       integer isumall
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          msglen = 1
@@ -320,6 +329,7 @@ c     implicit none
      >                       MPI_MAX,comm_world,mpierr)
          isum = isumall
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
          msglen = 1
       end if
@@ -345,6 +355,7 @@ c     implicit none
       integer msglen,mpierr
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          msglen = 1
@@ -352,6 +363,7 @@ c     implicit none
      >                       MPI_SUM,comm_world,mpierr)
          sum = sumall
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
       return
@@ -375,6 +387,7 @@ c     implicit none
       integer sumall
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          msglen = 1
@@ -383,6 +396,7 @@ c     implicit none
      >                       MPI_SUM,comm_world,mpierr)
          sum = sumall
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
       return
@@ -408,8 +422,9 @@ c     implicit none
 
 
       call nwpw_timing_start(2)
-!$OMP BARRIER
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
+!$OMP BARRIER
 !$OMP MASTER
       msglen = n
       call MPI_Allreduce(sum0,sumall,msglen,
@@ -417,6 +432,7 @@ c     implicit none
      >                MPI_SUM,comm_world,mpierr)
       call dcopy(n,sumall,1,sum0,1)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
       call nwpw_timing_end(2)
@@ -443,6 +459,7 @@ c     implicit none
 
       call nwpw_timing_start(2)
 
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
       if (np.gt.1) then
@@ -454,6 +471,7 @@ c     implicit none
          call dcopy(n,sum0,1,sumall,1)
       end if
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 
       call nwpw_timing_end(2)
@@ -486,6 +504,7 @@ c     implicit none
       call nwpw_timing_start(2)
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
 
@@ -496,6 +515,7 @@ c     implicit none
       call icopy(n,sumall,1,sum,1)
 
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -524,11 +544,13 @@ c     implicit none
       integer ierr
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(sum,1,MPI_DOUBLE_PRECISION,
      >                  psend,comm_world,ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -557,11 +579,13 @@ c     implicit none
 
       if (np.gt.1) then
 
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(sum,nsize,MPI_DOUBLE_PRECISION,
      >                  psend,comm_world,ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 
       end if
@@ -586,11 +610,13 @@ c     implicit none
       integer ierr
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(isum,1,MPI_DOUBLE_PRECISION,
      >                  psend,comm_world,ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -617,11 +643,13 @@ c     implicit none
       integer ierr
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(isum,nsize,MPI_INTEGER,
      >                  psend,comm_world,ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -644,21 +672,27 @@ c     implicit none
 
 *     *** local variables ***
       integer status(MPI_STATUS_SIZE*4*200),mpierr
-     
-      if (nreq.gt.0) then
+!      integer  nthr,omp_get_num_threads
+!      external omp_get_num_threads
+!      logical parmode
 
+!      nthr = omp_get_num_threads()
+!      parmode = nthr.gt.1
+     
+!      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
-
+      if (nreq.gt.0) then
 *     **** wait for completion of mp_send, also do a sync ****
       call MPI_WAITALL(nreq,req,status,mpierr)
 c      call MPI_WAITALL(nreq,req,MPI_STATUSES_IGNORE,mpierr)
 
 *     *** may need to check status here??? ***
-!$OMP END MASTER
-!$OMP BARRIER
-
       end if
+
+!$OMP END MASTER
+!      write(threadid,*) "OMP BARRIER"
+!$OMP BARRIER
       return
       end
 
@@ -704,6 +738,7 @@ c     implicit none
       external getcomm
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          msglen = 1
@@ -711,6 +746,7 @@ c     implicit none
      >                       MPI_MAX,getcomm(ic),mpierr)
          sum = sumall
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
       return
@@ -739,6 +775,7 @@ c     implicit none
       external getcomm
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          msglen = 1
@@ -746,6 +783,7 @@ c     implicit none
      >                       MPI_SUM,getcomm(ic),mpierr)
          sum = sumall
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -773,6 +811,7 @@ c     implicit none
       external getcomm
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          msglen = 1
@@ -782,6 +821,7 @@ c     implicit none
          sum = sumall
 
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -815,6 +855,7 @@ c     implicit none
       call nwpw_timing_start(2)
       if (np.gt.1) then
 
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
 
@@ -826,6 +867,7 @@ c     implicit none
       call dcopy(n,sumall,1,sum,1)
 
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
       call nwpw_timing_end(2)
@@ -859,6 +901,7 @@ c     implicit none
       call nwpw_timing_start(2)
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
 
@@ -869,6 +912,7 @@ c     implicit none
       call icopy(n,sumall,1,sum,1)
 
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 
       end if
@@ -900,11 +944,13 @@ c     implicit none
       external getcomm
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(sum,1,MPI_DOUBLE_PRECISION,
      >                  psend,getcomm(ic),ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -933,11 +979,13 @@ c     implicit none
       external getcomm
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(sum,nsize,MPI_DOUBLE_PRECISION,
      >                  psend,getcomm(ic),ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -965,11 +1013,13 @@ c     implicit none
       external getcomm
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(isum,1,MPI_DOUBLE_PRECISION,
      >                  psend,getcomm(ic),ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 
@@ -997,11 +1047,13 @@ c     implicit none
       external getcomm
 
       if (np.gt.1) then
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
 !$OMP MASTER
          call MPI_Bcast(isum,nsize,MPI_INTEGER,
      >                  psend,getcomm(ic),ierr)
 !$OMP END MASTER
+      write(threadid,*) "OMP BARRIER"
 !$OMP BARRIER
       end if
 

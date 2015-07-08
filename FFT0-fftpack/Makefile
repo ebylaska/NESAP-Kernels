@@ -6,7 +6,9 @@ LIBRARY = -lfftpack -lblas
 
 #OPTIONS = -O3 -ffast-math -Wuninitialized
 #OPTIONS = -g 
-OPTIONS = -O0 -fopenmp -g
+OPTIONS = -O2 -fopenmp -g
+OPTIONS += -DOMP_SCHEDULE=dynamic
+OPTIONS += -DOMP_CHUNKSIZE=100
 #OPTIONS += -fno-automatic -fbounds-check 
 #OPTIONS += -fmax-stack-var-size=327680
 #OPTIONS += -frecursive
