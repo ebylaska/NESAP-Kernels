@@ -28,7 +28,10 @@
       external Parallel_thread_sync
       real*8   nwpw_timing
       external nwpw_timing
+      
+      INTEGER*4 pid
 
+      Character*255 s 
 
       call nwpw_timing_init()
       call nwpw_timing_start(1)
@@ -102,9 +105,16 @@
       cr_time = 0.0d0
       call nwpw_timing_start(2)
       if (oprint) call current_second(cpu0)
-!$OMP PARALLEL private(k,it,oprint2,mythr) shared(y1,y2,y1k,cpu0)
+!$OMP PARALLEL private(s,k,it,oprint2,mythr) shared(y1,y2,y1k,cpu0) 
       mythr = Parallel_threadid()
       oprint2 = oprint.and.(Parallel_threadid().eq.MASTER)
+     
+      write(s,'("log_p",i0,"_t",i0)') taskid, mythr
+      open (unit = mythr, file = s)
+
+      pid = getpid()
+
+      write(mythr,*) "PID IS", pid
 
       do it=1,niter
          if (oprint2) call current_second(cpu1)
@@ -112,9 +122,9 @@
             call fft_forward(nx,ny,nz,y1,n2ft3d,y1k,nfft3d)
          end do
          if (oprint2) call current_second(cpu2)
-         do k=1,norbitals+1+3
-            call fft_backward(nx,ny,nz,y1k,nfft3d,y2,n2ft3d)
-         end do
+!         do k=1,norbitals+1+3
+!            call fft_backward(nx,ny,nz,y1k,nfft3d,y2,n2ft3d)
+!         end do
          if (oprint2) call current_second(cpu3)
          if (oprint2) then
             rc_time = rc_time + (cpu2-cpu1)
@@ -122,6 +132,10 @@
             write(*,302) it,cpu3-cpu0
          end if
       end do
+
+
+      write(mythr,*) "EXITING PARALLEL at", it
+      close(mythr)
 !$OMP END PARALLEL
 
       if (oprint) then

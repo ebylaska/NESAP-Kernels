@@ -3198,6 +3198,8 @@ cpgi$r opt=1
       integer  Parallel2d_convert_taskid_i
       external Parallel2d_convert_taskid_i
 
+      integer mythr
+      integer Parallel_threadid,Parallel_nthreads
       
       call Parallel2d_taskid_i(taskid)
       call Parallel2d_np_i(np)
@@ -3207,13 +3209,22 @@ cpgi$r opt=1
       if ((op.eq.2).or.(op.eq.4)) nnfft3d = (ny1(nb))    *nq2(nb)
       if ((op.eq.3).or.(op.eq.6)) nnfft3d = (nz1(nb))    *nq3(nb)
 
+      mythr = Parallel_threadid()
 
+      write(mythr,*) "nnfft3d=",nfft3d 
+      write(mythr,*) "nnfft3d0=",nfft3d0 
+      write(mythr,*) A(nfft3d)
+      write(mythr,*) tmp1(66108)
 !$omp flush(A)
 !$omp do private(i) schedule(dynamic,100)
       do i=1,nnfft3d
-         tmp1(h_iq_to_i1(i,op,nb)) = A(i)
+         if (i .ne. 0) then
+           write(mythr,*) i, h_iq_to_i1(i,op,nb) 
+           tmp1(h_iq_to_i1(i,op,nb)) = A(i)
+         end if
       end do
 !$omp end do
+      write(mythr,*) "done"
 
 
 
@@ -3294,6 +3305,8 @@ c     >                    tmp2(h_i2_start(1,op,nb)),1)
       end do 
 !$omp end do
 !$omp flush(A)
+
+
 
 
 
