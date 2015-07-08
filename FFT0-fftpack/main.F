@@ -28,7 +28,10 @@
       external Parallel_thread_sync
       real*8   nwpw_timing
       external nwpw_timing
+      
+      INTEGER*4 pid
 
+      Character*255 s 
 
       call nwpw_timing_init()
       call nwpw_timing_start(1)
@@ -102,9 +105,16 @@
       cr_time = 0.0d0
       call nwpw_timing_start(2)
       if (oprint) call current_second(cpu0)
-!$OMP PARALLEL private(k,it,oprint2,mythr) shared(y1,y2,y1k,cpu0)
+!$OMP PARALLEL private(s,k,it,oprint2,mythr) shared(y1,y2,y1k,cpu0) 
       mythr = Parallel_threadid()
       oprint2 = oprint.and.(Parallel_threadid().eq.MASTER)
+     
+      write(s,'("log_p",i0,"_t",i0)') taskid, mythr
+      open (unit = mythr, file = s)
+
+      pid = getpid()
+
+      write(mythr,*) "PID IS", pid
 
       do it=1,niter
          if (oprint2) call current_second(cpu1)
@@ -123,10 +133,9 @@
          end if
       end do
 
-!$OMP BARRIER
 
-      write(*,*) mythr, "EXITING PARALLEL"
-
+      write(mythr,*) "EXITING PARALLEL at", it
+      close(mythr)
 !$OMP END PARALLEL
 
       if (oprint) then
