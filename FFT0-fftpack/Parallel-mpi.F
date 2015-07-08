@@ -32,13 +32,13 @@
 
 
 c*    **** MPI initializer - for openmp MPI_THREAD_SERIAL==MPI_THREAD_FUNNELED *****
-      call MPI_Init(mpierr)
+c      call MPI_Init(mpierr)
 c      call MPI_Init_thread(MPI_THREAD_FUNNELED,provided,mpierr)
 c      write(*,*) "MPI_init_thread, provided=",
 c     >           provided,MPI_THREAD_FUNNELED
-c      call MPI_Init_thread(MPI_THREAD_SERIALIZED,provided,mpierr)
-c      write(*,*) "MPI_init_thread, provided=",
-c     >           provided,MPI_THREAD_SERIALIZED
+      call MPI_Init_thread(MPI_THREAD_SERIALIZED,provided,mpierr)
+      write(*,*) "MPI_init_thread, provided=",
+     >           provided,MPI_THREAD_SERIALIZED
 
       comm_world = MPI_COMM_WORLD
 

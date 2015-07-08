@@ -6,7 +6,7 @@ LIBRARY = -lfftpack -lblas
 
 #OPTIONS = -O3 -ffast-math -Wuninitialized
 #OPTIONS = -g 
-OPTIONS = -O2 -fopenmp
+OPTIONS = -O0 -g -fopenmp
 #OPTIONS += -fno-automatic -fbounds-check 
 #OPTIONS += -fmax-stack-var-size=327680
 #OPTIONS += -frecursive
