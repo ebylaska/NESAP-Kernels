@@ -253,13 +253,6 @@ c     *****************************************
 
 
 
-
-
-
-
-
-
-
 *     ***********************************
 *     *					*
 *     *	        D3dB_cr_pfft3b		*
@@ -416,7 +409,9 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
       mythr = Parallel_threadid()
 !$OMP DO schedule(dynamic,100)
       do i=1,nq3(nb)
-        call dcfftb(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,mythr+1))
+         if (.not.zero_row3(i,nbb)) then
+            call dcfftb(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,mythr+1))
+         end if
       end do
 !$OMP END DO
 !$OMP END PARALLEL
@@ -424,7 +419,7 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
       call nwpw_timing_end(3)
 
       call nwpw_timing_start(4)
-      call D3dB_c_transpose_ijk(nb,3,A,dtmp2,dtmp3,nfft3d(nb))
+      call D3dB_c_ptranspose_ijk(nbb,3,A,dtmp2,dtmp3,nfft3d(nb))
       call nwpw_timing_end(4)
 
 *     *************************************************
@@ -436,14 +431,16 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
       mythr = Parallel_threadid()
 !$OMP DO schedule(dynamic,100)
       do i=1,nq2(nb)
-        call dcfftb(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,mythr+1))
+         if (.not.zero_row2(i,nbb)) then
+            call dcfftb(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,mythr+1))
+         end if
       end do
 !$OMP END DO
 !$OMP END PARALLEL
       call nwpw_timing_end(3)
 
       call nwpw_timing_start(4)
-      call D3dB_c_transpose_ijk(nb,4,A,dtmp2,dtmp3,nfft3d(nb))
+      call D3dB_c_ptranspose_ijk(nbb,4,A,dtmp2,dtmp3,nfft3d(nb))
       call nwpw_timing_end(4)
 
 *     *************************************************
@@ -629,9 +626,8 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
       call cshift_fftf(nx1(nb),nq1(nb),1,1,A)
       call nwpw_timing_end(3)
 
-
       call nwpw_timing_start(4)
-      call D3dB_c_transpose_ijk(nb,1,A,dtmp2,dtmp3,nfft3d(nb))
+      call D3dB_c_ptranspose_ijk(nbb,1,A,dtmp2,dtmp3,nfft3d(nb))
       call nwpw_timing_end(4)
 
 *     ********************************************
@@ -643,14 +639,16 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
       mythr = Parallel_threadid()
 !$OMP DO schedule(dynamic,100)
       do i=1,nq2(nb)
-        call dcfftf(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,mythr+1))
+        if (.not.zero_row2(i,nbb)) then
+           call dcfftf(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,mythr+1))
+        end if
       end do
 !$OMP END DO
 !$OMP END PARALLEL
       call nwpw_timing_end(3)
 
       call nwpw_timing_start(4)
-      call D3dB_c_transpose_ijk(nb,2,A,dtmp2,dtmp3,nfft3d(nb))
+      call D3dB_c_ptranspose_ijk(nbb,2,A,dtmp2,dtmp3,nfft3d(nb))
       call nwpw_timing_end(4)
 
 *     ********************************************
@@ -662,7 +660,9 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
       mythr = Parallel_threadid()
 !$OMP DO schedule(dynamic,100)
       do i=1,nq3(nb)
-        call dcfftf(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,mythr+1))
+         if (.not.zero_row3(i,nbb)) then
+            call dcfftf(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,mythr+1))
+         end if
       end do
 !$OMP END DO
 !$OMP END PARALLEL
@@ -683,7 +683,7 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 *     *					*
 *     ***********************************
 
-      subroutine D3dB_c_transpose_jk_init(nbb,zero_arow3)
+      subroutine D3dB_c_ptranspose_jk_init(nbb,zero_arow3)
       implicit none
       integer nbb
       logical zero_arow3(*)
@@ -833,16 +833,17 @@ c                 iq_to_i2(itmp) = index2
 *     **** indexing variables ****
       integer iq_to_i1(nfft3d_max,0:1)
       integer iq_to_i2(nfft3d_max,0:1)
+      integer iz_to_i2(nfft3d_max,0:1)
       integer i1_start(nz+1,0:1)
       integer i2_start(nz+1,0:1)
-      common / ptrans_blk / iq_to_i1,iq_to_i2,i1_start,i2_start
-
+      common / ptrans_blk2 / iq_to_i1,iq_to_i2,iz_to_i2,
+     >                       i1_start,i2_start
 
 
 *     **** local variables ***
       logical value
       integer i
-      integer proc_to,proc_from,it
+      integer proc_to,proc_from,it,n1,n2
       integer msgtype,source
       integer msglen,type
       integer request(np_max+1),reqcnt
@@ -856,18 +857,22 @@ c                 iq_to_i2(itmp) = index2
       call Parallel2d_taskid_i(taskid)
       call Parallel2d_np_i(np)
 
+      n1 = i1_start(np+1,nbb) - 1
+      n2 = i2_start(np+1,nbb) - 1
+
 
 *     **** pack A(i) array ****
-      do i=1,nfft3d(1) 
-         tmp1(iq_to_i1(i,nbb)) = A(i)
-      end do
+      call D3dB_pfft_index1_copy(n1,iq_to_i1(1,nbb),A,tmp1)
+
 
 *     **** it = 0, transpose data on same thread ****  
       msglen = i2_start(2,nbb) - i2_start(1,nbb)
+      call dcopy(2*msglen,tmp1(i1_start(1,nbb)),1,
+     >                    tmp2(i2_start(1,nbb)),1)
 
-      do i=1,msglen
-         tmp2(i2_start(1,nbb)+i-1) = tmp1(i1_start(1,nbb)+i-1)
-      end do
+c      do i=1,msglen
+c         tmp2(i2_start(1,nbb)+i-1) = tmp1(i1_start(1,nbb)+i-1)
+c      end do
          
 
 *     **** receive packed array data ****
@@ -916,9 +921,8 @@ c                 iq_to_i2(itmp) = index2
 
 
 *     **** unpack A(i) array ****
-      do i=1,nfft3d(1) !***(nx(nb)/2+1)*ny1(nb)*nq(nb)
-         A(i) = tmp2(iq_to_i2(i,nbb))
-      end do
+      call D3dB_pfft_index2_copy(n2,iq_to_i2(1,nbb),tmp2,A)
+      call D3dB_pfft_index2_zero(nfft3d(1)-n2,iz_to_i2(1,nbb),A)
 
       return
       end
@@ -961,15 +965,16 @@ c                 iq_to_i2(itmp) = index2
       integer h_i1_start(np_max+1,6,0:1)
       integer h_i2_start(np_max+1,6,0:1)
       common / ptrans_blk_ijk / h_iq_to_i1,
-     >                         h_iq_to_i2,
-     >                         h_iz_to_i2_count,
-     >                         h_i1_start,
-     >                         h_i2_start
+     >                          h_iq_to_i2,
+     >                          h_iz_to_i2,
+     >                          h_iz_to_i2_count,
+     >                          h_i1_start,
+     >                          h_i2_start
 
 
 *     **** local variables ***
       logical value
-      integer i,nnfft3d
+      integer i,nnfft3d,n1,n2,n3
       integer proc_to,proc_from,it
       integer msgtype,source
       integer msglen,type
@@ -986,16 +991,13 @@ c                 iq_to_i2(itmp) = index2
       call Parallel2d_np_i(np)
 
 
-*     **** pack A(i) array ****
-      if ((op.eq.1).or.(op.eq.5)) nnfft3d = (nx1(1)/2+1)*nq1(1)
-      if ((op.eq.2).or.(op.eq.4)) nnfft3d = (ny1(1))    *nq2(1)
-      if ((op.eq.3).or.(op.eq.6)) nnfft3d = (nz1(1))    *nq3(1)
+      n1 = h_i1_start(np+1,op,nbb) - 1
+      n2 = h_i2_start(np+1,op,nbb) - 1
+      n3 = h_iz_to_i2_count(op,nbb)
 
-!$OMP PARALLEL DO private(i) schedule(dynamic,100)
-      do i=1,nnfft3d
-         tmp1(h_iq_to_i1(i,op,nbb)) = A(i)
-      end do
-!$OMP END PARALLEL DO
+
+*     **** pack A(i) array ****
+      call D3dB_pfft_index1_copy(n1,h_iq_to_i1(1,op,nbb),A,tmp1)
 
 
 *     **** it = 0, transpose data on same thread ****  
@@ -1004,11 +1006,6 @@ c                 iq_to_i2(itmp) = index2
       call dcopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),1,
      >                    tmp2(h_i2_start(1,op,nbb)),1)
 
-cc!$OMP PARALLEL DO private(i) schedule(dynamic,100) default(shared)
-cc      do i=1,msglen
-cc         tmp2(h_i2_start(1,op,nb)+i)= tmp1(h_i1_start(1,op,nb)+i)
-cc      end do
-cccc!$OMP END PARALLEL DO
          
 
 *     **** receive packed array data ****
@@ -1058,15 +1055,9 @@ cccc!$OMP END PARALLEL DO
 
 
 *     **** unpack A(i) array ****
-      if ((op.eq.4).or.(op.eq.6)) nnfft3d = (nx1(1)/2+1)*nq1(1)
-      if ((op.eq.1).or.(op.eq.3)) nnfft3d = (ny1(1))    *nq2(1)
-      if ((op.eq.2).or.(op.eq.5)) nnfft3d = (nz1(1))    *nq3(1)
+      call D3dB_pfft_index2_copy(n2,h_iq_to_i2(1,op,nbb),tmp2,A)
+      call D3dB_pfft_index2_zero(n3,h_iz_to_i2(1,op,nbb),A)
 
-!$OMP PARALLEL DO private(i) schedule(dynamic,100)
-      do i=1,nnfft3d
-         A(i) = tmp2(h_iq_to_i2(i,op,nbb))
-      end do 
-!$OMP END PARALLEL DO
 
       return
       end
@@ -1080,7 +1071,7 @@ cccc!$OMP END PARALLEL DO
 *     *					*
 *     ***********************************
 
-      subroutine D3dB_c_transpose_ijk_init(nbb,zero_arow2,zero_arow3)
+      subroutine D3dB_c_ptranspose_ijk_init(nbb,zero_arow2,zero_arow3)
       implicit none
       integer nbb
       logical zero_arow2(*),zero_arow3(*)
@@ -1097,6 +1088,7 @@ cccc!$OMP END PARALLEL DO
       integer h_i2_start(np_max+1,6,0:1)
       common / ptrans_blk_ijk / h_iq_to_i1,
      >                         h_iq_to_i2,
+     >                         h_iz_to_i2,
      >                         h_iz_to_i2_count,
      >                         h_i1_start,
      >                         h_i2_start
@@ -1461,4 +1453,49 @@ cccc!$OMP END PARALLEL DO
       return
       end
 
+
+
+
+
+c      subroutine D3dB_pfft_index1_copy(n,index,a,b)
+c      implicit none
+c      integer n
+c      integer index(*)
+c      complex*16  a(*),b(*)
+c      integer i
+c
+c      do i=1,n
+c        b(i) = a(index(i))
+c      end do
+c
+c      return
+c      end
+c
+c
+c      subroutine D3dB_pfft_index2_copy(n,index,a,b)
+c      implicit none
+c      integer n
+c      integer index(*)
+c      complex*16  a(*),b(*)
+c      integer i
+c
+c      do i=1,n
+c        b(index(i)) = a(i)
+c      end do
+c      return
+c      end
+c
+c
+c      subroutine D3dB_pfft_index2_zero(n,index,a)
+c      implicit none
+c      integer n
+c      integer index(*)
+c      complex*16  a(*)
+c      integer i
+c
+c      do i=1,n
+c        a(index(i)) = 0.0d0
+c      end do
+c      return
+c      end
 

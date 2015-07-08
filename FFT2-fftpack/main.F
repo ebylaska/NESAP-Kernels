@@ -16,6 +16,8 @@
       character*26 dd
 
 
+      real*8  unita(3,3),unitg(3,3),ggcut(2),L,twopi,volume
+      real*8  gx,gy,gz,gg1
       real*8  y1(n2ft3d_max)
       real*8  y2(n2ft3d_max)
       complex*16 y1k(nfft3d_max)
@@ -55,10 +57,58 @@
          write(*,*)
       end if
 
+*     -----------------
+*     unit cell vectors
+*     -----------------
+      L = 20.0d0
+      unita(1,1) = L
+      unita(2,1) = 0.0d0
+      unita(3,1) = 0.0d0
+      unita(1,2) = 0.0d0
+      unita(2,2) = L
+      unita(3,2) = 0.0d0
+      unita(1,3) = 0.0d0
+      unita(2,3) = 0.0d0
+      unita(3,3) = L
+*     -----------------------------------------
+*     primitive vectors in the reciprocal space 
+*     -----------------------------------------
+      unitg(1,1) = unita(2,2)*unita(3,3) - unita(3,2)*unita(2,3)
+      unitg(2,1) = unita(3,2)*unita(1,3) - unita(1,2)*unita(3,3)
+      unitg(3,1) = unita(1,2)*unita(2,3) - unita(2,2)*unita(1,3)
+      unitg(1,2) = unita(2,3)*unita(3,1) - unita(3,3)*unita(2,1)
+      unitg(2,2) = unita(3,3)*unita(1,1) - unita(1,3)*unita(3,1)
+      unitg(3,2) = unita(1,3)*unita(2,1) - unita(2,3)*unita(1,1)
+      unitg(1,3) = unita(2,1)*unita(3,2) - unita(3,1)*unita(2,2)
+      unitg(2,3) = unita(3,1)*unita(1,2) - unita(1,1)*unita(3,2)
+      unitg(3,3) = unita(1,1)*unita(2,2) - unita(2,1)*unita(1,2)
+*     ---------------------
+*     volume of a unit cell
+*     ---------------------
+      twopi = 8.0d0*datan(1.0d0)
+      volume = unita(1,1)*unitg(1,1)
+     >       + unita(2,1)*unitg(2,1)
+     >       + unita(3,1)*unitg(3,1)
+      call dscal(9,twopi/volume,unitg,1)
+
+      volume=dabs(volume)
+
+      gx = unitg(1,1)*dble(nx/2)
+      gy = unitg(2,1)*dble(nx/2)
+      gz = unitg(3,1)*dble(nx/2)
+      gg1 = gx*gx + gy*gy + gz*gz
+      ggcut(1) = 0.5d0*gg1
+      ggcut(2) = gg1
+
+
+
+
       if (oprint) write(*,*) "Initializing D3dB"
       call D3dB_Init(1,nx,ny,nz,gridmapping)
       call D3dB_nfft3d(1,nfft3d)
       call D3dB_n2ft3d(1,n2ft3d)
+      call D3dB_pfft_init(unitg,ggcut)
+
 
       if (oprint) then
          write(*,*) 
@@ -67,6 +117,17 @@
          write(*,200) taskid
          write(*,201) np
          write(*,211) nthr
+         write(*,*)
+         write(*,1230)
+         write(*,1241) unita(1,1),unita(2,1),unita(3,1)
+         write(*,1242) unita(1,2),unita(2,2),unita(3,2)
+         write(*,1243) unita(1,3),unita(2,3),unita(3,3)
+         write(*,1244) unitg(1,1),unitg(2,1),unitg(3,1)
+         write(*,1245) unitg(1,2),unitg(2,2),unitg(3,2)
+         write(*,1246) unitg(1,3),unitg(2,3),unitg(3,3)
+         write(*,1231) volume
+         write(*,1250) 0.5d0*ggcut(2),nx,ny,nz
+         write(*,1251) 0.5d0*ggcut(1),nx,ny,nz
          write(*,*)
          write(*,202) nx,ny,nz
          write(*,203) (nx/2+1)*ny*nz,nfft3d
@@ -216,6 +277,19 @@
  409  format(1x,"flop rate for cr_fft3d = ",E12.6,
      >       " flops/second (",E12.6," Gflops)")
 
+ 1230 FORMAT(/' supercell:')
+ 1231 FORMAT(5x,' volume : ',F12.1)
+ 1241 FORMAT(5x,' lattice:    a1=<',3f8.3,' >')
+ 1242 FORMAT(5x,'             a2=<',3f8.3,' >')
+ 1243 FORMAT(5x,'             a3=<',3f8.3,' >')
+ 1244 FORMAT(5x,' reciprocal: b1=<',3f8.3,' >')
+ 1245 FORMAT(5x,'             b2=<',3f8.3,' >')
+ 1246 FORMAT(5x,'             b3=<',3f8.3,' >')
+
+ 1250 FORMAT(5X,' density cutoff=',F7.3,'  fft=',I3,'x',I3,'x',I3)
+ 1251 FORMAT(5X,' wavefnc cutoff=',F7.3,'  fft=',I3,'x',I3,'x',I3)
+
+
       end 
 
 
@@ -226,7 +300,7 @@
       double complex       myc(nfft3d)
 
       call D3dB_rr_Copy(1,myrin,myc,n2ft3d)
-      call D3dB_rc_fft3f(1,myc,nfft3d)
+      call D3dB_rc_pfft3f(1,1,myc,nfft3d)
       return 
       end 
 
@@ -242,7 +316,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       scale = 1.0d0/dble(n1*n2*n3) 
       call D3dB_rr_Copy(1,c,rout,n2ft3d)
-      call D3dB_cr_fft3b(1,rout,nfft3d)
+      call D3dB_cr_pfft3b(1,1,rout,nfft3d)
       call D3dB_r_SMul1(1,scale,rout,n2ft3d)
       return
       end
