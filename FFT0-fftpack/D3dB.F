@@ -3203,7 +3203,7 @@ cpgi$r opt=1
       
       call Parallel2d_taskid_i(taskid)
       call Parallel2d_np_i(np)
-      write(*,*) taskid, "Entering MASTER"
+
 *     **** pack A(i) array ****
       if ((op.eq.1).or.(op.eq.5)) nnfft3d = (nx1(nb)/2+1)*nq1(nb)
       if ((op.eq.2).or.(op.eq.4)) nnfft3d = (ny1(nb))    *nq2(nb)
@@ -3308,11 +3308,7 @@ c     >                    tmp2(h_i2_start(1,op,nb)),1)
 
 
 
-      write(*,*) "Exiting MASTER"
 
-!$OMP END MASTER
-!$OMP BARRIER
-!$OMP FLUSH(A)
 
       return
       end
