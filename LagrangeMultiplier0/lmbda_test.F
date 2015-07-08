@@ -1,129 +1,12 @@
 
-      subroutine dummy_dgemm(nida,nidb,n,A,B)
-      implicit none
-      integer    nida,nidb,n
-      complex*16 A(*)
-      complex*16 B(*)
-      real*8     matrix(n,n)
-      real*8     matrix2(nida+nidb,n)
-
-*     **** local variables ****
-      integer j,k
-      integer npack,npack2
-      integer tid,nthr
-      real*8 norm
-  
-      double precision DLANGE
-      external DLANGE
-
-!      write(*,*), n, nida, nidb 
-
-      call nwpw_timing_start(48)
-
-      npack  = (nida+nidb)
-      npack2 = 2*npack
-
-#if 1
-        call DGEMM('T','N',n,n,2*nida,
-     >             1.0d0,
-     >             A,npack2,
-     >             B,npack2,
-     >             0.0d0,
-     >             matrix,n)
-
-
-        call DGEMM('T','N',n,n,npack2-2*nida,
-     >             2.0d0,
-     >             A(1+nida),npack2,
-     >             B(1+nida),npack2,
-     >             1.0d0,
-     >             matrix,n)
-#else
-        call ZGEMM('T','N',n/2,n,nida,
-     >             1.0d0,
-     >             A,npack,
-     >             B,npack,
-     >             0.0d0,
-     >             matrix,n/2)
-
-
-
-        call ZGEMM('T','N',n/2,n,nidb,
-     >             2.0d0,
-     >             A(1+nida),npack,
-     >             B(1+nida),npack,
-     >             1.0d0,
-     >             matrix,n/2)
-#endif
-
-!        call DGEMM('T','N',n,n,npack2,
-!     >             2.0d0,
-!     >             A,npack2,
-!     >             B,npack2,
-!     >             0.0d0,
-!     >             matrix,n)
-!
-!        call DGEMM('T','N',n,n,2*nida,
-!     >             -1.0d0,
-!     >             A,npack2,
-!     >             B,npack2,
-!     >             1.0d0,
-!     >             matrix,n)
-
-
-
-      call nwpw_timing_end(48)
-
-#if 0
-        call DGEMM('T','N',n,n,npack2,
-     >             -2.0d0,
-     >             A,npack2,
-     >             B,npack2,
-     >             1.0d0,
-     >             matrix,n)
-
-        call DGEMM('T','N',n,n,2*nida,
-     >             1.0d0,
-     >             A,npack2,
-     >             B,npack2,
-     >             1.0d0,
-     >             matrix,n)
-
-
-      norm  = DLANGE( 'F', n, n, matrix, n, A )
-      write(*,*), norm 
-#endif
-
-
-
-      call nwpw_timing_start(49)
-
-         call DGEMM('N','N',npack2,n,n,
-     >             1.0d0,
-     >             A, npack2,
-     >             matrix,    n,
-     >             0.0d0,
-     >             matrix2,npack2)
-
-      call nwpw_timing_end(49)
-
-
-
-      return
-      end
-
-
-      subroutine lmbda_test_r(npack1,ne)
-#ifdef INTEL
-      USE IFPORT
-#endif
+      program lmbda_test
       implicit none
 
 *     **** arguments ****
       integer npack1, ne(2)
 
 *     **** variables ****
-      integer MASTER,taskid,np,tid,nthr,mthr
+      integer MASTER,taskid,np
       parameter (MASTER=0)
       logical oprint
 
@@ -132,25 +15,15 @@
       parameter (npack1_max=2500,nemax=10)
 
       integer nida,nidb
-      complex*16 psi1(npack1*ne(1))
-      complex*16 psi2(npack1*ne(1))
-      complex*16 dpsi1(npack1*ne(1))
-      real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
+      complex*16 psi1(npack1_max *nemax)
+      complex*16 psi2(npack1_max *nemax)
+      complex*16 dpsi1(npack1_max*nemax)
+      real*8 lmbda(nemax*nemax*2),tmp(nemax*nemax*8)
 
       integer ispin,n1(2),n2(2),ms
       integer i,j,k,n,indxj,indxk,shift,mpierr,provided,ierr
       integer number_tests
       real*8 w,ww,dte
-
-*     **** matrix_blocking common block ****
-      integer mblock(2),nblock(2),algorithm(2)
-      common /matrix_blocking/ mblock,nblock,algorithm
-
-*     **** external functions ****
-      integer  Parallel_maxthreads,Parallel_index_1dblock
-      external Parallel_maxthreads,Parallel_index_1dblock
-      integer  Parallel_threadid,Parallel_nthreads
-      external Parallel_threadid,Parallel_nthreads
 
       !**** testing parameters ****
       ispin = 1
@@ -162,18 +35,14 @@
       !**** testing parameters ****
 
 
-
-
       n1(1) = 1
       n2(1) = ne(1)
       n1(2) = ne(1)+1
       n2(2) = ne(1)+ne(2)
 
-      !call Parallel_Init()
+      call Parallel_Init()
 
       call Parallel_np(np)
-      mthr = Parallel_maxthreads()
-
       call Parallel_taskid(taskid)
       oprint = (taskid.eq.MASTER)
 
@@ -182,27 +51,6 @@
       if (taskid.eq.MASTER) nida = 1
       nidb = npack1-nida
 
-*     **** define blocking for dgemm matrix multiply ****
-      algorithm(1) = -1
-      algorithm(2) = -1
-      do ms=1,ispin
-         if (ne(ms).gt.(mthr*np)) then
-            algorithm(ms) = 1
-            call Parallel_matrixblocking(mthr*np,ne(ms),ne(ms),
-     >                                mblock(ms),nblock(ms))
-         else if (ne(ms).gt.(mthr)) then
-            algorithm(ms) = 0
-            call Parallel_matrixblocking(mthr,ne(ms),ne(ms),
-     >                                mblock(ms),nblock(ms))
-         else
-            algorithm(ms) = -1
-         end if
-c         write(*,*) ms," ne,ne --> mb,nb=",
-c     >              ne(ms),ne(ms), "--> ",mblock(ms),nblock(ms)
-c         write(*,*) "i=0:",Parallel_index_1dblock(ne(ms),mblock(ms),0)
-c         write(*,*) "i=1:",Parallel_index_1dblock(ne(ms),mblock(ms),1)
-c         write(*,*) "i=2:",Parallel_index_1dblock(ne(ms),mblock(ms),2)
-      end do
 
 c     +++++++++++++++++++++++++++++++++++
 c     ++++ inititalize psi1 and psi2 ++++
@@ -250,61 +98,28 @@ c     -----------------------------------
          write(*,*) "Lagrange mutiplier testing"
          write(*,*) "--------------------------"
          write(*,*) "number of cpus       =",np
-         write(*,*) "max number of threads=",mthr
          write(*,*) "ispin                =",ispin
          write(*,*) "ne(1)                =",ne(1)
          write(*,*) "ne(2)                =",ne(2)
          write(*,*) "npack1               =",npack1
          write(*,*)
-         do ms=1,ispin
-            write(*,*) "ms,algorithm,mblock,nblock =",
-     >                 ms,algorithm(ms),mblock(ms),nblock(ms)
-         end do
       end if
 
-#if 1
-      !**** lagrange multiplier test ****
-      call nwpw_timing_init()
-
-
       do i=1,number_tests
-         do n=1,(ne(1)+ne(2)-1)
-            do k=1,npack1
-               psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
-            end do
-         end do
+         call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
+         call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
 
-        call dummy_dgemm(nida,nidb,ne(1),psi2,psi2)
-        call dummy_dgemm(nida,nidb,ne(1),psi2,psi1)
-        call dummy_dgemm(nida,nidb,ne(1),psi1,psi1)
-      end do
-#endif
-
-#if 1
-!$OMP PARALLEL private(i,n,k,tid)
-      tid  = Parallel_threadid()
-      nthr = Parallel_nthreads()
-      do i=1,number_tests
-
-         do n=tid,(ne(1)+ne(2)-1),nthr
-            do k=1,npack1
-               psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
-            end do
-         end do
-         !call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
-         !call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
          call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
      >                  psi1,psi2,dte,lmbda,tmp,ierr)
       end do
-!$OMP END PARALLEL
-#endif
+
 
       call nwpw_timing_print_final(oprint,number_tests)
 
       !if (oprint) write(*,*) "<psi2|psi2> = "
       !call check_norms(oprint,ispin,ne,nida,nidb,psi2)
 
-      !call Parallel_Finalize()
+      call Parallel_Finalize()
       
  
       end
@@ -335,38 +150,3 @@ c     -----------------------------------
       return
       end
 
-
-c#     include "mkl_direct_call.fi"
-      program lmbda_test1
-
-      integer npack1, ne(2),np,rank
-
-*     **** get ne and npack from std input ****
-      
-      call Parallel_Init()
-      call Parallel_np(np)
-      call Parallel_taskid(rank)
-
-      if(rank .eq. 0) then
-          read(*,*) npack1, ne(1), ne(2)
-          npack1 = npack1 / np
-      else
-          npack1=0
-          ne(1)=0
-          ne(2)=0
-      endif
-
-      
-      call Parallel_IMaxAll(npack1)
-      call Parallel_IMaxAll(ne(1))
-      call Parallel_IMaxAll(ne(2))
-   
-      
- 
-
-!      write(*,*) npack1, ne(1), ne(2)
-
-      call lmbda_test_r(npack1,ne)
-
-      call Parallel_Finalize()
-      end program lmbda_test1
