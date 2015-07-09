@@ -1,5 +1,5 @@
 
-      program lmbda_test
+      subroutine lmbda_test_r(npack1,ne)
       implicit none
 
 *     **** arguments ****
@@ -11,14 +11,14 @@
       logical oprint
 
 *     **** psi variables ****
-      integer npack1_max,nemax
-      parameter (npack1_max=5000,nemax=100)
+c      integer npack1_max,nemax
+c      parameter (npack1_max=5000,nemax=100)
 
       integer nida,nidb
-      complex*16 psi1(npack1_max *nemax)
-      complex*16 psi2(npack1_max *nemax)
-      complex*16 dpsi1(npack1_max*nemax)
-      real*8 lmbda(nemax*nemax*2),tmp(nemax*nemax*8)
+      complex*16 psi1(npack1 *(ne(1)+ne(2)))
+      complex*16 psi2(npack1 *(ne(1)+ne(2)))
+      complex*16 dpsi1(npack1*(ne(1)+ne(2)))
+      real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
 
       integer ispin,n1(2),n2(2),ms
       integer i,j,k,n,indxj,indxk,shift,mpierr,provided,ierr
@@ -27,9 +27,9 @@
 
       !**** testing parameters ****
       ispin = 1
-      ne(1) = 100   !* ne(1)+ne(2) <=nemax
-      ne(2) = 0 
-      npack1 = 5000  !* npack1 <= npack1_max
+      !ne(1) = 100   !* ne(1)+ne(2) <=nemax
+      !ne(2) = 0 
+      !npack1 = 5000  !* npack1 <= npack1_max
       dte    = 1.0d-2 !* maximum component change in psi
       number_tests = 50
       !**** testing parameters ****
@@ -40,7 +40,7 @@
       n1(2) = ne(1)+1
       n2(2) = ne(1)+ne(2)
 
-      call Parallel_Init()
+      !call Parallel_Init()
 
       call Parallel_np(np)
       call Parallel_taskid(taskid)
@@ -119,7 +119,7 @@ c     -----------------------------------
       !if (oprint) write(*,*) "<psi2|psi2> = "
       !call check_norms(oprint,ispin,ne,nida,nidb,psi2)
 
-      call Parallel_Finalize()
+      !call Parallel_Finalize()
       
  
       end
@@ -149,4 +149,37 @@ c     -----------------------------------
 
       return
       end
+
+
+      program lmbda_test1
+
+      integer npack1, ne(2),np,rank
+
+*     **** get ne and npack from std input ****
+
+      call Parallel_Init()
+      call Parallel_np(np)
+      call Parallel_taskid(rank)
+
+      if(rank .eq. 0) then
+          read(*,*) npack1, ne(1), ne(2)
+          npack1 = npack1 / np
+      else
+          npack1=0
+          ne(1)=0
+          ne(2)=0
+      endif
+
+
+      call Parallel_IMaxAll(npack1)
+      call Parallel_IMaxAll(ne(1))
+      call Parallel_IMaxAll(ne(2))
+
+
+!      write(*,*) npack1, ne(1), ne(2)
+
+      call lmbda_test_r(npack1,ne)
+
+      call Parallel_Finalize()
+      end program lmbda_test1
 
