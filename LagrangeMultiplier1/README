@@ -1,0 +1,9 @@
+Lagrange 1 testing:
+
+Edison npack1= 5000  ne=100 
+
+ncpu  nthread        Lagrange	       ffm           fmf
+1          12    0.614595e-01 0.481367e-01  0.563715e-02    edison
+12          1    0.915943e-02 0.552842e-02  0.887861e-03    edison
+4           3    0.168148e-01 0.115764e-01  0.854177e-03    edison
+6           2    0.136431e-01 0.883291e-02  0.955858e-03    edison

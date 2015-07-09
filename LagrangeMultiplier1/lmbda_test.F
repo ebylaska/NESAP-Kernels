@@ -154,9 +154,9 @@
 
       !**** testing parameters ****
       ispin = 1
-      ne(1) = 10   !* ne(1)+ne(2) <=nemax
-      ne(2) = 0 
-      npack1 = 2500  !* npack1 <= npack1_max
+      !ne(1) = 10   !* ne(1)+ne(2) <=nemax
+      !ne(2) = 0 
+      !npack1 = 2500  !* npack1 <= npack1_max
       dte    = 1.0d-2 !* maximum component change in psi
       number_tests = 50
       !**** testing parameters ****
