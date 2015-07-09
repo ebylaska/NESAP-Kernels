@@ -4,6 +4,18 @@ Edison npack1= 5000  ne=100
 
 ncpu  nthread        Lagrange	       ffm           fmf
 12          1    0.915943e-02 0.552842e-02  0.887861e-03    edison
-1          12    0.614595e-01 0.481367e-01  0.563715e-02    edison
-4           3    0.168148e-01 0.115764e-01  0.854177e-03    edison
-6           2    0.136431e-01 0.883291e-02  0.955858e-03    edison
+1          12    0.777818e-02 0.596237e-02  0.102617e-02    edison
+
+
+Edison npack1= 5000  ne=200 
+
+ncpu  nthread        Lagrange	       ffm           fmf
+12          1    0.334196e-01 0.211007e-01  0.380117e-02 edison
+1          12    0.303038e-01 0.233268e-01  0.381866e-02 edison
+
+
+Edison npack1= 15000  ne=200 
+
+ncpu  nthread        Lagrange	       ffm           fmf
+12          1    0.137826e+00  0.120215e+00 0.109043e-01 edison
+1          12    0.109662e+00  0.952423e-01 0.112501e-01 edison
