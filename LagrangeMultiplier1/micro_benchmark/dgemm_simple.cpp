@@ -4,9 +4,17 @@
 
 #include <stdio.h>
 #include <string.h>
+
+#ifdef MKL
 #include "mkl.h"
+#else
+#include "cblas.h" 
+#endif
+
 #include "mpi.h"
-#include "omp.h"
+#include <omp.h>
+
+#include <stdlib.h>
 
 #ifdef NO_MKL
 
@@ -52,7 +60,7 @@ int main(int argc, char * argv[]){
   double * psi5, *psi6, *matrix3;
   double tstart,tstop;
 
-
+#ifdef MKL
   psi1 = (double*)mkl_malloc(npack1*ne*sizeof(double),64); 
   psi2 = (double*)mkl_malloc(npack1*ne*sizeof(double),64); 
   matrix = (double*)mkl_malloc(ne*ne*sizeof(double),64); 
@@ -64,6 +72,20 @@ int main(int argc, char * argv[]){
   psi5 = (double*)mkl_malloc(npack1*ne*sizeof(double),64); 
   psi6 = (double*)mkl_malloc(npack1*ne*sizeof(double),64); 
   matrix3 = (double*)mkl_malloc(ne*ne*sizeof(double),64);
+#else
+  psi1 = (double*)malloc(npack1*ne*sizeof(double)); 
+  psi2 = (double*)malloc(npack1*ne*sizeof(double)); 
+  matrix = (double*)malloc(ne*ne*sizeof(double)); 
+
+  psi3 = (double*)malloc(npack1*ne*sizeof(double)); 
+  psi4 = (double*)malloc(npack1*ne*sizeof(double)); 
+  matrix2 = (double*)malloc(ne*ne*sizeof(double)); 
+
+  psi5 = (double*)malloc(npack1*ne*sizeof(double)); 
+  psi6 = (double*)malloc(npack1*ne*sizeof(double)); 
+  matrix3 = (double*)malloc(ne*ne*sizeof(double));
+
+#endif
 
 #pragma omp parallel for
   for(int i=0;i<npack1*ne;++i){
@@ -73,7 +95,71 @@ int main(int argc, char * argv[]){
 
   do{
 
-#ifdef CALL_MKL
+#ifdef CALL_BLAS
+#ifdef NESTED
+      int nida = 1;
+
+      int np = omp_get_max_threads();
+      int divk = np;
+      int M=ne;
+      int N=ne;
+      int K=npack1-2*nida;
+#ifdef MKL
+  double * matrixDup =  (double*)mkl_malloc(divk*M*N*sizeof(double),64); 
+  double * matrix2Dup = (double*)mkl_malloc(divk*M*N*sizeof(double),64); 
+  double * matrix3Dup = (double*)mkl_malloc(divk*M*N*sizeof(double),64); 
+#else
+  double * matrixDup =  (double*)malloc(divk*M*N*sizeof(double)); 
+  double * matrix2Dup = (double*)malloc(divk*M*N*sizeof(double)); 
+  double * matrix3Dup = (double*)malloc(divk*M*N*sizeof(double)); 
+#endif
+    std::fill(matrixDup,matrixDup+divk*M*N,0.0);
+  std::fill(matrix2Dup,matrix2Dup+divk*M*N,0.0);
+  std::fill(matrix3Dup,matrix3Dup+divk*M*N,0.0);
+
+
+
+
+    tstart=MPI_Wtime();
+
+#pragma omp parallel firstprivate(M,N,K,divk,np) 
+    {
+
+      int iam = omp_get_thread_num();
+
+      int bi = M;
+      int bj = N;
+      int bk = ceil((double)K/(double)divk);
+      int offsetk = iam*bk;
+
+      if(offsetk+bk>K){
+        bk = K-offsetk;
+      }
+
+//      printf("K=%d offsetk=%d bk=%d\n",K,offsetk,bk);
+//      printf("T%d doing block C(%d..%d,%d..%d)_{%d} = A(%d..%d,%d..%d)*B(%d..%d,%d..%d)\n",iam,1,bi,1,bj,iam, 1, bi,2*nida-1 + offsetk-1, 2*nida-1 + offsetk-1 + bk, 2*nida-1 + offsetk-1, 2*nida-1 + offsetk-1 + bk, 1, bi);
+
+      DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi2[2*nida-1 + offsetk-1], npack1, &psi1[2*nida-1 + offsetk-1], npack1, 1.0, &matrixDup[0 + iam*M*N ], M);
+
+#pragma omp critical
+      {
+        cblas_daxpy(bi*bj,1.0,&matrixDup[0 + iam*M*N ],1,&matrix[0],1);
+      }
+    }
+    tstop=MPI_Wtime();
+
+#ifdef MKL
+  mkl_free(matrix3Dup);
+  mkl_free(matrix2Dup);
+  mkl_free(matrixDup);
+#else
+  free(matrix3Dup);
+  free(matrix2Dup);
+  free(matrixDup);
+#endif
+
+
+#else
     tstart=MPI_Wtime();
     cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
         ne, ne, npack1, 1.0, psi2, npack1, psi1, npack1, 0.0, matrix, ne);
@@ -82,6 +168,7 @@ int main(int argc, char * argv[]){
     cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
         ne, ne, npack1, 1.0, psi6, npack1, psi5, npack1, 0.0, matrix3, ne);
     tstop=MPI_Wtime();
+#endif
     cout<<"Time: "<<tstop-tstart<<"s"<<endl;
 #else
 
@@ -184,8 +271,8 @@ int main(int argc, char * argv[]){
 #else
       int nida = 1;
 int BK = ((npack1-2*nida)/1);//omp_get_max_threads());
-int BW = 4;//ne;//ne/8;
-int BH = 4;//ne;//ne/8;
+int BW = 2;//ne;//ne/8;
+int BH = 2;//ne;//ne/8;
 
                 printf("BK=%d BW=%d BH=%d\n",BK,BW,BH);
 
@@ -193,12 +280,17 @@ int BH = 4;//ne;//ne/8;
                 int bk = BK;
                 int numStepk = std::ceil((double)(npack1-2*nida)/(double)bk);
 
-
+#ifdef MKL
   double * matrixDup = (double*)mkl_malloc(numStepk*ne*ne*sizeof(double),64); 
-  std::fill(matrixDup,matrixDup+numStepk*ne*ne,0.0);
   double * matrix2Dup = (double*)mkl_malloc(numStepk*ne*ne*sizeof(double),64); 
-  std::fill(matrix2Dup,matrix2Dup+numStepk*ne*ne,0.0);
   double * matrix3Dup = (double*)mkl_malloc(numStepk*ne*ne*sizeof(double),64); 
+#else
+  double * matrixDup = (double*)malloc(numStepk*ne*ne*sizeof(double)); 
+  double * matrix2Dup = (double*)malloc(numStepk*ne*ne*sizeof(double)); 
+  double * matrix3Dup = (double*)malloc(numStepk*ne*ne*sizeof(double)); 
+#endif
+  std::fill(matrixDup,matrixDup+numStepk*ne*ne,0.0);
+  std::fill(matrix2Dup,matrix2Dup+numStepk*ne*ne,0.0);
   std::fill(matrix3Dup,matrix3Dup+numStepk*ne*ne,0.0);
 
     tstart=MPI_Wtime();
@@ -235,7 +327,7 @@ int BH = 4;//ne;//ne/8;
                   int tbh = endj-j;
                   if(endj<=endi){
 
-#pragma omp task untied firstprivate(bk,ne,npack1,i,j,tbh,tbw) depend(out: matrix[0 + (i-1)*ne + (j-1) ])
+#pragma omp task depend(out: matrix[0 + (i-1)*ne + (j-1) ]) firstprivate(bk,ne,npack1,i,j,tbh,tbw) untied 
                       {
 #ifdef VERBOSE
                                 int tid = omp_get_thread_num();
@@ -421,10 +513,15 @@ int BH = 4;//ne;//ne/8;
     }
     tstop=MPI_Wtime();
     cout<<"Time: "<<tstop-tstart<<"s"<<endl;
-
+#ifdef MKL
   mkl_free(matrix3Dup);
   mkl_free(matrix2Dup);
   mkl_free(matrixDup);
+#else
+  free(matrix3Dup);
+  free(matrix2Dup);
+  free(matrixDup);
+#endif
 
 #endif
 
@@ -450,6 +547,7 @@ int BH = 4;//ne;//ne/8;
     } 
   }while(npack1!=-1 && ne!=-1);
 
+#ifdef MKL
   mkl_free(matrix);
   mkl_free(psi2);
   mkl_free(psi1);
@@ -461,6 +559,18 @@ int BH = 4;//ne;//ne/8;
   mkl_free(matrix3);
   mkl_free(psi5);
   mkl_free(psi6);
+#else
+  free(matrix);
+  free(psi2);
+  free(psi1);
 
+  free(matrix2);
+  free(psi3);
+  free(psi4);
+
+  free(matrix3);
+  free(psi5);
+  free(psi6);
+#endif
   MPI_Finalize();
 }
