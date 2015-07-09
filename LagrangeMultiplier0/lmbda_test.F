@@ -1,5 +1,8 @@
 
       subroutine lmbda_test_r(npack1,ne)
+      #ifdef INTEL
+      USE IFPORT
+      #endif
       implicit none
 
 *     **** arguments ****
@@ -41,6 +44,8 @@ c      parameter (npack1_max=5000,nemax=100)
       n2(2) = ne(1)+ne(2)
 
       !call Parallel_Init()
+
+      call nwpw_timing_init()
 
       call Parallel_np(np)
       call Parallel_taskid(taskid)
@@ -152,7 +157,6 @@ c     -----------------------------------
 
 
       program lmbda_test1
-
       integer npack1, ne(2),np,rank
 
 *     **** get ne and npack from std input ****

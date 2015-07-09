@@ -129,15 +129,18 @@ int main(int argc, char * argv[]){
 
       int bi = M;
       int bj = N;
-      int bk = ceil((double)K/(double)divk);
+      int bk = floor((double)K/(double)divk);
       int offsetk = iam*bk;
 
-      if(offsetk+bk>K){
+      if(iam==np-1){
         bk = K-offsetk;
       }
 
-//      printf("K=%d offsetk=%d bk=%d\n",K,offsetk,bk);
+//      int np2 = omp_get_max_threads();
+//      printf("K=%d offsetk=%d bk=%d np2=%d\n",K,offsetk,bk,np2);
 //      printf("T%d doing block C(%d..%d,%d..%d)_{%d} = A(%d..%d,%d..%d)*B(%d..%d,%d..%d)\n",iam,1,bi,1,bj,iam, 1, bi,2*nida-1 + offsetk-1, 2*nida-1 + offsetk-1 + bk, 2*nida-1 + offsetk-1, 2*nida-1 + offsetk-1 + bk, 1, bi);
+
+
 
       DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi2[2*nida-1 + offsetk-1], npack1, &psi1[2*nida-1 + offsetk-1], npack1, 1.0, &matrixDup[0 + iam*M*N ], M);
 
@@ -145,6 +148,19 @@ int main(int argc, char * argv[]){
       {
         cblas_daxpy(bi*bj,1.0,&matrixDup[0 + iam*M*N ],1,&matrix[0],1);
       }
+
+      DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi4[2*nida-1 + offsetk-1], npack1, &psi3[2*nida-1 + offsetk-1], npack1, 1.0, &matrix2Dup[0 + iam*M*N ], M);
+ #pragma omp critical
+      {
+        cblas_daxpy(bi*bj,1.0,&matrix2Dup[0 + iam*M*N ],1,&matrix2[0],1);
+      }
+
+      DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi6[2*nida-1 + offsetk-1], npack1, &psi5[2*nida-1 + offsetk-1], npack1, 1.0, &matrix3Dup[0 + iam*M*N ], M);
+ #pragma omp critical
+      {
+        cblas_daxpy(bi*bj,1.0,&matrix3Dup[0 + iam*M*N ],1,&matrix3[0],1);
+      }
+    
     }
     tstop=MPI_Wtime();
 

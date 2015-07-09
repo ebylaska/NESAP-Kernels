@@ -25,6 +25,7 @@ OPTIONS =  -O3
 #FFLAGS =  -openmp -DUSE_OPENMP -DINTEL $(OPTIONS) 
 #FFLAGS =  -fopenmp -DUSE_OPENMP $(OPTIONS) 
 FFLAGS =  $(OPTIONS) 
+
 FC = mpif90
 
 
