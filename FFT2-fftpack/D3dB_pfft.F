@@ -604,6 +604,7 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 ccc XXXX shouldn't  be called XXXX
 c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 
+
       !*************************
       !**** hilbert mapping ****
       !*************************
@@ -1003,8 +1004,10 @@ c      end do
 *     **** it = 0, transpose data on same thread ****  
       msglen = h_i2_start(2,op,nbb)
      >       - h_i2_start(1,op,nbb)
-      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),1,
-     >                    tmp2(h_i2_start(1,op,nbb)),1)
+c      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),1,
+c     >                    tmp2(h_i2_start(1,op,nbb)),1)
+      call D3dB_scopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),
+     >                         tmp2(h_i2_start(1,op,nbb)))
 
          
 
@@ -1062,6 +1065,19 @@ c      end do
       return
       end
 
+      subroutine D3dB_scopy(n,A,B)
+      implicit none
+      integer n
+      real*8 A(*),B(*)
+      integer i
+!$OMP parallel do private(i) shared(A,B) schedule(dynamic,100)
+      do i=1,n
+         B(i) = A(i)
+      end do
+!$OMP end parallel do
+
+      return
+      end 
 
 
 

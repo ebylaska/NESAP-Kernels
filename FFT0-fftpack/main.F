@@ -33,14 +33,15 @@
 
       Character*255 s 
 
-      call nwpw_timing_init()
-      call nwpw_timing_start(1)
 
       call Parallel_Init()
       call Parallel_np(np)
       call Parallel_taskid(taskid)
       nthr   = Parallel_maxthreads()
       oprint = (taskid.eq.MASTER)
+
+      call nwpw_timing_init()
+      call nwpw_timing_start(1)
 
       if (oprint) then
          write(*,*)

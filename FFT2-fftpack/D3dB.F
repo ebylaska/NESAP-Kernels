@@ -2934,12 +2934,13 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*),b(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+
+!$OMP parallel do private(i) shared(a,b,index) schedule(dynamic,200)
       do i=1,n
         b(i) = a(index(i))
       end do
+!$OMP end parallel do
+
       return
       end
 
@@ -2949,12 +2950,11 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*),b(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+!$OMP parallel do private(i) shared(index) schedule(dynamic,200)
       do i=1,n
         b(index(i)) = a(i)
       end do
+!$OMP end parallel do
       return
       end
 
@@ -2964,12 +2964,11 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+!$OMP parallel do private(i) shared(a,index) schedule(dynamic,200)
       do i=1,n
         a(index(i)) = 0.0d0
       end do
+!$OMP end parallel do
       return
       end
 
