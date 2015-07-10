@@ -89,7 +89,7 @@
 #include "nwpw_timing_common.fh"
 !$OMP MASTER
       call current_second(nwpw_tim1(counter))
-!$OMPEND MASTER
+!$OMP END MASTER
       return
       end
 

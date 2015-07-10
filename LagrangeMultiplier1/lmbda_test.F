@@ -128,8 +128,8 @@
       logical oprint
 
 *     **** psi variables ****
-      integer npack1_max,nemax
-      parameter (npack1_max=2500,nemax=10)
+      !integer npack1_max,nemax
+      !parameter (npack1_max=npack1,nemax=ne(1))
 
       integer nida,nidb
       complex*16 psi1(npack1*ne(1))
@@ -262,9 +262,9 @@ c     -----------------------------------
          end do
       end if
 
-#if 1
       !**** lagrange multiplier test ****
       call nwpw_timing_init()
+#if 0
 
 
       do i=1,number_tests

@@ -274,17 +274,16 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
 
 !$OMP SINGLE firstprivate(k,nida,nidb,npack2,npack,n) 
       do k=1,n
-c!$OMP TASK untied
-c firstprivate(k,nida,nidb,npack2,npack,n)  
+!$OMP TASK untied firstprivate(k,nida,nidb,npack2,npack,n)  
       call epack_ccm_sym_dot_task(k,npack,npack2,nida,n,A(1),
      >                            B(1+(k-1)*npack),matrix(1,k))
-c!$OMP END TASK
+!$OMP END TASK
       end do
+
+
 !$OMP END SINGLE NOWAIT
 
 !$OMP END TASKGROUP
-
-
 
 #else 
 #if 0
