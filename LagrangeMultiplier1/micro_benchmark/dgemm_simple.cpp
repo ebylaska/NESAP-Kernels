@@ -57,9 +57,14 @@ int main(int argc, char * argv[]){
 
   int npack, ne,dummy,onpack,npack1;
 
+  if(mpi_iam==0){
   cin>>npack;
   cin>>ne;
   cin>>dummy;
+  }
+
+  MPI_Bcast(&npack,sizeof(int),MPI_BYTE,0,MPI_COMM_WORLD);
+  MPI_Bcast(&ne,sizeof(int),MPI_BYTE,0,MPI_COMM_WORLD);
 
   onpack = npack;
   npack = floor((double)npack/(double)mpi_np);
@@ -336,9 +341,19 @@ if(mpi_iam==0){
 
     npack=-1;
     ne=-1;
-    cin>>npack;
-    cin>>ne;
-    cin>>dummy;
+
+  if(mpi_iam==0){
+  cin>>npack;
+  cin>>ne;
+  cin>>dummy;
+  }
+
+  MPI_Bcast(&npack,sizeof(int),MPI_BYTE,0,MPI_COMM_WORLD);
+  MPI_Bcast(&ne,sizeof(int),MPI_BYTE,0,MPI_COMM_WORLD);
+
+
+
+
     if(npack!=-1 && ne!=-1){
       onpack = npack;
       npack = floor((double)npack/(double)mpi_np);
