@@ -49,18 +49,34 @@ int main(int argc, char * argv[]){
 
   int num_tests = 10;
   MPI_Init(&argc,&argv);
-  int npack, ne,dummy;
+
+  int mpi_np =0;
+  int mpi_iam =0;
+  MPI_Comm_size(MPI_COMM_WORLD,&mpi_np);
+  MPI_Comm_rank(MPI_COMM_WORLD,&mpi_iam);
+
+  int npack, ne,dummy,onpack,npack1;
 
   cin>>npack;
   cin>>ne;
   cin>>dummy;
-  int npack1 = 2*npack;
-  cout<<npack<<" "<<ne<<endl; 
+
+  onpack = npack;
+  npack = floor((double)npack/(double)mpi_np);
+  if(mpi_iam==mpi_np-1){
+    npack = onpack - mpi_iam*npack;
+  }
+  npack1 = 2*npack;
+  if(mpi_iam==0){
+    cout<<npack<<" "<<ne<<endl; 
+  }
 
   double * psi1, *psi2, *matrix;
   double * psi3, *psi4, *matrix2;
   double * psi5, *psi6, *matrix3;
   double tstart,tstop;
+
+  do{
 
 #ifdef MKL
   psi1 = (double*)mkl_malloc(npack1*ne*sizeof(double),64); 
@@ -85,10 +101,14 @@ int main(int argc, char * argv[]){
     psi3[i] = 2.0*rand() - 1.0;
   }
 
-  do{
+
+
 
       int nida = 1;
 #ifdef NESTED
+
+
+
 
       int np = omp_get_max_threads();
       int divk = np;
@@ -113,9 +133,9 @@ int main(int argc, char * argv[]){
 
     tstart=MPI_Wtime();
 
-for(int test=0;test<num_tests;++test){
-#pragma omp parallel firstprivate(M,N,K,divk,np,npack1) 
+#pragma omp parallel firstprivate(M,N,K,divk,np,npack1,ne) 
     {
+for(int test=0;test<num_tests;++test){
 
       int iam = omp_get_thread_num();
 
@@ -133,8 +153,12 @@ for(int test=0;test<num_tests;++test){
 //      printf("T%d doing block C(%d..%d,%d..%d)_{%d} = A(%d..%d,%d..%d)*B(%d..%d,%d..%d)\n",iam,1,bi,1,bj,iam, 1, bi,2*nida-1 + offsetk-1, 2*nida-1 + offsetk-1 + bk, 2*nida-1 + offsetk-1, 2*nida-1 + offsetk-1 + bk, 1, bi);
 
 
+
 #ifdef MY_NESTED
-      #pragma omp parallel firstprivate(iam,bi,bj,bk,offsetk,npack1)
+
+//#pragma omp declare reduction (merge : double * : cblas_daxpy(bi*bj,1.0,&omp_in[0 + iam*M*N ],1,&omp_out[0],1))
+
+      #pragma omp parallel firstprivate(iam,bi,bj,bk,offsetk,npack1) 
       {
         int t_iam = omp_get_thread_num();
         int t_np = omp_get_num_threads();
@@ -173,17 +197,17 @@ for(int test=0;test<num_tests;++test){
 
         //psi2 x psi2
         DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bbi,bbj,bk , 2.0, &psi2[2*nida + offsetk + offseti], npack1, &psi2[2*nida + offsetk +offsetj], npack1, 0.0, &matrixDup[0 + iam*M*N + offseti*ne+offsetj], M);
-        if(iam==0){
+        if(mpi_iam==0 && iam==0){
           DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bbi,bbj,2*nida ,1.0, &psi2[offseti], npack1, &psi2[offsetj], npack1, 1.0, &matrixDup[0 + iam*M*N + offseti*ne+offsetj], M);
         }
         //psi2 x psi1
         DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bbi,bbj,bk , 2.0, &psi2[2*nida + offsetk + offseti], npack1, &psi1[2*nida + offsetk +offsetj], npack1, 0.0, &matrix2Dup[0 + iam*M*N + offseti*ne+offsetj], M);
-        if(iam==0){
+        if(mpi_iam==0 && iam==0){
           DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bbi,bbj,2*nida ,1.0, &psi2[offseti], npack1, &psi1[offsetj], npack1, 1.0, &matrix2Dup[0 + iam*M*N + offseti*ne+offsetj], M);
         }
         //psi1 x psi1
         DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bbi,bbj,bk , 2.0, &psi1[2*nida + offsetk + offseti], npack1, &psi1[2*nida + offsetk +offsetj], npack1, 0.0, &matrix3Dup[0 + iam*M*N + offseti*ne+offsetj], M);
-        if(iam==0){
+        if(mpi_iam==0 && iam==0){
           DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bbi,bbj,2*nida ,1.0, &psi1[offseti], npack1, &psi1[offsetj], npack1, 1.0, &matrix3Dup[0 + iam*M*N + offseti*ne+offsetj], M);
         }
       }
@@ -206,7 +230,7 @@ for(int test=0;test<num_tests;++test){
 #else
       //psi2 x psi2
       DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi2[2*nida + offsetk], npack1, &psi2[2*nida + offsetk], npack1, 0.0, &matrixDup[0 + iam*M*N ], M);
-      if(iam==0){
+      if(mpi_iam==0 && iam==0){
         DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,2*nida , 1.0, &psi2[0], npack1, &psi2[0], npack1, 1.0, &matrixDup[0 + iam*M*N ], M);
       }
 
@@ -218,7 +242,7 @@ for(int test=0;test<num_tests;++test){
 
       //psi2 x psi1
       DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi2[2*nida + offsetk], npack1, &psi1[2*nida + offsetk], npack1, 0.0, &matrix2Dup[0 + iam*M*N ], M);
-      if(iam==0){
+      if(mpi_iam==0 && iam==0){
         DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,2*nida , 1.0, &psi2[0], npack1, &psi1[0], npack1, 1.0, &matrix2Dup[0 + iam*M*N ], M);
       }
 
@@ -230,7 +254,7 @@ for(int test=0;test<num_tests;++test){
 
       //psi1 x psi1
       DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi1[2*nida + offsetk], npack1, &psi1[2*nida + offsetk], npack1, 0.0, &matrix3Dup[0 + iam*M*N ], M);
-      if(iam==0){
+      if(mpi_iam==0 && iam==0){
         DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,2*nida , 1.0, &psi1[0], npack1, &psi1[0], npack1, 1.0, &matrix3Dup[0 + iam*M*N ], M);
       }
 
@@ -260,35 +284,35 @@ for(int test=0;test<num_tests;++test){
 #else
     tstart=MPI_Wtime();
 for(int test=0;test<num_tests;++test){
-    // psi2 x psi2 
-    cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
-        ne, ne, npack1-2*nida, 2.0, &psi2[2*nida], npack1, &psi2[2*nida], npack1, 0.0, matrix, ne);
+  // psi2 x psi2 
+  cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
+      ne, ne, npack1-2*nida, 2.0, &psi2[2*nida], npack1, &psi2[2*nida], npack1, 0.0, matrix, ne);
+  if(mpi_iam==0){
     cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
         ne, ne, 2*nida, 1.0, psi2, npack1, psi2, npack1, 1.0, matrix, ne);
-    // psi2 x psi1
-    cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
-        ne, ne, npack1-2*nida, 2.0, &psi2[2*nida], npack1, &psi1[2*nida], npack1, 0.0, matrix2, ne);
+  }
+  // psi2 x psi1
+  cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
+      ne, ne, npack1-2*nida, 2.0, &psi2[2*nida], npack1, &psi1[2*nida], npack1, 0.0, matrix2, ne);
+
+  if(mpi_iam==0){
     cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
         ne, ne, 2*nida, 1.0, psi2, npack1, psi1, npack1, 1.0, matrix2, ne);
-    // psi1 x psi1 
-    cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
-        ne, ne, npack1-2*nida, 2.0, &psi1[2*nida], npack1, &psi1[2*nida], npack1, 0.0, matrix3, ne);
+  }
+  // psi1 x psi1 
+  cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
+      ne, ne, npack1-2*nida, 2.0, &psi1[2*nida], npack1, &psi1[2*nida], npack1, 0.0, matrix3, ne);
+
+  if(mpi_iam==0){
     cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans, 
         ne, ne, 2*nida, 1.0, psi1, npack1, psi1, npack1, 1.0, matrix3, ne);
+  }
     tstop=MPI_Wtime();
 }
 #endif
+if(mpi_iam==0){
     cout<<"Time: "<<tstop-tstart<<"s"<<endl;
-
-    npack1=-1;
-    ne=-1;
-    cin>>npack1;
-    cin>>ne;
-    cin>>dummy;
-    if(npack1!=-1 && ne!=-1){
-      cout<<npack1<<" "<<ne<<endl;
-    } 
-  }while(npack1!=-1 && ne!=-1);
+}
 
 #ifdef MKL
   mkl_free(psi2);
@@ -307,5 +331,26 @@ for(int test=0;test<num_tests;++test){
   free(matrix2);
   free(matrix3);
 #endif
+
+
+
+    npack=-1;
+    ne=-1;
+    cin>>npack;
+    cin>>ne;
+    cin>>dummy;
+    if(npack!=-1 && ne!=-1){
+      onpack = npack;
+      npack = floor((double)npack/(double)mpi_np);
+      if(mpi_iam==mpi_np-1){
+        npack = onpack - mpi_iam*npack;
+      }
+      npack1 = 2*npack;
+      if(mpi_iam==0){
+        cout<<npack<<" "<<ne<<endl; 
+      }
+    } 
+  }while(npack!=-1 && ne!=-1);
+
   MPI_Finalize();
 }

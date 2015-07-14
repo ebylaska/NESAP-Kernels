@@ -1,16 +1,15 @@
 SUFFIX=.mtblas
 
-CXX = mpic++
+CXX = mpiicpc
 
-#LIBRARY = -mkl
-LIBRARY =  -fopenmp -L${HOME}/software/OpenBLAS -lopenblas -fopenmp
+LIBRARY = -mkl
+#LIBRARY =  -fopenmp -L${HOME}/software/OpenBLAS -lopenblas -fopenmp
 BLISLIBRARY = -L${PREFIX}/blis/build/lib -lblis
 
-CXXOPTIONS =  -O3 -fopenmp -g 
+CXXOPTIONS =  -O3 -openmp -g 
 #CXXOPTIONS =  -O3 -openmp -g 
-#CXXOPTIONS += -mmic 
+CXXOPTIONS += -mmic 
 #call MKL or FMF matrix product. 
-#FMF does three matrix products so 3x the flops of MKL
 CXXOPTIONS += -DCALL_BLAS
 #CXXOPTIONS += -DNESTED
 #CXXOPTIONS += -DMY_NESTED
