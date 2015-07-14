@@ -833,7 +833,7 @@ c      jstart = 1 + mythr*(ny*nq*ne)/nthr
 c      jend   = (mythr+1)*(ny*nq*ne)/nthr
       !indx = 1
 c      do j=jstart,jend
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) private(i,indx) 
+!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) private(i,j,indx) 
       do j=1,(ny*nq*ne)
          indx = 1 + (j-1)*(nx+2)
          do i=2,nx
@@ -861,7 +861,7 @@ c      nthr  = Parallel_nthreads()
 c      istart = 1 + mythr*(ny*nq*ne)/nthr
 c      iend   = (mythr+1)*(ny*nq*ne)/nthr
 c      do i=istart,iend
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) private(indx) 
+!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) private(i,indx) 
       do i=1,(ny*nq*ne)
          indx      = nx+1 + (i-1)*(nx+2)
          A(indx)   = 0.0d0
@@ -1023,7 +1023,7 @@ c      call D3dB_c_transpose_jk(nb,A,dtmp2,dtmp3)
 c      istart = 1 + mythr*nq1(nb)/nthr
 c      iend   = (mythr+1)*nq1(nb)/nthr
 c      do i=istart,iend
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
+!$omp do private(i) schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
       do i=1,nq1(nb)
         call drfftf(nx1(nb),A(1+(i-1)*nxh),tmpx(1,nb,mythr+1))
       end do
@@ -1045,7 +1045,7 @@ c      do i=istart,iend
 c      istart = 1 + mythr*nq2(nb)/nthr
 c      iend   = (mythr+1)*nq2(nb)/nthr
 c      do i=istart,iend
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
+!$omp do private(i) schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
       do i=1,nq2(nb)
         call dcfftf(ny1(nb),A(1+(i-1)*ny1(nb)),tmpy(1,nb,mythr+1))
       end do
@@ -1064,7 +1064,7 @@ c      do i=istart,iend
 c      istart = 1 + mythr*nq3(nb)/nthr
 c      iend   = (mythr+1)*nq3(nb)/nthr
 c      do i=istart,iend
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
+!$omp do private(i) schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
       do i=1,nq3(nb)
         call dcfftf(nz1(nb),A(1+(i-1)*nz1(nb)),tmpz(1,nb,mythr+1))
       end do
@@ -1095,7 +1095,7 @@ c      jstart = 1 + mythr*(ny*nq*ne)/nthr
 c      jend   = (mythr+1)*(ny*nq*ne)/nthr
 c      do j=jstart,jend
 
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) private(i,indx) 
+!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) private(i,j,indx) 
       do j=1,(ny*nq*ne)
          indx = 1 + (j-1)*(nx+2)
          do i=nx,2,-1
@@ -1198,7 +1198,7 @@ c      nthr  = Parallel_nthreads()
 c      istart = 1 + mythr*n2ft3d_map(nb)/nthr
 c      iend   = (mythr+1)*n2ft3d_map(nb)/nthr
 c      do i=istart,iend
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
+!$omp do private(i) schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
       do i=1,n2ft3d_map(nb)
          A(i) = scale*A(i)
       end do
@@ -1360,7 +1360,7 @@ c      nthr  = Parallel_nthreads()
 c      istart = 1 + mythr*n2ft3d_map(nb)/nthr
 c      iend   = (mythr+1)*n2ft3d_map(nb)/nthr
 c      do i=istart,iend
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
+!$omp do private(i) schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
       do i=1,n2ft3d_map(nb)
          C(i) = A(i)
       end do
@@ -2973,12 +2973,11 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*),b(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+!$OMP do private(i) schedule(dynamic,200)
       do i=1,n
         b(i) = a(index(i))
       end do
+!$OMP end do
       return
       end
 
@@ -2988,12 +2987,11 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*),b(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+!$OMP do private(i) schedule(dynamic,200)
       do i=1,n
         b(index(i)) = a(i)
       end do
+!$OMP end do
       return
       end
 
@@ -3003,12 +3001,11 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+!$OMP do private(i) schedule(dynamic,200)
       do i=1,n
         a(index(i)) = 0.0d0
       end do
+!$OMP end do
       return
       end
 
@@ -3143,7 +3140,6 @@ cpgi$r opt=1
 
 
 
-
 *     ***********************************
 *     *					*
 *     *	   D3dB_c_transpose_ijk		*
@@ -3215,15 +3211,16 @@ cpgi$r opt=1
 !      write(mythr,*) "nnfft3d0=",nfft3d0 
 !      write(mythr,*) A(nnfft3d)
 !      write(mythr,*) tmp1(nnfft3d)
-!$omp flush(A)
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
-      do i=1,nnfft3d
-         if (i .ne. 0) then
-           tmp1(h_iq_to_i1(i,op,nb)) = A(i)
-         end if
-      end do
-!$omp end do
-!      write(mythr,*) "done"
+
+      call D3dB_pfft_index2_copy(nnfft3d,h_iq_to_i1(1,op,nb),A,tmp1)
+
+ccccc!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) private(i)
+ccccc      do i=1,nnfft3d
+ccccc         if (i .ne. 0) then
+ccccc           tmp1(h_iq_to_i1(i,op,nb)) = A(i)
+ccccc         end if
+ccccc      end do
+ccccc!$omp end do
 
 
 
@@ -3233,14 +3230,15 @@ cpgi$r opt=1
 c      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nb)),1,
 c     >                    tmp2(h_i2_start(1,op,nb)),1)
 
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
-      do i=1,msglen
-         tmp2(h_i2_start(1,op,nb)+i) = tmp1(h_i1_start(1,op,nb)+i)
-      end do
-!$omp end do
+cccc!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
+cccc      do i=1,msglen
+cccc         tmp2(h_i2_start(1,op,nb)+i) = tmp1(h_i1_start(1,op,nb)+i)
+cccc      end do
+cccc!$omp end do
+      call D3dB_scopy(2*msglen,tmp1(h_i1_start(1,op,nb)+i),
+     >                         tmp2(h_i2_start(1,op,nb)+i))
          
 !$omp flush(tmp1)
-!      write(mythr,*) "OMP BARRIER 1"
 !$omp barrier
 !$omp master
 
@@ -3285,37 +3283,40 @@ c     >                    tmp2(h_i2_start(1,op,nb)),1)
 
       end do
 
-!$omp end master
-!      write(mythr,*) "OMP BARRIER 2"
-!$omp barrier
-!$omp flush(tmp2)
-   
 *     **** wait for completion of mp_send, also do a sync ****
 !      write(mythr,*) "np=",np
 !      write(mythr,*) "reqcnt=",reqcnt
-      if (np.gt.1) call Parallel_mpiWaitAll(reqcnt,request)
+      if (np.gt.1) call Parallel_mpiWaitAll0(reqcnt,request)
 
+!$omp end master
+!$omp barrier
+!$omp flush(tmp2)
 
 *     **** unpack A(i) array ****
       if ((op.eq.4).or.(op.eq.6)) nnfft3d = (nx1(nb)/2+1)*nq1(nb)
       if ((op.eq.1).or.(op.eq.3)) nnfft3d = (ny1(nb))    *nq2(nb)
       if ((op.eq.2).or.(op.eq.5)) nnfft3d = (nz1(nb))    *nq3(nb)
 
-
-!$omp do schedule(OMP_SCHEDULE,OMP_CHUNKSIZE) 
-      do i=1,nnfft3d
-         A(i) = tmp2(h_iq_to_i2(i,op,nb))
-      end do 
-!$omp end do
-!$omp flush(A)
-
-
-
-!      write(mythr,*) "exit " 
+      call D3dB_pfft_index1_copy(nnfft3d,h_iq_to_i2(1,op,nb),tmp2,A)
 
 
       return
       end
+
+
+      subroutine D3dB_scopy(n,A,B)
+      implicit none
+      integer n
+      real*8 A(*),B(*)
+      integer i
+!$OMP do private(i) schedule(dynamic,100)
+      do i=1,n
+         B(i) = A(i)
+      end do
+!$OMP end do
+
+      return
+      end 
 
 
 

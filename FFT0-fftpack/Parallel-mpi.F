@@ -697,6 +697,36 @@ c      call MPI_WAITALL(nreq,req,MPI_STATUSES_IGNORE,mpierr)
       end
 
 
+*     ***********************************
+*     *                                 *
+*     *      Parallel_mpiWaitAll0       *
+*     *                                 *
+*     ***********************************
+
+      subroutine Parallel_mpiWaitAll0(nreq,req)
+      implicit none
+      integer nreq,req(*)
+
+#include "mpif.h"
+#include "Parallel.fh"
+
+*     *** local variables ***
+      integer status(MPI_STATUS_SIZE*4*200),mpierr
+
+      if (nreq.gt.0) then
+*     **** wait for completion of mp_send, also do a sync ****
+      call MPI_WAITALL(nreq,req,status,mpierr)
+c      call MPI_WAITALL(nreq,req,MPI_STATUSES_IGNORE,mpierr)
+
+*     *** may need to check status here??? ***
+      end if
+
+      return
+      end
+
+
+
+
       integer function getcomm(ic)
       implicit none
       integer ic
