@@ -1,4 +1,4 @@
-SUFFIX=.mtblas
+SUFFIX=.reduce
 
 CXX = mpiicpc
 
@@ -11,7 +11,7 @@ CXXOPTIONS =  -O3 -openmp -g
 CXXOPTIONS += -mmic 
 #call MKL or FMF matrix product. 
 CXXOPTIONS += -DCALL_BLAS
-#CXXOPTIONS += -DNESTED
+CXXOPTIONS += -DNESTED
 #CXXOPTIONS += -DMY_NESTED
 #CXXOPTIONS += -DMKL
 
