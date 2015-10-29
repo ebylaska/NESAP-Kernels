@@ -1,3 +1,5 @@
+Kernel for Michael Klemm to look at, 10/29/2015
+
 This kernel does the simplest OpenMP parallelization.  It just puts OpenMP directives around do loops.  This is very slow, but stable.
 
 To run:
