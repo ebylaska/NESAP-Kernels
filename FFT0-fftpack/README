@@ -1,3 +1,5 @@
+Kernel for Michael Klemm to look at, 10/29/2015
+
 The OpenMP parallelization is global, and the inherent MPI and other serial parts are enclosed within a MASTER region.  This code is prone to race conditions, where OMP BARRIERS aren't rigorously obeyed by the compiler.
 
 
@@ -5,3 +7,6 @@ To run:
 make clean
 make
 main-mpi.x  or mpirun -np 2 main-mpi.x
+
+This code is f77 so there is no memory allocator.  To change the size of the ffts just edit the fft.fh file and recompile.
+

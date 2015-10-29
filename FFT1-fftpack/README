@@ -1,9 +1,15 @@
+
+Kernel for Michael Klemm to look at, 10/29/2015
+
 This kernel does the simplest OpenMP parallelization.  It just puts OpenMP directives around do loops.  This is very slow, but stable.
 
 To run:
 make clean
 make
 main-mpi.x  or mpirun -np 2 main-mpi.x
+
+This code is f77 so there is no memory allocator.  To change the size of the ffts just edit the fft.fh file and recompile.
+
 
 
 Result from Mac Laptop
