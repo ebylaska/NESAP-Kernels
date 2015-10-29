@@ -5,3 +5,6 @@ To run:
 make clean
 make
 main-mpi.x  or mpirun -np 2 main-mpi.x
+
+This code is f77 so there is no memory allocator.  To change the size of the ffts just edit the fft.fh file and recompile.
+
