@@ -1,0 +1,311 @@
+
+      subroutine lmbda_test_r(npack1,ne)
+#ifdef INTEL
+      USE IFPORT
+#endif
+      implicit none
+
+*     **** arguments ****
+      integer npack1, ne(2)
+
+*     **** variables ****
+      integer MASTER,taskid,np,tid,nthr,mthr
+      parameter (MASTER=0)
+      logical oprint
+
+*     **** psi variables ****
+      !integer npack1_max,nemax
+      !parameter (npack1_max=npack1,nemax=ne(1))
+
+      integer nida,nidb
+      complex*16 psi1(npack1*ne(1))
+      complex*16 psi2(npack1*ne(1))
+      complex*16 dpsi1(npack1*ne(1))
+      real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
+
+      integer ispin,n1(2),n2(2),ms
+      integer i,j,k,n,indxj,indxk,shift,mpierr,provided,ierr
+      integer number_tests
+      real*8 w,ww,dte
+
+*     **** matrix_blocking common block ****
+      integer mblock(2),nblock(2),algorithm(2)
+      common /matrix_blocking/ mblock,nblock,algorithm
+
+*     **** external functions ****
+      integer  Parallel_maxthreads,Parallel_index_1dblock
+      external Parallel_maxthreads,Parallel_index_1dblock
+      integer  Parallel_threadid,Parallel_nthreads
+      external Parallel_threadid,Parallel_nthreads
+
+      !**** testing parameters ****
+      ispin = 1
+      !ne(1) = 10   !* ne(1)+ne(2) <=nemax
+      !ne(2) = 0 
+      !npack1 = 2500  !* npack1 <= npack1_max
+      dte    = 1.0d-2 !* maximum component change in psi
+      number_tests = 50
+      !**** testing parameters ****
+
+
+
+
+      n1(1) = 1
+      n2(1) = ne(1)
+      n1(2) = ne(1)+1
+      n2(2) = ne(1)+ne(2)
+
+      !call Parallel_Init()
+
+      call Parallel_np(np)
+      mthr = Parallel_maxthreads()
+
+      call Parallel_taskid(taskid)
+      oprint = (taskid.eq.MASTER)
+
+      shift = ne(1)*npack1
+      nida = 0
+      if (taskid.eq.MASTER) nida = 1
+      nidb = npack1-nida
+
+*     **** define blocking for dgemm matrix multiply ****
+      algorithm(1) = -1
+      algorithm(2) = -1
+      do ms=1,ispin
+         if (ne(ms).gt.(mthr*np)) then
+            algorithm(ms) = 1
+            call Parallel_matrixblocking(mthr*np,ne(ms),ne(ms),
+     >                                mblock(ms),nblock(ms))
+         else if (ne(ms).gt.(mthr)) then
+            algorithm(ms) = 0
+            call Parallel_matrixblocking(mthr,ne(ms),ne(ms),
+     >                                mblock(ms),nblock(ms))
+         else
+            algorithm(ms) = -1
+         end if
+c         write(*,*) ms," ne,ne --> mb,nb=",
+c     >              ne(ms),ne(ms), "--> ",mblock(ms),nblock(ms)
+c         write(*,*) "i=0:",Parallel_index_1dblock(ne(ms),mblock(ms),0)
+c         write(*,*) "i=1:",Parallel_index_1dblock(ne(ms),mblock(ms),1)
+c         write(*,*) "i=2:",Parallel_index_1dblock(ne(ms),mblock(ms),2)
+      end do
+
+c     +++++++++++++++++++++++++++++++++++
+c     ++++ inititalize psi1 and psi2 ++++
+c     +++++++++++++++++++++++++++++++++++
+      do i=1,npack1*(ne(1)+ne(2))
+         psi1(i)  = 2.0d0*rand() - 1.0d0
+         dpsi1(i) = 2.0d0*rand() - 1.0d0
+      end do
+
+      !***  psi1 = Gram-Schmidt orthonormal ***
+      do ms=1,ispin
+         do k=ne(ms),1,-1
+            indxk = 1 + (k-1)*npack1+(ms-1)*shift
+            call epack_cc_dot(nida,nidb,psi1(indxk),psi1(indxk),w)
+            w = 1.0d0/dsqrt(w)
+            call dscal(2*npack1,w,psi1(indxk),1)
+            do j=k-1,1,-1
+               indxj = 1 + (j-1)*npack1+(ms-1)*shift
+               call epack_cc_dot(nida,nidb,psi1(indxk),psi1(indxj),w)
+               w = -w
+               call daxpy(2*npack1,w,psi1(indxk),1,psi1(indxj),1)
+            end do
+         end do
+      end do
+
+      write(*,*) "orthonormal passed"
+
+      !*** dpsi1 = error ***
+      ww = 0.0d0
+      do k=1,(ne(1)+ne(2))
+         indxk = 1 + (k-1)*npack1
+         call epack_cc_dot(nida,nidb,dpsi1(indxk),dpsi1(indxk),w)
+         if (dabs(w).gt.dabs(ww)) ww = w
+      end do
+      ww = 1.0d0/ww
+
+!      write(*,*) "dot products", 2*npack1*(ne(1)+ne(2)), ww, dpsi1
+      call dscal(2*npack1*(ne(1)+ne(2)),ww,dpsi1,1)
+      write(*,*) "dscal passed"
+c     -----------------------------------
+c     ---- inititalize psi1 and psi2 ----
+c     -----------------------------------
+      !if (oprint) write(*,*) "<psi1|psi1> = "
+      !call check_norms(oprint,ispin,ne,nida,nidb,psi1)
+
+
+      if (oprint) then
+         write(*,*)
+         write(*,*)
+         write(*,*) "Lagrange mutiplier testing"
+         write(*,*) "--------------------------"
+         write(*,*) "number of cpus       =",np
+         write(*,*) "max number of threads=",mthr
+         write(*,*) "ispin                =",ispin
+         write(*,*) "ne(1)                =",ne(1)
+         write(*,*) "ne(2)                =",ne(2)
+         write(*,*) "npack1               =",npack1
+         write(*,*)
+         do ms=1,ispin
+            write(*,*) "ms,algorithm,mblock,nblock =",
+     >                 ms,algorithm(ms),mblock(ms),nblock(ms)
+         end do
+      end if
+
+      !**** lagrange multiplier test ****
+      call nwpw_timing_init()
+
+
+#if 1
+!!!!allocate the extra buffers for the reduce algorithm
+!!!
+!!!
+!!!!$OMP PARALLEL private(i,n,k,tid)
+!!!      tid  = Parallel_threadid()
+!!!      nthr = Parallel_nthreads()
+!!!      do i=1,number_tests
+!!!         do n=tid,(ne(1)+ne(2)-1),nthr
+!!!            do k=1,npack1
+!!!               psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
+!!!            end do
+!!!         end do
+!!!         !call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
+!!!         !call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
+!!!         call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
+!!!     >                  psi1,psi2,dte,lmbda,tmp,ierr)
+!!!      end do
+!!!!$OMP END PARALLEL
+
+      call lmbda_test_computations(npack1,ne,nida,nidb,
+     >                      dpsi1,number_tests,mthr,
+     >                      ispin,psi1,psi2,dte,lmbda,tmp,ierr)
+#endif
+
+      call nwpw_timing_print_final(oprint,number_tests)
+
+      !if (oprint) write(*,*) "<psi2|psi2> = "
+      !call check_norms(oprint,ispin,ne,nida,nidb,psi2)
+
+      !call Parallel_Finalize()
+      
+ 
+      end
+
+      subroutine check_norms(oprint,ispin,ne,nida,nidb,psi1)
+      implicit none
+      logical oprint
+      integer ispin,ne(2),nida,nidb
+      complex*16 psi1(*)
+
+      integer ms,j,k,indxj,indxk,npack1,shift
+      real*8  w
+      npack1 = nida + nidb
+
+      do ms=1,ispin
+         do k=1,ne(ms)
+         do j=1,ne(ms)
+            indxj = 1 + (j-1)*npack1+(ms-1)*shift
+            indxk = 1 + (k-1)*npack1+(ms-1)*shift
+            call epack_cc_dot(nida,nidb,psi1(indxj),psi1(indxk),w)
+            if (oprint) 
+     >         write(*,'(A,I2,2I5,E18.9)') 
+     >              "<psi|psi>=",ms,j,k,w
+         end do
+         end do
+      end do
+
+      return
+      end
+
+      subroutine lmbda_test_computations(npack1,ne,nida,nidb,
+     >                      dpsi1,number_tests,mthr,
+     >                      ispin,psi1,psi2,dte,lmbda,tmp,ierr)
+      implicit none
+
+*     **** arguments ****
+      integer npack1, ne(2)
+
+*     **** psi variables ****
+      !integer npack1_max,nemax
+      !parameter (npack1_max=npack1,nemax=ne(1))
+
+      integer nida,nidb
+      complex*16 psi1(npack1*ne(1))
+      complex*16 psi2(npack1*ne(1))
+      complex*16 dpsi1(npack1*ne(1))
+      real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
+      real*8 thrlmbda(mthr*ne(1)*ne(1)*8)
+      
+
+      integer ispin,n1(2),n2(2),ms
+      integer i,j,k,n,ierr,tid,nthr,mthr
+      integer number_tests
+      real*8 dte
+
+*     **** external functions ****
+      integer  Parallel_maxthreads,Parallel_index_1dblock
+      external Parallel_maxthreads,Parallel_index_1dblock
+      integer  Parallel_threadid,Parallel_nthreads
+      external Parallel_threadid,Parallel_nthreads
+
+
+!allocate the extra buffers for the reduce algorithm
+! in thrlmbda
+
+
+      do i=1,number_tests
+
+!$OMP PARALLEL private(n,k,tid,nthr) 
+        tid  = Parallel_threadid()
+        nthr = Parallel_nthreads()
+         do n=tid,(ne(1)+ne(2)-1),nthr
+            do k=1,npack1
+               psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
+            end do
+         end do
+!$OMP END PARALLEL
+         !call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
+         !call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
+         call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
+     >                  psi1,psi2,dte,lmbda,tmp,ierr,thrlmbda)
+      end do
+      end
+
+c#     include "mkl_direct_call.fi"
+      program lmbda_test1
+
+      integer npack1, ne(2),np,rank
+
+*     **** get ne and npack from std input ****
+      
+      call Parallel_Init()
+      call Parallel_np(np)
+      call Parallel_taskid(rank)
+
+      if(rank .eq. 0) then
+          npack1 = 5000
+          ne(1) = 60
+          ne(2) = 0
+          read(*,*) npack1, ne(1), ne(2)
+          npack1 = npack1 / np
+      else
+          npack1=0
+          ne(1)=0
+          ne(2)=0
+      endif
+
+      
+      call Parallel_IMaxAll(npack1)
+      call Parallel_IMaxAll(ne(1))
+      call Parallel_IMaxAll(ne(2))
+   
+      
+ 
+
+!      write(*,*) npack1, ne(1), ne(2)
+
+      call lmbda_test_r(npack1,ne)
+
+      call Parallel_Finalize()
+      end program lmbda_test1
