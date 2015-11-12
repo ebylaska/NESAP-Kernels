@@ -162,7 +162,7 @@ c     **** external functions ****
      >                 '  dot products               : ',
      >                 nwpw_timing(2),counter,ttime)
          call nwpw_timing_print(
-     >                 '  Lagrange Mulitipiers       : ',
+     >                 '  Lagrange Multipliers       : ',
      >                 nwpw_timing(3),counter,ttime)
          call nwpw_timing_print(
      >                 '  geodesic                   : ',

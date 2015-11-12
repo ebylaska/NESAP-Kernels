@@ -7,7 +7,8 @@
       subroutine psi_lmbda(ispin,ne,nemaxq,nida,nidb,
      >                     psi1,psi2,
      >                     dte,
-     >                     lmbda,tmp,ierr,thrlmbda)
+     >                     lmbda,tmp,ierr,thrlmbda,
+     >                        thrtreset,thrtreduce)
 
       implicit none
       integer ispin,ne(2),nemaxq,nida,nidb
@@ -47,6 +48,10 @@
       real*8   eDneall_m_dmax
       external eDneall_m_dmax
 
+      double precision thrtreset(*),thrtreduce(*)
+      double precision treset,treduce
+      integer counter
+
       call nwpw_timing_start(3)
 
       call Parallel_np(np)
@@ -59,7 +64,11 @@
  
 
 
-!$OMP PARALLEL firstprivate(npack1), private(i,n,tid,nthr,shift,shift2) 
+!$OMP PARALLEL firstprivate(npack1), private(i,n,tid,nthr,shift,shift2),&
+!$OMP& private(treset,treduce)
+      counter = 0
+      treset = 0.0
+      treduce = 0.0
       tid  = Parallel_threadid()
       nthr = Parallel_nthreads()
       DO 640 mb=1,ispin
@@ -95,60 +104,38 @@
          n     = ne(ms)
          if (n.le.0) go to 30
 
+         counter = counter+3
 
         call eDneall_ffm_sym_Multiply_reduce(psi2,psi2,
      >                                nida,nidb,ne,
      >                                tmp(s22),tmp(sa0),thrlmbda,
-     >                                        shift,shift2,n)
+     >                                 shift,shift2,n,treset,treduce)
         call eDneall_ffm_sym_Multiply_reduce(psi2,psi1,
      >                                nida,nidb,ne,
      >                                tmp(s21),tmp(sa1),thrlmbda,
-     >                                        shift,shift2,n)
+     >                                 shift,shift2,n,treset,treduce)
         call eDneall_ffm_sym_Multiply_reduce(psi1,psi1,
      >                                nida,nidb,ne,
      >                                tmp(s11),tmp(st1),thrlmbda,
-     >                                        shift,shift2,n)
+     >                                 shift,shift2,n,treset,treduce)
 
-
+!$OMP BARRIER
       if (np.gt.1) then
         call Parallel_Vector_SumAll(n*n,tmp(s22+shift2),tmp(sa0))
         call Parallel_Vector_SumAll(n*n,tmp(s21+shift2),tmp(sa1))
         call Parallel_Vector_SumAll(n*n,tmp(s11+shift2),tmp(st2))
       end if
-
-!@      if (np.gt.1) call Parallel_Vector_SumAll(ne(1)*ne(1),tmp(s22),
-!@     >                                                        tmp(sa0))
-!@      if (np.gt.1) call Parallel_Vector_SumAll(ne(1)*ne(1),tmp(s21),
-!@     >                                                        tmp(sa1))
-!@      if (np.gt.1) call Parallel_Vector_SumAll(ne(1)*ne(1),tmp(s11),
-!@     >                                                        tmp(s11))
-!!!!!do the omp reduce    
-!!!!        call eDneall_ffm_sym_reduce_threads(ms,psi2,psi2,
-!!!!     >                                nida,nidb,ispin,ne,
-!!!!     >                                tmp(s22),tmp(sa0),thrlmbda,
-!!!!     >                                        shift11,shift12,n1)
-!!!!        call eDneall_ffm_sym_reduce_threads(ms,psi2,psi1,
-!!!!     >                                nida,nidb,ispin,ne,
-!!!!     >                                tmp(s21),tmp(sa1),thrlmbda,
-!!!!     >                                        shift21,shift22,n2)
-!!!!        call eDneall_ffm_sym_reduce_threads(ms,psi1,psi1,
-!!!!     >                                nida,nidb,ispin,ne,
-!!!!     >                                tmp(s11),tmp(st1),thrlmbda,
-!!!!     >                                        shift31,shift32,n3)
-!!!!
-!!!!!do the mpi reduce
-!!!!      if (np.gt.1) call Parallel_Vector_SumAll(n1*n1,tmp(s22+shift12)
-!!!!     >                                                    ,tmp(sa0))
-!!!!      if (np.gt.1) call Parallel_Vector_SumAll(n2*n2,tmp(s21+shift22)
-!!!!     >                                                    ,tmp(sa1))
-!!!!      if (np.gt.1) call Parallel_Vector_SumAll(n3*n3,tmp(s11+shift32)
-!!!!     >                                                    ,tmp(st1))
-
   30     continue
         end do
 
   640 continue
 !!!!        end do
+
+!      treset = treset / counter
+!      treduce = treduce/ counter
+
+      thrtreset(tid+1) = thrtreset(tid+1) + treset
+      thrtreduce(tid+1) = thrtreduce(tid+1) + treduce
 !$OMP END PARALLEL
 
       DO 650 mb=1,ispin
@@ -249,7 +236,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
 
       subroutine eDneall_ffm_sym_Multiply_reduce(A1,A2,
      >                         nida,nidb,ne,hml,tmp,thrhml,
-     >                                                 shift,shift2,n)
+     >                        shift,shift2,n,treset,treduce)
       implicit none
       complex*16 A1(*),A2(*)
       integer nida,nidb,ispin,ne(2)
@@ -263,6 +250,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
 *     **** external functions ****
       integer  Parallel_threadid,Parallel_nthreads
       external Parallel_threadid,Parallel_nthreads
+      double precision treset,treduce
 
       call nwpw_timing_start(15)    
       tid  = Parallel_threadid()
@@ -289,7 +277,8 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
      >                     A1(shift),
      >                     A2(shift),
      >                     hml(shift2), tmp,
-     >                     thrhml((tid)*ne(1)*ne(1)*8+ shift2))
+     >                     thrhml((tid)*ne(1)*ne(1)*8+ shift2),
+     >                            treset,treduce)
 
 
 
@@ -388,7 +377,8 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
 
 
       subroutine epack_ccm_sym_dot_reduce(nida,nidb,n,A,B,matrix,tmp,
-     >                                                    thrmatrix)
+     >                                                    thrmatrix,
+     >                                          treset,treduce)
       implicit none
       integer    nida,nidb,n
       real*8 A(*)
@@ -408,6 +398,10 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       integer  Parallel_threadid,Parallel_nthreads
       external Parallel_threadid,Parallel_nthreads
 
+      double precision treset,treduce
+      double precision tstart,tstop
+      double precision omp_get_wtime
+      external omp_get_wtime
 
       call nwpw_timing_start(2)
       call Parallel_np(np)
@@ -418,17 +412,22 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       npack  = (nida+nidb)
       npack2 = 2*npack
 
-!$OMP BARRIER
+      tstart = omp_get_wtime()
+!!$OMP BARRIER
 !$OMP SINGLE
-!!!!$OMP DO SIMD
-      do j=1,n
+!!$OMP DO SIMD
       do k=1,n
+!$OMP SIMD
+      do j=1,n
         matrix(j,k) = 0.0
       end do
+!$OMP END SIMD
+
       end do
-!!!!$OMP END DO SIMD nowait
+!!$OMP END DO SIMD nowait
 !$OMP END SINGLE
-!$OMP BARRIER
+      tstop = omp_get_wtime()
+      treset = treset + tstop - tstart
 
 !!!!!$OMP CRITICAL
 !!!!      write(*,*) tid, "initial"
@@ -437,6 +436,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
 
 !reduce algorithm
 
+      !tstart = omp_get_wtime()
       nk = npack2 - 2*nida
       bk = floor(REAL(nk)/REAL(nthr))
 !      bkc = floor(REAL(npack-nida)/REAL(nthr))
@@ -458,35 +458,24 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
      >             1.0d0,
      >             thrmatrix, n)
       end if
+      !tstop = omp_get_wtime()
+      !treset = treset + tstop - tstart
 
-!!!!$OMP CRITICAL
-!!!      write(*,*) tid, "contribution"
-!!!      write(*,*) thrmatrix
-!!!!$OMP END CRITICAL
-
-!        DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,bk , 2.0, &psi2[2*nida + offsetk], npack1, &psi2[2*nida + offsetk], npack1, 0.0, &matrixDup[0  ], M);
-!        if(mpi_iam==0 && iam==0){
-!          DGEMM(CblasColMajor, CblasTrans, CblasNoTrans, bi,bj,2*nida , 1.0, &psi2[0], npack1, &psi2[0], npack1, 1.0, &matrixDup[0 ], M);
-!        }
-!
-
+      tstart = omp_get_wtime()
 !     perform OMP reduction
-
 !$OMP CRITICAL
 !!!!      write(*,*) tid, "is reducing"
-!!!$OMP DO SIMD
-      do j=1,n
       do k=1,n
+!$OMP SIMD
+      do j=1,n
         matrix(j,k) = matrix(j,k) + thrmatrix(j,k) 
       end do
+!$OMP END SIMD
       end do
 !!!!      write(*,*) matrix
-!!!$OMP END DO SIMD nowait
 !$OMP END CRITICAL
-
-!$OMP BARRIER
-
-
+      tstop = omp_get_wtime()
+      treduce = treduce + tstop - tstart
 
 
 !      if (np.gt.1) call Parallel_Vector_SumAll(n*n,matrix,tmp)
@@ -500,7 +489,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
 !!!!      write(*,*) matrix
 !!!!!$OMP END CRITICAL
 
-!$OMP BARRIER
+!!$OMP BARRIER
       call nwpw_timing_end(2)
       return
       end

@@ -236,6 +236,10 @@ c     -----------------------------------
       complex*16 dpsi1(npack1*ne(1))
       real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
       real*8 thrlmbda(mthr*ne(1)*ne(1)*8)
+
+      double precision thrtreduce(mthr)
+      double precision thrtreset(mthr)
+      double precision treset,treduce
       
 
       integer ispin,n1(2),n2(2),ms
@@ -249,10 +253,19 @@ c     -----------------------------------
       integer  Parallel_threadid,Parallel_nthreads
       external Parallel_threadid,Parallel_nthreads
 
+      double precision tstart,tstop,tpsi
+      double precision omp_get_wtime
+      external omp_get_wtime
 
 !allocate the extra buffers for the reduce algorithm
 ! in thrlmbda
 
+      treset  = -1.0
+      treduce = -1.0
+      do i=1,mthr
+        thrtreduce(i) = 0.0
+        thrtreset(i) = 0.0
+      end do
 
       do i=1,number_tests
 
@@ -267,9 +280,28 @@ c     -----------------------------------
 !$OMP END PARALLEL
          !call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
          !call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
+      tstart = omp_get_wtime()
          call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
-     >                  psi1,psi2,dte,lmbda,tmp,ierr,thrlmbda)
+     >                  psi1,psi2,dte,lmbda,tmp,ierr,
+     >                  thrlmbda,thrtreset,thrtreduce)
+      tstop = omp_get_wtime()
+      tpsi = tpsi + tstop - tstart
       end do
+      write(*,*) "TIME ELAPSED: ",tpsi
+
+      do i=1,mthr
+!        write(*,*) "T",i, "Reset time",thrtreset(i), "Reduce time",
+!     >                                                  thrtreduce(i)
+        if((treset .eq. -1.0) .or. (treset .le. thrtreset(i))) then
+          treset = thrtreset(i)
+        end if
+
+        if((treduce .eq. -1.0) .or. (treduce .le. thrtreduce(i))) then
+          treduce = thrtreduce(i)
+        end if
+      end do
+
+      write(*,*) "Reset time",treset, "Reduce time",treduce
       end
 
 c#     include "mkl_direct_call.fi"
