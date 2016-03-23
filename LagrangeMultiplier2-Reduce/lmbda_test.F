@@ -40,11 +40,8 @@
 
       !**** testing parameters ****
       ispin = 1
-      !ne(1) = 10   !* ne(1)+ne(2) <=nemax
-      !ne(2) = 0 
-      !npack1 = 2500  !* npack1 <= npack1_max
       dte    = 1.0d-2 !* maximum component change in psi
-      number_tests = 50
+      number_tests = 5
       !**** testing parameters ****
 
 
@@ -56,6 +53,7 @@
       n2(2) = ne(1)+ne(2)
 
       !call Parallel_Init()
+
 
       call Parallel_np(np)
       mthr = Parallel_maxthreads()
@@ -114,7 +112,7 @@ c     +++++++++++++++++++++++++++++++++++
          end do
       end do
 
-      write(*,*) "orthonormal passed"
+!      write(*,*) "orthonormal passed"
 
       !*** dpsi1 = error ***
       ww = 0.0d0
@@ -125,9 +123,9 @@ c     +++++++++++++++++++++++++++++++++++
       end do
       ww = 1.0d0/ww
 
-!      write(*,*) "dot products", 2*npack1*(ne(1)+ne(2)), ww, dpsi1
+      !write(*,*) "dot products", 2*npack1*(ne(1)+ne(2)), ww, dpsi1
       call dscal(2*npack1*(ne(1)+ne(2)),ww,dpsi1,1)
-      write(*,*) "dscal passed"
+!      write(*,*) "dscal passed"
 c     -----------------------------------
 c     ---- inititalize psi1 and psi2 ----
 c     -----------------------------------
@@ -154,35 +152,12 @@ c     -----------------------------------
       end if
 
       !**** lagrange multiplier test ****
-      call nwpw_timing_init()
 
 
-#if 1
-!!!!allocate the extra buffers for the reduce algorithm
-!!!
-!!!
-!!!!$OMP PARALLEL private(i,n,k,tid)
-!!!      tid  = Parallel_threadid()
-!!!      nthr = Parallel_nthreads()
-!!!      do i=1,number_tests
-!!!         do n=tid,(ne(1)+ne(2)-1),nthr
-!!!            do k=1,npack1
-!!!               psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
-!!!            end do
-!!!         end do
-!!!         !call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
-!!!         !call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
-!!!         call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
-!!!     >                  psi1,psi2,dte,lmbda,tmp,ierr)
-!!!      end do
-!!!!$OMP END PARALLEL
-
-      call lmbda_test_computations(npack1,ne,nida,nidb,
+      call lmbda_test_computations(oprint,npack1,ne,nida,nidb,
      >                      dpsi1,number_tests,mthr,
      >                      ispin,psi1,psi2,dte,lmbda,tmp,ierr)
-#endif
 
-      call nwpw_timing_print_final(oprint,number_tests)
 
       !if (oprint) write(*,*) "<psi2|psi2> = "
       !call check_norms(oprint,ispin,ne,nida,nidb,psi2)
@@ -218,12 +193,13 @@ c     -----------------------------------
       return
       end
 
-      subroutine lmbda_test_computations(npack1,ne,nida,nidb,
+      subroutine lmbda_test_computations(oprint,npack1,ne,nida,nidb,
      >                      dpsi1,number_tests,mthr,
      >                      ispin,psi1,psi2,dte,lmbda,tmp,ierr)
       implicit none
 
 *     **** arguments ****
+      logical oprint
       integer npack1, ne(2)
 
 *     **** psi variables ****
@@ -235,7 +211,11 @@ c     -----------------------------------
       complex*16 psi2(npack1*ne(1))
       complex*16 dpsi1(npack1*ne(1))
       real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
+#ifndef OPENMP_REDUCE
       real*8 thrlmbda(mthr*ne(1)*ne(1)*8)
+#else
+      real*8 thrlmbda(1)
+#endif
 
       double precision thrtreduce(mthr)
       double precision thrtreset(mthr)
@@ -259,6 +239,7 @@ c     -----------------------------------
 
 !allocate the extra buffers for the reduce algorithm
 ! in thrlmbda
+      call nwpw_timing_init()
 
       treset  = -1.0
       treduce = -1.0
@@ -278,8 +259,7 @@ c     -----------------------------------
             end do
          end do
 !$OMP END PARALLEL
-         !call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
-         !call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
+
       tstart = omp_get_wtime()
          call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
      >                  psi1,psi2,dte,lmbda,tmp,ierr,
@@ -287,7 +267,7 @@ c     -----------------------------------
       tstop = omp_get_wtime()
       tpsi = tpsi + tstop - tstart
       end do
-      write(*,*) "TIME ELAPSED: ",tpsi
+!      write(*,*) "TIME ELAPSED: ",tpsi
 
       do i=1,mthr
 !        write(*,*) "T",i, "Reset time",thrtreset(i), "Reduce time",
@@ -302,25 +282,47 @@ c     -----------------------------------
       end do
 
       write(*,*) "Reset time",treset, "Reduce time",treduce
+
+      call Parallel_barrier()
+!      write(*,*) "ALIVE"
+      call nwpw_timing_print_final(oprint,number_tests)
+
       end
 
-c#     include "mkl_direct_call.fi"
+
+
+
       program lmbda_test1
+#ifdef MKL
+      use mkl_service
+#endif
 
       integer npack1, ne(2),np,rank
+      integer numThreads
 
+      integer  Parallel_totalthreads
+      external Parallel_totalthreads,omp_debug_ids
 *     **** get ne and npack from std input ****
       
+      !call omp_debug_ids()
+
       call Parallel_Init()
       call Parallel_np(np)
       call Parallel_taskid(rank)
 
+      numThreads = Parallel_totalthreads()
+      write(*,*) "Total number of threads is",numThreads
+
+
+#ifdef MKL
+        call mkl_set_num_threads(numThreads)
+#endif
+
       if(rank .eq. 0) then
-          npack1 = 5000
-          ne(1) = 60
-          ne(2) = 0
+          write(*,*) "Reading input parameters"
           read(*,*) npack1, ne(1), ne(2)
           npack1 = npack1 / np
+          write(*,*) "Input parameters read"
       else
           npack1=0
           ne(1)=0

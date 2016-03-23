@@ -1338,6 +1338,28 @@ c     implicit none
       end
 
 
+
+*     ***********************************
+*     *                                 *
+*     *      Parallel_barrier           *
+*     *                                 *
+*     ***********************************
+      subroutine Parallel_barrier()
+      implicit none
+
+#include "Parallel.fh"
+#include "mpif.h"
+      integer mpierr
+
+      call MPI_Barrier(comm_world,mpierr)
+
+      return
+      end
+
+
+
+
+
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -1870,6 +1892,28 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 
 
+      integer function Parallel_totalthreads()
+      implicit none
+#include "Parallel.fh"
+#ifdef USE_OPENMP
+      integer omp_get_max_threads
+      external omp_get_max_threads
+#endif
+
+#ifdef USE_OPENMP
+      Parallel_totalthreads = omp_get_max_threads()
+      !$omp parallel shared(Parallel_totalthreads)
+!$omp single 
+      Parallel_totalthreads = Parallel_totalthreads *
+     >                            omp_get_max_threads()
+!$omp end single
+      !$omp end parallel 
+#else
+      Parallel_totalthreads = 1
+#endif
+
+      return
+      end
 
       subroutine  icopy(n,dx,incx,dy,incy)
 c
@@ -1989,4 +2033,10 @@ c
       end do
       return
       end
+
+
+
+
+
+
 

@@ -65,8 +65,11 @@
       real*8 T
       real*8 MPI_Wtime
       external MPI_Wtime
+      real*8 omp_get_wtime
+      external omp_get_wtime
 
       T=MPI_Wtime()
+!      T=omp_get_wtime()
 
       RETURN
       END
@@ -84,9 +87,9 @@
 
       subroutine nwpw_timing_start(counter)
       implicit none
-      integer counter
-
+      integer counter 
 #include "nwpw_timing_common.fh"
+
 !$OMP MASTER
       call current_second(nwpw_tim1(counter))
 !$OMP END MASTER
@@ -96,7 +99,6 @@
       subroutine nwpw_timing_end(counter)
       implicit none
       integer counter
-
 #include "nwpw_timing_common.fh"
 
       
