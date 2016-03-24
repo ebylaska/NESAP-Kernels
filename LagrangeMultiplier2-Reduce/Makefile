@@ -28,6 +28,12 @@ FFLAGS =  -openmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl
 #FFLAGS =  $(OPTIONS) 
 FC = mpiifort
 CXX = mpiicpc
+CC=icc
+CFLAGS=-fopenmp -g -O2
+
+affinity: affinity.o
+affinity.o: affinity.c
+
 #FC = mpif90.mpich
 
 #FFLAGS+= -DOPENMP_REDUCE

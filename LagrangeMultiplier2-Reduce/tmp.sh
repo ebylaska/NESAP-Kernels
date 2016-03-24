@@ -36,13 +36,14 @@ export OMP_NESTED=true
 #export OMP_PLACES={1:$t}:$c:$ta
 export OMP_PLACES="cores($c)"
 export OMP_PROC_BIND=spread,close
-export OMP_DISPLAY_ENV=true
-
+#export OMP_DISPLAY_ENV=true
 export OMP_NUM_THREADS=${c},${t}
+
 #export OLD_KMP_PLACE_THREADS=${ca}Cx${ta}T,0O,
 ####export KMP_PLACE_THREADS=1s@0,${ca}c@0,${ta}t
 #export KMP_PLACE_THREADS=1s@0,${ca}c@0,${ta}t
-export KMP_PLACE_THREADS=${ca}c@0,${ta}
+#export KMP_PLACE_THREADS=${ca}c@0,${ta}
+
 #Ns[@N],Nc[@N],Nt
 #export KMP_AFFINITY=compact,granularity=fine,
 #export KMP_AFFINITY=balanced,granularity=fine,

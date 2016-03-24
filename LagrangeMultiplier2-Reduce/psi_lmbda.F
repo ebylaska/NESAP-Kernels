@@ -66,11 +66,12 @@
 
       npack1 = nida+nidb
 !$OMP PARALLEL firstprivate(npack1), private(i,n,tid,nthr,shift,shift2),&
-!$OMP& private(treset,treduce) proc_bind(spread)
+!$OMP& private(treset,treduce) proc_bind(spread),&
+!$OMP& private(mb,ispin,notgram,nn,s11,s21,s22,s12,st2,sa1,sa0,st1,ms1),&
+!$OMP& private(ms2,ishift2),&
 
 
 #ifdef MKL
-!reset the mkl_num_threads by setting it to an invalid value
         dummy = mkl_set_num_threads_local(Parallel_nthreads())
 #endif
       counter = 0
@@ -111,32 +112,22 @@
          n     = ne(ms)
          if (n.le.0) go to 30
 
-         counter = counter+3
+!         counter = counter+3
 
 !zero out the three matrices in one operation
-!$OMP SINGLE      
         call eDneall_ffm_zeroMatrix(tmp(s11),n,3*n,treset)
-!$OMP END SINGLE
 
-!!$OMP SINGLE      
-!        call eDneall_ffm_zeroMatrix(tmp(s22),n,n,treset)
-!!$OMP END SINGLE
+
         call eDneall_ffm_sym_Multiply_reduce(psi2,psi2,
      >                                nida,nidb,ne,
      >                                tmp(s22),tmp(sa0),thrlmbda,
      >                                 shift,shift2,n,treset,treduce)
 
-!!$OMP SINGLE      
-!        call eDneall_ffm_zeroMatrix(tmp(s21),n,n,treset)
-!!$OMP END SINGLE       
         call eDneall_ffm_sym_Multiply_reduce(psi2,psi1,
      >                                nida,nidb,ne,
      >                                tmp(s21),tmp(sa1),thrlmbda,
      >                                 shift,shift2,n,treset,treduce)
 
-!!$OMP SINGLE      
-!        call eDneall_ffm_zeroMatrix(tmp(s11),n,n,treset)
-!!$OMP END SINGLE       
         call eDneall_ffm_sym_Multiply_reduce(psi1,psi1,
      >                                nida,nidb,ne,
      >                                tmp(s11),tmp(st1),thrlmbda,
@@ -147,14 +138,24 @@
       if (np.gt.1) then
         !do only one big reduce and then shift data accordingly
         call Parallel_Vector_SumAll(3*n*n,tmp(s11),tmp(st2))
+
+#if 0
+        do elem=st2,st2+n*n-shift2
+          tmp(elem)=tmp(elem+shift2)
+        end do
+        do elem=sa1,sa1+n*n-shift2
+          tmp(elem)=tmp(elem+shift2)
+        end do
+        do elem=sa0,sa0+n*n-shift2
+          tmp(elem)=tmp(elem+shift2)
+        end do
+#else
 !$OMP SINGLE
         tmp(st2:st2+n*n-shift2)=tmp(st2+shift2:st2+n*n)
         tmp(sa1:sa1+n*n-shift2)=tmp(sa1+shift2:sa1+n*n)
         tmp(sa0:sa0+n*n-shift2)=tmp(sa0+shift2:sa0+n*n)
 !$OMP END SINGLE
-!        call Parallel_Vector_SumAll(n*n,tmp(s11+shift2),tmp(st2))
-!        call Parallel_Vector_SumAll(n*n,tmp(s21+shift2),tmp(sa1))
-!        call Parallel_Vector_SumAll(n*n,tmp(s22+shift2),tmp(sa0))
+#endif
       end if
       call nwpw_timing_end(15)    
 
@@ -176,6 +177,7 @@
         
 
 #ifdef MKL
+        !restore the number of threads
         dummy = mkl_set_num_threads_local(0)
 #endif
 
@@ -183,7 +185,6 @@
         notgram=.true.
         IF(ne(mb).le.0) GO TO 650
 
-        !call Dneall_m_size(ms,nn)
         nn = ne(mb)*ne(mb)
         s11  = 0*nn + 1
         s21  = 1*nn + 1
@@ -194,21 +195,11 @@
         sa0  = 6*nn + 1
         st1  = 7*nn + 1
 
-
-
-!$OMP BARRIER
-!$OMP MASTER
         call dcopy(nn,tmp(s21),1,tmp(s12),1)
         call dcopy(nn,tmp(s22),1,tmp(sa0),1)
-!$OMP END MASTER
 
         do it=1,itrlmd
-!$OMP BARRIER
-!$OMP MASTER 
           call dcopy(nn,tmp(s22),1,tmp(sa1),1)
-!$OMP END MASTER
-!$OMP BARRIER
-
           call eDneall_mmm_Multiply(mb,ispin,ne,
      >                              tmp(s21),tmp(sa0),1.0d0,
      >                              tmp(sa1),1.0d0,tmp(st2))
@@ -222,18 +213,14 @@
      >                              tmp(sa0),tmp(st1),1.0d0,
      >                              tmp(sa1),1.0d0,tmp(st2))
 
-!$OMP MASTER 
           call dcopy(nn,tmp(sa1),1,tmp(st1),1)
           call daxpy(nn,(-1.0d0),tmp(sa0),1,tmp(st1),1)
-!$OMP END MASTER
-!$OMP BARRIER
 
           adiff = eDneall_m_dmax(mb,ispin,ne,tmp(st1))
           if(adiff.lt.convg) GO TO 630
           if (adiff.gt.1.0d10) go to 620
-!$OMP MASTER 
+
           call dcopy(nn,tmp(sa1),1,tmp(sa0),1)
-!$OMP END MASTER
         end do
 
   620   continue
@@ -257,20 +244,12 @@ c        call Dneall_f_GramSchmidt(ms,psi2,npack1)
      >                              tmp(sa1), dte,
      >                              psi2,1.0d0)
 
-!$OMP BARRIER
-!$OMP MASTER 
         call eDneall_mm_Expand(mb,ne,tmp(sa1),lmbda)
-!$OMP END MASTER 
   650 continue
-!      end do
-!!!$OMP END PARALLEL
-
-
 
 c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       call nwpw_timing_end(3)
 
-!$OMP BARRIER
       return
       end
 
@@ -285,16 +264,21 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       external omp_get_wtime
 
       tstart = omp_get_wtime()
+#if 0
+!$OMP SINGLE      
       matrix=0
-!!!!!$OMP DO
-!      do k=1,n
-!!$OMP SIMD
-!      do j=1,n
-!        matrix(j,k) = 0.0
-!      end do
-!!$OMP END SIMD
-!      end do
-!!!!$OMP END DO
+!$OMP END SINGLE
+#else
+!$OMP DO schedule(static)
+      do k=1,n
+!$OMP SIMD
+      do j=1,m
+        matrix(j,k) = 0.0
+      end do
+!$OMP END SIMD
+      end do
+!$OMP END DO
+#endif
 
       tstop = omp_get_wtime()
       treset = treset + tstop - tstart
@@ -463,7 +447,7 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       external omp_get_wtime
 
       call nwpw_timing_start(2)
-      call Parallel_np(np)
+      !call Parallel_np(np)
 
       tid  = Parallel_threadid()
       nthr = Parallel_nthreads()
@@ -471,57 +455,9 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       npack  = (nida+nidb)
       npack2 = 2*npack
 
-!!$OMP SINGLE
-!      call eDneall_ffm_zeroMatrix(matrix,n,n,treset)
-!!$OMP END SINGLE
-
-!      tstart = omp_get_wtime()
-!!$OMP SINGLE
-!!!$OMP DO SIMD
-!      do k=1,n
-!!$OMP SIMD
-!      do j=1,n
-!        matrix(j,k) = 0.0
-!      end do
-!!$OMP END SIMD
-!      end do
-!!!$OMP END DO SIMD nowait
-!!$OMP END SINGLE
-!      tstop = omp_get_wtime()
-!      treset = treset + tstop - tstart
-
 #ifndef OPENMP_REDUCE
-
-!      tstart = omp_get_wtime()
-!!!$OMP BARRIER
-!!!!!$OMP SINGLE
-!!!!!!$OMP DO SIMD
-!!!!      do k=1,n
-!!!!!$OMP SIMD
-!!!!      do j=1,n
-!!!!        matrix(j,k) = 0.0
-!!!!      end do
-!!!!!$OMP END SIMD
-!!!!      end do
-!!!!!!$OMP END DO SIMD nowait
-!!!!!$OMP END SINGLE
-!
-!!$OMP DO collapse(2)
-!      do k=1,n
-!      do j=1,n
-!        matrix(j,k) = 0.0
-!      end do
-!      end do
-!!$OMP END DO
-!
-!
-!
-!      tstop = omp_get_wtime()
-!      treset = treset + tstop - tstart
-
-!      call eDneall_ffm_zeroMatrix(matrix,n,treset)
-
       !tstart = omp_get_wtime()
+      !compute offsets in A and B
       nk = npack2 - 2*nida
       bk = floor(REAL(nk)/REAL(nthr))
       offsetk = (tid)*bk
@@ -586,9 +522,6 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
 
 #endif
 
-
-
-
       call nwpw_timing_end(2)
       return
       end
@@ -639,7 +572,7 @@ c     ****************************************
         if (ne(ms).le.0) go to 30
         shift2 = (ms-1)*ishift2
 
-!$OMP DO private(k)
+!$OMP DO private(k) schedule(static)
         do k=1,ne(ms)
            indx = k + (k-1)*ne(ms) + shift2
            s22(indx) = (1.0d0 - s22(indx))*0.5d0/dte
