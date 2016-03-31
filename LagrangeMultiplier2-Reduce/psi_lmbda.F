@@ -958,7 +958,7 @@ c     ****************************************
          shift  = 1 + (ms-1)*ne(1)*npack1
          shift2 = 1 + (ms-1)*ishift2
 
-#if 0
+#if 1
          call DGEMM('N','N',2*(mend-mstart),n,n,
      >             (alpha),
      >             Ain(shift+mstart), 2*npack1,
