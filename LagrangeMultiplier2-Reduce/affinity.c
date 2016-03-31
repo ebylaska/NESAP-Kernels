@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <sched.h>
+#include <mpi.h>
 
 #include <omp.h>
 
@@ -15,7 +16,10 @@ int get_core(void) {
     return core;
 }
 
-int main(void) {
+int main(int argc, char ** argv) {
+MPI_Init(&argc,&argv);
+int mpirank;
+MPI_Comm_rank(MPI_COMM_WORLD,&mpirank);
 #pragma omp parallel
     {
         int outer_tid;
@@ -26,8 +30,9 @@ int main(void) {
             int core;
             inner_tid = omp_get_thread_num();
             core = get_core();
-            printf("outer thread %d, inner thread %d is running on core %d\n",
+            printf("mpi rank %d, outer thread %d, inner thread %d is running on core %d\n", mpirank,
                    outer_tid, inner_tid, core);
         }
     }
+MPI_Finalize();
 }

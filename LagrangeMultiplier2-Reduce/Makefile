@@ -28,8 +28,10 @@ FFLAGS =  -openmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl
 #FFLAGS =  $(OPTIONS) 
 FC = mpiifort
 CXX = mpiicpc
-CC=icc
-CFLAGS=-fopenmp -g -O2
+
+CC=mpiicc
+CFLAGS=-fopenmp -g -O2 -mkl -mmic
+LDFLAGS=-fopenmp -mkl -mmic 
 
 affinity: affinity.o
 affinity.o: affinity.c
@@ -58,6 +60,7 @@ mxm_openmp: mxm_openmp.F omp_dgemm.F
 #	$(FC) -o dgemm_test.x ${FFLAGS} ${OBJECTS} ${LIBRARY}
 
 clean:
-	rm ${OBJECTS} 
+	rm -f ${OBJECTS} 
+	rm -f affinity.o
 
 

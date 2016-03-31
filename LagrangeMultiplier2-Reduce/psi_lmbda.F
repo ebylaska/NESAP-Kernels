@@ -53,7 +53,7 @@
 
       double precision thrtreset(*),thrtreduce(*)
       double precision treset,treduce
-      integer counter, dummy
+      integer dummy
 
       call nwpw_timing_start(3)
 
@@ -65,16 +65,15 @@
 
 
       npack1 = nida+nidb
-!$OMP PARALLEL firstprivate(npack1), private(i,n,tid,nthr,shift,shift2),&
-!$OMP& private(treset,treduce) proc_bind(spread),&
-!$OMP& private(mb,ispin,notgram,nn,s11,s21,s22,s12,st2,sa1,sa0,st1,ms1),&
-!$OMP& private(ms2,ishift2),&
-
+!$OMP PARALLEL default(none) firstprivate(npack1) private(i,n,tid,nthr)
+!$OMP& private(s22,s12,st2,sa1,sa0,st1,ms1,ms2,ishift2) 
+!$OMP& private(shift,shift2,mb,notgram,nn,s11,s21,dummy)
+!$OMP& private(treset,treduce) firstprivate(ispin,nida,nidb,np) 
+!$OMP& shared(ne,psi1,psi2,dte) 
 
 #ifdef MKL
         dummy = mkl_set_num_threads_local(Parallel_nthreads())
 #endif
-      counter = 0
       treset = 0.0
       treduce = 0.0
       tid  = Parallel_threadid()
@@ -112,7 +111,6 @@
          n     = ne(ms)
          if (n.le.0) go to 30
 
-!         counter = counter+3
 
 !zero out the three matrices in one operation
         call eDneall_ffm_zeroMatrix(tmp(s11),n,3*n,treset)
@@ -150,11 +148,13 @@
           tmp(elem)=tmp(elem+shift2)
         end do
 #else
+        if(shift2 .ne. 0) then
 !$OMP SINGLE
         tmp(st2:st2+n*n-shift2)=tmp(st2+shift2:st2+n*n)
         tmp(sa1:sa1+n*n-shift2)=tmp(sa1+shift2:sa1+n*n)
         tmp(sa0:sa0+n*n-shift2)=tmp(sa0+shift2:sa0+n*n)
 !$OMP END SINGLE
+        end if
 #endif
       end if
       call nwpw_timing_end(15)    

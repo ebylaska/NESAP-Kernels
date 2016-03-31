@@ -12,11 +12,11 @@ c=$5
 t=$6
 filter=$7
 ca=$c
-ta=4
-domain=$((${ca}*${ta}))
+ta=$(($t>4?$t:4))
+ta=$c
+domain=$((${c}*${ta}))
 dc=$domain
 
-echo -e "p=$p\nc=$c\nt=$t\ndomain=$domain\n"
 
 unset I_MPI_PIN_DOMAIN
 unset KMP_AFFINITY
@@ -34,10 +34,11 @@ export OMP_NESTED=true
 
 
 #export OMP_PLACES={1:$t}:$c:$ta
-export OMP_PLACES="cores($c)"
+export OMP_PLACES="cores"
 export OMP_PROC_BIND=spread,close
-#export OMP_DISPLAY_ENV=true
 export OMP_NUM_THREADS=${c},${t}
+export MKL_NUM_THREADS=${t}
+#export OMP_DISPLAY_ENV=true
 
 #export OLD_KMP_PLACE_THREADS=${ca}Cx${ta}T,0O,
 ####export KMP_PLACE_THREADS=1s@0,${ca}c@0,${ta}t
@@ -51,23 +52,31 @@ export OMP_NUM_THREADS=${c},${t}
 #export KMP_AFFINITY=compact,
 #export KMP_AFFINITY=scatter,
 #export KMP_AFFINITY=balanced,
-export KMP_AFFINITY=${KMP_AFFINITY}verbose
+#export KMP_AFFINITY=${KMP_AFFINITY}verbose
 #this is causing the warning about KMP_PLACE_THREADS
 
 export I_MPI_PIN_DOMAIN=${domain}:compact
 
+export OMP_WAIT_POLICY=passive
+export KMP_BLOCKTIME=400
 
 #echo "KMP_AFFINITY=$KMP_AFFINITY"
+
+echo "OMP_PLACES=$OMP_PLACES"
+echo "OMP_PROC_BIND=$OMP_PROC_BIND"
 echo "OMP_NUM_THREADS=$OMP_NUM_THREADS"
 #echo "OLD KMP_PLACE_THREADS=$OLD_KMP_PLACE_THREADS"
-echo "KMP_PLACE_THREADS=$KMP_PLACE_THREADS"
+#echo "KMP_PLACE_THREADS=$KMP_PLACE_THREADS"
 echo "I_MPI_PIN_DOMAIN=$I_MPI_PIN_DOMAIN"
 
+#mpiexec.hydra -n $p $exe 
+echo -e "p=$p\nc=$c\nt=$t\ndomain=$domain\n"
 echo -e "${npack}\n${ne1}\n${ne2}\n" > tmpparams; 
-if [[ -z "$filter" ]]
-then
+#if [[ -z "$filter" ]]
+#then
+#mpiexec.hydra -n $p $exe < tmpparams 
+#else
+#mpiexec.hydra -n $p $exe < tmpparams | grep -v "ALIVE" | grep -v "Reset" | tail -n 6 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
+#fi
 mpiexec.hydra -n $p $exe < tmpparams 
-else
-mpiexec.hydra -n $p $exe < tmpparams | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
-fi
 
