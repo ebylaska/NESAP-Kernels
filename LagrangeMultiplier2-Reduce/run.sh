@@ -21,6 +21,7 @@ mincores=1
 
 minth=1
 maxth=240
+maxth=4
 if [[ "$#" -ge 4 ]]; then
   minthreads=$4
   if [[ "$#" -ge 5 ]]; then
@@ -93,6 +94,7 @@ do
         echo -n "$npack ${ne1} ${ne1} $p $c $t    "; 
         echo -e "${npack}\n${ne1}\n${ne2}\n" > tmpparams; 
         mpiexec.hydra -n $p $exe < tmpparams > out.tmp
+        cat out.tmp | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-3) }' | tr '\n' "   " 
         cat out.tmp | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
         cp out.tmp out_${p}_${c}_${t}_${SLURM_JOB_ID}.dat
 #        echo $KMP_PLACE_THREADS >> out_${p}_${c}_${t}_${SLURM_JOB_ID}.dat 

@@ -23,7 +23,6 @@ OPTIONS += -mmic
 #OPTIONS += -heap-arrays 1024
 #OPTIONS += -align array64byte
 FFLAGS =  -qopenmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl 
-#FFLAGS += -DMKL
 #FFLAGS =  -fopenmp -DUSE_OPENMP $(OPTIONS) 
 #FFLAGS =  $(OPTIONS) 
 FC = mpiifort
@@ -38,6 +37,9 @@ LDFLAGS=-fopenmp -mkl -mmic
 
 #FFLAGS+= -DOPENMP_REDUCE
 #SUFFIX=.mic.romp
+
+FFLAGS += -DMKL
+SUFFIX=.mic.mkl
 
 all: affinity lmbda_test.x
 

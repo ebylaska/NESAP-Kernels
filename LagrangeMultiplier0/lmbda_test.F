@@ -1,8 +1,8 @@
 
       subroutine lmbda_test_r(npack1,ne)
-      #ifdef INTEL
+#ifdef INTEL
       USE IFPORT
-      #endif
+#endif
       implicit none
 
 *     **** arguments ****
