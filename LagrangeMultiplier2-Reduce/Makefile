@@ -6,45 +6,25 @@ OBJECTS = lmbda_test.o Parallel-mpi.o nwpw_timing.o pack.o psi_lmbda.o
 LIBRARY = -mkl
 
 
-CXXOPTIONS =  -O3 -g -qopenmp -DINTEL
-OPTIONS =  -O3 -g
+CXXOPTIONS =  -O0 -g -fopenmp -DINTEL
+OPTIONS =  -O0 -g
 
-#SUFFIX=.host
 SUFFIX=.mic
-CXXOPTIONS += -mmic 
-OPTIONS += -mmic
-
-#-DMKL_DIRECT_CALL_SEQ 
-#OPTIONS += -DBLK_FMF=300 
-#OPTIONS += -O0 -g3 
-#OPTIONS += -DBIG_GEMM
-#OPTIONS += -DOMP_TASK
-#CXXOPTIONS += -DOMP_TASK
-#OPTIONS += -heap-arrays 1024
-#OPTIONS += -align array64byte
-FFLAGS =  -qopenmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl 
-#FFLAGS =  -fopenmp -DUSE_OPENMP $(OPTIONS) 
-#FFLAGS =  $(OPTIONS) 
+CXXOPTIONS += -xMIC_AVX512 
+OPTIONS +=  -xMIC_AVX512
+FFLAGS =  -fopenmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl 
 FC = mpiifort
 CXX = mpiicpc
-
 CC=mpiicc
-CFLAGS=-fopenmp -g -O2 -mkl -mmic
-LDFLAGS=-fopenmp -mkl -mmic 
-
-
-#FC = mpif90.mpich
-
-#FFLAGS+= -DOPENMP_REDUCE
-#SUFFIX=.mic.romp
-
-FFLAGS += -DMKL
-SUFFIX=.mic.mkl
+CFLAGS=-fopenmp -g -O0 -mkl -xMIC_AVX512
 
 all: affinity lmbda_test.x
 
-lmbda_test.x: ${OBJECTS}
-	$(FC) -o lmbda_test.x${SUFFIX} ${FFLAGS} ${OBJECTS} ${LIBRARY}
+gemm.o: gemm.c
+	$(CC) -o gemm.o -c ${CFLAGS} gemm.c
+
+lmbda_test.x: ${OBJECTS} gemm.o
+	$(FC) -o lmbda_test.x${SUFFIX} ${FFLAGS} ${OBJECTS} gemm.o ${LIBRARY}
 
 
 dgemm_simple: dgemm_simple.cpp

@@ -112,6 +112,8 @@ c     +++++++++++++++++++++++++++++++++++
          end do
       end do
 
+
+
 !      write(*,*) "orthonormal passed"
 
       !*** dpsi1 = error ***

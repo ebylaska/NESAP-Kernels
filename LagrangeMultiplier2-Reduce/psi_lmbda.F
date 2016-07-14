@@ -780,7 +780,7 @@ c     ****************************************
 
             !*** just threaded ****
             if (algorithm(ms).lt.1) then
-#if 1
+#if 0
                call DGEMM('N','N',mend-mstart,nend-nstart,n,
      >                alpha,
      >                A(ishiftA), n,
@@ -788,13 +788,16 @@ c     ****************************************
      >                beta,
      >                C(ishiftC), n)
 #else
-               call omp_dgemm('N','N',mend-mstart,nend-nstart,n,
+
+!$OMP PARALLEL 
+               call dgemm_omp('N','N', mend-mstart,nend-nstart,n,
      >                alpha,
      >                A(ishiftA), n,
      >                B(ishiftB), n,
      >                beta,
-     >                C(ishiftC), n, BLK_MMM)
+     >                C(ishiftC), n)
 !$OMP BARRIER
+!$OMP END PARALLEL
 #endif
             !*** threads and cpus ****
             else
@@ -804,7 +807,7 @@ c     ****************************************
 !$OMP BARRIER
                call dlacpy('G',(mend-mstart),(nend-nstart),
      >                     C(ishiftC),n,tmp(ishiftC),n)
-#if 1
+#if 0
                call DGEMM('N','N',mend-mstart,nend-nstart,n,
      >                alpha,
      >                A(ishiftA), n,
@@ -812,13 +815,15 @@ c     ****************************************
      >                beta,
      >                tmp(ishiftC), n)
 #else
-               call omp_dgemm('N','N',mend-mstart,nend-nstart,n,
+!$OMP PARALLEL 
+               call dgemm_omp('N','N',mend-mstart,nend-nstart,n,
      >                alpha,
      >                A(ishiftA), n,
      >                B(ishiftB), n,
      >                beta,
-     >                tmp(ishiftC), n,BLK_MMM)
+     >                tmp(ishiftC), n)
 !$OMP BARRIER
+!$OMP END PARALLEL
 #endif
             end if
           end if
@@ -958,7 +963,7 @@ c     ****************************************
          shift  = 1 + (ms-1)*ne(1)*npack1
          shift2 = 1 + (ms-1)*ishift2
 
-#if 1
+#if 0
          call DGEMM('N','N',2*(mend-mstart),n,n,
      >             (alpha),
      >             Ain(shift+mstart), 2*npack1,
@@ -966,12 +971,14 @@ c     ****************************************
      >             (beta),
      >             Aout(shift+mstart),2*npack1)
 #else      
-         call omp_dgemm('N','N',2*(mend-mstart),n,n,
+!$OMP PARALLEL 
+         call dgemm_omp('N','N',2*(mend-mstart),n,n,
      >             (alpha),
      >             Ain(shift+mstart), 2*npack1,
      >             hml(shift2),    n,
      >             (beta),
-     >             Aout(shift+mstart),2*npack1,BLK_FMF)
+     >             Aout(shift+mstart),2*npack1)
+!$OMP END PARALLEL
 #endif
    30    continue
       end do
