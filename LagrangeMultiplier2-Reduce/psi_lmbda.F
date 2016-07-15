@@ -69,7 +69,7 @@
 !$OMP& private(s22,s12,st2,sa1,sa0,st1,ms1,ms2,ishift2) 
 !$OMP& private(shift,shift2,mb,notgram,nn,s11,s21,dummy)
 !$OMP& private(treset,treduce) firstprivate(ispin,nida,nidb,np) 
-!$OMP& shared(ne,psi1,psi2,dte) 
+!$OMP& shared(ne,psi1,psi2,dte,ierr,taskid,adiff) 
 
 #ifdef MKL
         dummy = mkl_set_num_threads_local(Parallel_nthreads())
@@ -170,11 +170,86 @@
         call eDneall_m_scale_s21(mb,ispin,ne,dte,tmp(s21))
         call eDneall_m_scale_s11(mb,ispin,ne,dte,tmp(s11))
 
+
+
+
+#if 0
+!$OMP MASTER
+        call dcopy(nn,tmp(s21),1,tmp(s12),1)
+        call dcopy(nn,tmp(s22),1,tmp(sa0),1)
+!$OMP END MASTER
+!$OMP BARRIER
+
+        do it=1,itrlmd
+!$OMP MASTER
+          call dcopy(nn,tmp(s22),1,tmp(sa1),1)
+!$OMP END MASTER
+!$OMP BARRIER
+          call eDneall_mmm_Multiply(mb,ispin,ne,
+     >                              tmp(s21),tmp(sa0),1.0d0,
+     >                              tmp(sa1),1.0d0,tmp(st2))
+          call eDneall_mmm_Multiply(mb,ispin,ne,
+     >                              tmp(sa0),tmp(s12),1.0d0,
+     >                              tmp(sa1),1.0d0,tmp(st2))
+          call eDneall_mmm_Multiply(mb,ispin,ne,
+     >                              tmp(s11),tmp(sa0),1.0d0,
+     >                              tmp(st1),0.0d0,tmp(st2))
+          call eDneall_mmm_Multiply(mb,ispin,ne,
+     >                              tmp(sa0),tmp(st1),1.0d0,
+     >                              tmp(sa1),1.0d0,tmp(st2))
+
+!$OMP MASTER
+          call dcopy(nn,tmp(sa1),1,tmp(st1),1)
+          call daxpy(nn,(-1.0d0),tmp(sa0),1,tmp(st1),1)
+          adiff = eDneall_m_dmax(mb,ispin,ne,tmp(st1))
+!$OMP END MASTER
+!$OMP BARRIER
+
+          if(adiff.lt.convg) GO TO 630
+          if (adiff.gt.1.0d10) go to 620
+
+!$OMP MASTER
+          call dcopy(nn,tmp(sa1),1,tmp(sa0),1)
+!$OMP END MASTER
+!$OMP BARRIER
+        end do
+
+  620   continue
+        
+!$OMP MASTER
+        ierr=10 
+        call Parallel_taskid(taskid)
+        if (taskid.eq.MASTER) then
+          write(6,*) 
+     >     'Warning: Lagrange Multiplier tolerance too high:',adiff
+          write(6,*) '        +Try using a smaller time step'
+          write(6,*) '        +Gram-Schmidt being performed, spin:',ms
+        end if
+c        call Dneall_f_GramSchmidt(ms,psi2,npack1)
+        notgram = .false.
+!$OMP END MASTER
+!$OMP BARRIER
+
+  630   continue
+
+*       :::::::::::::::::  correction due to the constraint  :::::::::::::::::
+        if (notgram)
+     >     call eDneall_fmf_Multiply(mb,ispin,ne,
+     >                              psi1,nida+nidb,
+     >                              tmp(sa1), dte,
+     >                              psi2,1.0d0)
+
+        call eDneall_mm_Expand(mb,ne,tmp(sa1),lmbda)
+#endif
+
+
+
+
   640 continue
 !$OMP END PARALLEL 
 
 
-        
+#if 1        
 
 #ifdef MKL
         !restore the number of threads
@@ -246,6 +321,7 @@ c        call Dneall_f_GramSchmidt(ms,psi2,npack1)
 
         call eDneall_mm_Expand(mb,ne,tmp(sa1),lmbda)
   650 continue
+#endif
 
 c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       call nwpw_timing_end(3)
