@@ -60,7 +60,6 @@
       call Parallel_np(np)
 *::::::::::::::::::::::  Lagrangian multipliers  ::::::::::::::::::::::
 
-      !call omp_debug_ids()
 
 
 
@@ -115,21 +114,26 @@
 !zero out the three matrices in one operation
         call eDneall_ffm_zeroMatrix(tmp(s11),n,3*n,treset)
 
-
+!$OMP SINGLE
         call eDneall_ffm_sym_Multiply_reduce(psi2,psi2,
      >                                nida,nidb,ne,
      >                                tmp(s22),tmp(sa0),thrlmbda,
      >                                 shift,shift2,n,treset,treduce)
+!$OMP END SINGLE NOWAIT
 
+!$OMP SINGLE
         call eDneall_ffm_sym_Multiply_reduce(psi2,psi1,
      >                                nida,nidb,ne,
      >                                tmp(s21),tmp(sa1),thrlmbda,
      >                                 shift,shift2,n,treset,treduce)
+!$OMP END SINGLE NOWAIT
 
+!$OMP SINGLE
         call eDneall_ffm_sym_Multiply_reduce(psi1,psi1,
      >                                nida,nidb,ne,
      >                                tmp(s11),tmp(st1),thrlmbda,
      >                                 shift,shift2,n,treset,treduce)
+!$OMP END SINGLE NOWAIT
 
 !$OMP BARRIER
       call nwpw_timing_start(15)    
@@ -371,24 +375,40 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       real*8 thrhml(*)
 
       integer n,shift,shift2
-      integer tid
+      integer nk,bk,offsetk
+      integer tid,nthr,chunk,ne1
 
 *     **** external functions ****
       integer  Parallel_threadid,Parallel_nthreads
       external Parallel_threadid,Parallel_nthreads
       double precision treset,treduce
 
+!      tid  = Parallel_threadid()
+      nthr = Parallel_nthreads()
+
+      ne1 = ne(1)
+      do chunk=0,nthr-1
+      !compute offsets in A and B
+      nk = 2*nidb
+      bk = floor(REAL(nk)/REAL(nthr))
+      offsetk = (chunk)*bk
+      if(chunk==nthr-1) bk = nk-offsetk
+
+!$OMP TASK firstprivate(nk,bk,offsetk,tid) shared(ne,ne1)
       call nwpw_timing_start(15)    
       tid  = Parallel_threadid()
          call epack_ccm_sym_dot_reduce(nida,nidb,n,
      >                     A1(shift),
      >                     A2(shift),
      >                     hml(shift2), tmp,
-     >                     thrhml((tid)*ne(1)*ne(1)*8+ shift2),
-     >                            treset,treduce)
-
-
+     >                     thrhml((tid)*ne1*ne1*8+ shift2),
+     >                     nk,bk,offsetk,treset,treduce)
       call nwpw_timing_end(15)    
+!$OMP END TASK
+      end do
+
+!$OMP TASKWAIT
+
       return
       end
 
@@ -456,47 +476,8 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       return
       end
 
-      subroutine omp_debug_ids()
-      USE ISO_FORTRAN_ENV, ONLY : ERROR_UNIT
-      implicit none
-      integer tid,nthr,level,plevel,gtid
-      integer ptid,pnthr,i
-      integer  Parallel_threadid,omp_get_num_threads
-      external Parallel_threadid,omp_get_num_threads
-      integer  omp_get_active_level
-      external omp_get_active_level
-!$OMP PARALLEL private(tid,nthr,ptid,pnthr,level,plevel,gtid)
-!$OMP& proc_bind(spread)
-        level = omp_get_active_level()
-        tid  = Parallel_threadid()
-        nthr = omp_get_num_threads()
-        do i=0,nthr-1
-        if(tid .eq. i) then
-        write(ERROR_UNIT,*) "level is",level,"tid is",tid,
-     >                                       ", nthr is",nthr
-!$OMP PARALLEL private(ptid,pnthr,plevel,gtid) proc_bind(close)
-        plevel = omp_get_active_level()
-        ptid  = Parallel_threadid()
-        pnthr = omp_get_num_threads()
-
-        if(ptid.eq.0) then
-           gtid=tid
-        else
-           gtid=nthr+tid*(pnthr-1)+ptid-1 
-        end if
-
-        write(ERROR_UNIT,*) "      ","level is",plevel,"ptid is",ptid,
-     >                              ", pnthr is",pnthr,", gtid is",gtid
-!$OMP END PARALLEL
-        end if
-!$OMP BARRIER
-        end do
-!$OMP END PARALLEL
-      end
-
-
       subroutine epack_ccm_sym_dot_reduce(nida,nidb,n,A,B,matrix,tmp,
-     >                                                    thrmatrix,
+     >                                        thrmatrix,nk,bk,offsetk,
      >                                          treset,treduce)
       implicit none
       integer    nida,nidb,n
@@ -531,14 +512,16 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       npack  = (nida+nidb)
       npack2 = 2*npack
 
+!      nk = 2*nidb
+!      bk = floor(REAL(nk)/REAL(nthr))
+!      offsetk = (tid)*bk
+!      if(tid==nthr-1) bk = nk-offsetk
+
+
 #ifndef OPENMP_REDUCE
       !tstart = omp_get_wtime()
-      !compute offsets in A and B
-      nk = npack2 - 2*nida
-      bk = floor(REAL(nk)/REAL(nthr))
-      offsetk = (tid)*bk
-      if(tid==nthr-1) bk = nk-offsetk
 
+#if 1
       call DGEMM('T','N',n,n,bk,
      >             2.0d0,
      >             A(1+ 2*nida + offsetk),npack2,
@@ -553,6 +536,26 @@ c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
      >             1.0d0,
      >             thrmatrix, n)
       end if
+#else
+!$OMP TASKGROUP
+      call dgemm_omp('T','N',n,n,bk,
+     >             2.0d0,
+     >             A(1+ 2*nida + offsetk),npack2,
+     >             B(1+ 2*nida + offsetk),npack2,
+     >             0.0d0,
+     >             thrmatrix, n)
+
+      if(tid.eq.0) then
+      call dgemm_omp('T','N',n,n,2*nida,
+     >             1.0d0,
+     >             A,npack2,
+     >             B,npack2,
+     >             1.0d0,
+     >             thrmatrix, n)
+      end if
+!$OMP END TASKGROUP
+
+#endif
 
 !     THIS SHOULD BE IMPLEMENTED AS AN OPENMP REDUCTION
 !     perform OMP reduction
@@ -856,7 +859,7 @@ c     ****************************************
 
             !*** just threaded ****
             if (algorithm(ms).lt.1) then
-#if 0
+#if 1
                call DGEMM('N','N',mend-mstart,nend-nstart,n,
      >                alpha,
      >                A(ishiftA), n,
@@ -872,7 +875,7 @@ c     ****************************************
      >                B(ishiftB), n,
      >                beta,
      >                C(ishiftC), n)
-!$OMP BARRIER
+!!!$OMP BARRIER
 !$OMP END PARALLEL
 #endif
             !*** threads and cpus ****
@@ -883,7 +886,7 @@ c     ****************************************
 !$OMP BARRIER
                call dlacpy('G',(mend-mstart),(nend-nstart),
      >                     C(ishiftC),n,tmp(ishiftC),n)
-#if 0
+#if 1
                call DGEMM('N','N',mend-mstart,nend-nstart,n,
      >                alpha,
      >                A(ishiftA), n,
@@ -898,7 +901,7 @@ c     ****************************************
      >                B(ishiftB), n,
      >                beta,
      >                tmp(ishiftC), n)
-!$OMP BARRIER
+!!!$OMP BARRIER
 !$OMP END PARALLEL
 #endif
             end if
@@ -1039,7 +1042,7 @@ c     ****************************************
          shift  = 1 + (ms-1)*ne(1)*npack1
          shift2 = 1 + (ms-1)*ishift2
 
-#if 0
+#if 1
          call DGEMM('N','N',2*(mend-mstart),n,n,
      >             (alpha),
      >             Ain(shift+mstart), 2*npack1,

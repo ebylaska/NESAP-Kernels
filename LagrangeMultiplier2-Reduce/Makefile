@@ -1,22 +1,21 @@
 SRCDIR = .
-OBJECTS = lmbda_test.o Parallel-mpi.o nwpw_timing.o pack.o psi_lmbda.o
+OBJECTS = lmbda_test.o Parallel-mpi.o nwpw_timing.o pack.o psi_lmbda.o gemm.o
 
 #LIBRARY = ${HOME}/software/OpenBLAS/libopenblas.a
 #LIBRARY = -lblas
-LIBRARY = -mkl
+LIBRARY = -mkl -fopenmp
 
-
-CXXOPTIONS =  -O0 -g -fopenmp -DINTEL
-OPTIONS =  -O0 -g
+CXXOPTIONS =  -O3 -g -fopenmp -DINTEL
+OPTIONS =  -O0 -g -mkl
 
 SUFFIX=.mic
 #CXXOPTIONS += -xMIC_AVX512 
 #OPTIONS +=  -xMIC_AVX512
-FFLAGS =  -fopenmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl 
+FFLAGS =  -fopenmp -DUSE_OPENMP -DINTEL $(OPTIONS)
 FC = mpiifort
 CXX = mpiicpc
 CC=mpiicc
-CFLAGS=-fopenmp -g -O0 -mkl 
+CFLAGS=-fopenmp $(OPTIONS) 
 #CFLAGS += -xMIC_AVX512
 
 
@@ -40,10 +39,11 @@ CFLAGS=-fopenmp -g -O0 -mkl
 
 all: affinity lmbda_test.x
 
+gemm_driver: gemm_driver.o gemm.o
+	$(CC) -o gemm_driver ${CFLAGS} gemm_driver.o gemm.o ${LIBRARY}
 
-
-lmbda_test.x: ${OBJECTS} gemm.o
-	$(FC) -o lmbda_test.x${SUFFIX} ${FFLAGS} ${OBJECTS} gemm.o ${LIBRARY}
+lmbda_test.x: ${OBJECTS} 
+	$(FC) -o lmbda_test.x${SUFFIX} ${FFLAGS} ${OBJECTS} ${LIBRARY}
 
 
 dgemm_simple: dgemm_simple.cpp

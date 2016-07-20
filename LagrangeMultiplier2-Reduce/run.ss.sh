@@ -20,7 +20,7 @@ maxthreads=4
 maxmaxth=4
 
 minth=1
-maxth=2
+maxth=4
 
 if [[ "$#" -ge 4 ]]; then
   minthreads=$4
@@ -74,7 +74,7 @@ do
         t=$it
         c=$ic
         #ca=$c
-        ta=$t
+        ta=2 #$t
 
 
 #$it
@@ -84,7 +84,6 @@ do
 
 
         domain=$((${ca}*${ta}))
-        domain=$((${ca}*${taomp}))
         dc=$domain
         
         
@@ -100,18 +99,20 @@ do
         export OMP_NUM_THREADS=${c},${t}
 ###        export OMP_PLACES="{0:$taomp}:$ca:$taomp"
 #        export OMP_PLACES="cores($ca)"
-        export OMP_PLACES="cores"
 #        export OMP_PLACES="threads"
 #echo $ip $domain $OMP_NUM_THREADS $OMP_PLACES
 #echo $ip $domain $OMP_NUM_THREADS $OMP_PLACES 1>&2 
 #
+
+
+
+        export OMP_PLACES="cores"
         export OMP_PROC_BIND=spread,close
-#        export OMP_PROC_BIND=close
+
+
 ##       export I_MPI_PIN_DOMAIN=auto
 ##       export I_MPI_PIN_DOMAIN=omp
-#
-
-       export I_MPI_PIN_DOMAIN=${domain}:compact
+#       export I_MPI_PIN_DOMAIN=${domain}:compact
 
 #
 ##       export I_MPI_DEBUG=4
