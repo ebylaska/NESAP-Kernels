@@ -11,13 +11,13 @@ OPTIONS =  -O3 -g -mkl
 
 SUFFIX=.mic
 #CXXOPTIONS += -xMIC_AVX512 
-#OPTIONS +=  -xMIC_AVX512
+OPTIONS +=  -xMIC_AVX512
 FFLAGS =  -fopenmp -DUSE_OPENMP -DINTEL $(OPTIONS)
 FC = mpiifort
 CXX = mpiicpc
-CC=mpiicc
+CC= mpiicc
 CFLAGS=-fopenmp $(OPTIONS) 
-#CFLAGS += -xMIC_AVX512
+CFLAGS += -xMIC_AVX512
 
 
 

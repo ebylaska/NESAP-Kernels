@@ -15,9 +15,9 @@ if [ "$#" -lt 3 ]; then
 fi
 
 processes=(1) # 4 2)
-minthreads=1
-maxthreads=4
-maxmaxth=4
+minthreads=62
+maxthreads=68
+maxmaxth=272
 
 minth=1
 maxth=4
@@ -116,7 +116,7 @@ do
         echo -e "${npack}\n${ne1}\n${ne2}\n" > tmpparams; 
 
         echo -n "$npack ${ne1} ${ne1} $p $c $t    "; 
-        mpiexec.hydra -n $p $exe < tmpparams | tee out.$(hostname).tmp  | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
+        mpirun -n $p $exe < tmpparams 2>&1 | tee out.$(hostname).tmp  | grep -v "cluster" | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
         #cat out.$(hostname).tmp  | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
 
       fi
