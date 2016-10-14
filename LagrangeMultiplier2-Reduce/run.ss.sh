@@ -15,12 +15,12 @@ if [ "$#" -lt 3 ]; then
 fi
 
 processes=(1) # 4 2)
-minthreads=1
-maxthreads=4
-maxmaxth=4
+minthreads=68
+maxthreads=68
+maxmaxth=272
 
 minth=1
-maxth=2
+maxth=1
 
 if [[ "$#" -ge 4 ]]; then
   minthreads=$4
@@ -48,15 +48,6 @@ for ip in ${processes[@]} #`seq $minprocess $maxprocess`
 do
   mincores=$minthreads
   maxcores=$maxthreads
-#$(($maxmaxth/$ip))
-  #if [[ "$ip" -ne "$minthreads" ]] ; then
-  #  mincores=1
-  #fi
-
-#  if [[ "$#" -lt 7 ]]; then
-#    maxcores=$(($maxthreads/$ip))
-#  fi
-
   npack=$onpack
 
   for ic in `seq $mincores $maxcores`
@@ -64,10 +55,12 @@ do
     for it in `seq $minth $maxth`
     do
       prod=$((${ip}*${ic}*${it}))
-        taomp=$(($it>4?4:$it))
-        ca=$(printf "%.0f\n" $(echo "scale=2;($ic*$it)/$taomp +0.49" | bc))
+
+      taomp=$(($it>4?4:$it))
+      ca=$(printf "%.0f\n" $(echo "scale=2;($ic*$it)/$taomp +0.49" | bc))
       proda=$((${ip}*${ca}*${taomp}))
-#echo $ip $proda vs $maxmaxth
+
+      proda=$prod
       if [ "$maxmaxth" -ge "$proda"  ]
       then
         p=$ip
@@ -78,13 +71,12 @@ do
 
 
 #$it
-        ta=$(($maxmaxth/$prod))
+#        ta=$(($maxmaxth/$prod))
         ta=$(($ta>4?$ta:4))
         #ta=$(($t>4?$t:4))
 
 
         domain=$((${ca}*${ta}))
-        domain=$((${ca}*${taomp}))
         dc=$domain
         
         
@@ -100,34 +92,47 @@ do
         export OMP_NUM_THREADS=${c},${t}
 ###        export OMP_PLACES="{0:$taomp}:$ca:$taomp"
 #        export OMP_PLACES="cores($ca)"
-        export OMP_PLACES="cores"
 #        export OMP_PLACES="threads"
 #echo $ip $domain $OMP_NUM_THREADS $OMP_PLACES
 #echo $ip $domain $OMP_NUM_THREADS $OMP_PLACES 1>&2 
 #
-        export OMP_PROC_BIND=spread,close
-#        export OMP_PROC_BIND=close
-##       export I_MPI_PIN_DOMAIN=auto
-##       export I_MPI_PIN_DOMAIN=omp
-#
 
-       export I_MPI_PIN_DOMAIN=${domain}:compact
 
-#
-##       export I_MPI_DEBUG=4
-##       export KMP_AFFINITY=verbose 
-        
+
+       export OMP_PLACES="cores"
+       export OMP_PROC_BIND=spread,close
+       export I_MPI_PIN_DOMAIN=auto
+      
+#export I_MPI_PIN_MODE=pm                # process launcher sets pinning by system-specific means (default) 
+#export I_MPI_PIN_DOMAIN=auto:compact    # see https://software.intel.com/en-us/articles/mpi-and-process-pinning-on-xeon-phi
+#export OMP_PLACES=threads               # treat each hyperthread as a place an OpenMP task can go
+#export OMP_PROC_BIND=spread             # spread threads as widely as possible (avoid sharing cores,cache etc)
+#export KMP_AFFINITY=noverbose,warnings,respect,granularity=fine,duplicates,scatter,0,0
+#                                          # see https://software.intel.com/en-us/node/522691 
 
         echo -e "${npack}\n${ne1}\n${ne2}\n" > tmpparams; 
 
-        echo -n "$npack ${ne1} ${ne1} $p $c $t    "; 
-        #mpirun.mic -n $p -ppn $p -hosts `hostname`-mic0 $exe < tmpparams > out.$(hostname).tmp
-        mpiexec.hydra -n $p $exe < tmpparams > out.$(hostname).tmp
-        cat out.$(hostname).tmp | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
-#        cp out.$(hostname).tmp out_${p}_${c}_${t}_${SLURM_JOB_ID}.$(hostname).dat
+        #echo -n "$npack ${ne1} ${ne1} $p $c $t    "; 
+        #mpirun -np $p $exe < tmpparams 2>&1 | tee out.$(hostname).tmp  | grep -v "cluster" | grep -v "ALIVE" | grep -v "Reset" | tail -n 8 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
 
-#        cat out.tmp | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-3) }' | tr '\n' "   " 
-#        echo $KMP_PLACE_THREADS >> out_${p}_${c}_${t}_${SLURM_JOB_ID}.dat 
+
+
+        #mpirun -np $p sde -knl -d -iform 1 -omix my_mix.out -i -global_region -start_ssc_mark 111:repeat -stop_ssc_mark 222:repeat -- $exe < tmpparams 
+        mpirun -np $p amplxe-cl -start-paused -r my_vtune -collect memory-access -no-auto-finalize -trace-mpi --  $exe < tmpparams
+#        amplxe-cl -collect advanced-hotspots -- $exe < tmpparams
+
+
+# 2>&1 | tee out.$(hostname).tmp  | grep -v "cluster" | grep -v "ALIVE" | grep -v "Reset" | tail -n 8 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
+        #mpiexec.hydra -n $p $exe < tmpparams 2>&1 | tee out.$(hostname).tmp  | grep -v "cluster" | grep -v "ALIVE" | grep -v "Reset" | tail -n 6 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
+        #cat out.$(hostname).tmp  | grep -v "ALIVE" | grep -v "Reset" | tail -n 5 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
+	#exit
+#        export OMP_PLACES="{0:$ta}:$ca:$ta"
+#        echo -n "$npack ${ne1} ${ne1} $p $c $t    "; 
+#        mpiexec.hydra -n $p $exe < tmpparams 2>&1 | tee out.$(hostname).tmp  | grep -v "cluster" | grep -v "ALIVE" | grep -v "Reset" | tail -n 6 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
+	
+        #export OMP_PLACES="{0:$t}:$ca:$t"
+        #echo -n "$npack ${ne1} ${ne1} $p $c $t    "; 
+        #mpiexec.hydra -n $p $exe < tmpparams 2>&1 | tee out.$(hostname).tmp  | grep -v "cluster" | grep -v "ALIVE" | grep -v "Reset" | tail -n 6 | awk '{print $(NF-2) }' | tr '\n' "   " | awk '{print $0}'
       fi
     done
   done

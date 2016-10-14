@@ -13,9 +13,15 @@
 *     8 - strfac_time
 *     9 - maskC_time
 *    10 - geodesic_time
+
+
+      real*8 thr_nwpw_tim1(60,256),thr_nwpw_tim2(60,256)
+      real*8 thr_times(60,256)
       real*8 nwpw_tim1(60),nwpw_tim2(60)
       real*8 times(60)
       real*8 t0,tf
       common / nwpw_timing_block / times
       common / nwpw_timing2_block / nwpw_tim1,nwpw_tim2,t0,tf
+      common / nwpw_timing_thr_block / thr_nwpw_tim1,thr_nwpw_tim2
+      common / nwpw_timing2_thr_block / thr_times
 

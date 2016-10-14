@@ -25,8 +25,15 @@ c      parameter (npack1_max=5000,nemax=100)
 
       integer ispin,n1(2),n2(2),ms
       integer i,j,k,n,indxj,indxk,shift,mpierr,provided,ierr
+      integer tid,nthr,mthr
       integer number_tests
       real*8 w,ww,dte
+
+*     **** external functions ****
+      integer  Parallel_maxthreads,Parallel_index_1dblock
+      external Parallel_maxthreads,Parallel_index_1dblock
+      integer  Parallel_threadid,Parallel_nthreads
+      external Parallel_threadid,Parallel_nthreads
 
       !**** testing parameters ****
       ispin = 1
@@ -34,7 +41,7 @@ c      parameter (npack1_max=5000,nemax=100)
       !ne(2) = 0 
       !npack1 = 5000  !* npack1 <= npack1_max
       dte    = 1.0d-2 !* maximum component change in psi
-      number_tests = 50
+      number_tests = 5
       !**** testing parameters ****
 
 
@@ -111,8 +118,19 @@ c     -----------------------------------
       end if
 
       do i=1,number_tests
-         call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
-         call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
+!         call dcopy(2*npack1*(ne(1)+ne(2)),psi1,1,psi2,1)
+!         call daxpy(2*npack1*(ne(1)+ne(2)),dte,dpsi1,1,psi2,1)
+
+!$OMP PARALLEL private(n,k,tid,nthr) 
+        tid  = Parallel_threadid()
+        nthr = Parallel_nthreads()
+         do n=tid,(ne(1)+ne(2)-1),nthr
+            do k=1,npack1
+               psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
+            end do
+         end do
+!$OMP END PARALLEL
+
 
          call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
      >                  psi1,psi2,dte,lmbda,tmp,ierr)

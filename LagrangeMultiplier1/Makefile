@@ -6,13 +6,13 @@ OBJECTS = lmbda_test.o Parallel-mpi.o nwpw_timing.o pack.o psi_lmbda.o
 LIBRARY = -mkl
 
 
-CXXOPTIONS =  -O3 -g -qopenmp -DINTEL
+CXXOPTIONS =  -O3 -g -fopenmp -DINTEL
 OPTIONS =  -O3 -g
 
 #SUFFIX=.host
 SUFFIX=.mic
-CXXOPTIONS += -mmic 
-OPTIONS += -mmic
+CXXOPTIONS += -xMIC_AVX512
+OPTIONS += -xMIC_AVX512
 
 #-DMKL_DIRECT_CALL_SEQ 
 OPTIONS += -O3 -g3 
@@ -21,7 +21,7 @@ OPTIONS += -O3 -g3
 #CXXOPTIONS += -DOMP_TASK
 #OPTIONS += -heap-arrays 1024
 #OPTIONS += -align array64byte
-FFLAGS =  -qopenmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl 
+FFLAGS =  -fopenmp -DUSE_OPENMP -DINTEL $(OPTIONS) -mkl 
 FC = mpiifort
 CXX = mpiicpc
 #FC = mpif90.mpich

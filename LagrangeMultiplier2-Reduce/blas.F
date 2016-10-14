@@ -71,3 +71,9 @@ c
       ddot = tsum
       return
       end
+
+
+
+
+
+

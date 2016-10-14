@@ -8,6 +8,7 @@
      >                     psi1,psi2,
      >                     dte,
      >                     lmbda,tmp,ierr)
+      use itt_sde_fortran
 
       implicit none
       integer ispin,ne(2),nemaxq,nida,nidb
@@ -37,6 +38,7 @@
       real*8   eDneall_m_dmax
       external eDneall_m_dmax
 
+      call start_collection()
       call nwpw_timing_start(3)
 
 
@@ -125,6 +127,7 @@ c        call Dneall_f_GramSchmidt(ms,psi2,npack1)
 c*:::::::::::::::::  correction due to the constraint  :::::::::::::::::
       call nwpw_timing_end(3)
 
+      call stop_collection()
       return
       end
 

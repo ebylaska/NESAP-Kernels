@@ -154,7 +154,7 @@ c     -----------------------------------
       end if
 
       !**** lagrange multiplier test ****
-
+      mthr = max(mthr,4)
 
       call lmbda_test_computations(oprint,npack1,ne,nida,nidb,
      >                      dpsi1,number_tests,mthr,
@@ -198,6 +198,9 @@ c     -----------------------------------
       subroutine lmbda_test_computations(oprint,npack1,ne,nida,nidb,
      >                      dpsi1,number_tests,mthr,
      >                      ispin,psi1,psi2,dte,lmbda,tmp,ierr)
+#ifndef OPENMP_REDUCE
+      USE omp_lib
+#endif
       implicit none
 
 *     **** arguments ****
@@ -215,18 +218,28 @@ c     -----------------------------------
       real*8 lmbda(ne(1)*ne(1)*2),tmp(ne(1)*ne(1)*8)
 #ifndef OPENMP_REDUCE
       real*8 thrlmbda(mthr*ne(1)*ne(1)*8)
+
+      INTEGER(kind=omp_nest_lock_kind) reduce_lock1
+      INTEGER(kind=omp_nest_lock_kind) reduce_lock2
+      INTEGER(kind=omp_nest_lock_kind) reduce_lock3
+      common / reduce_ffm / reduce_lock1,reduce_lock2,reduce_lock3
 #else
       real*8 thrlmbda(1)
 #endif
 
-      double precision thrtreduce(mthr)
-      double precision thrtreset(mthr)
-      double precision treset,treduce
+      integer taskid
+      real*8  adiff
+      logical notgram
+
+!      double precision thrtreduce(mthr)
+!      double precision thrtreset(mthr)
+!      double precision treset,treduce
       
 
       integer ispin,n1(2),n2(2),ms
       integer i,j,k,n,ierr,tid,nthr,mthr
       integer number_tests
+      integer ffmcount,fmfcount,mmmcount
       real*8 dte
 
 *     **** external functions ****
@@ -236,23 +249,37 @@ c     -----------------------------------
       external Parallel_threadid,Parallel_nthreads
 
       double precision tstart,tstop,tpsi
-      double precision omp_get_wtime
-      external omp_get_wtime
 
 !allocate the extra buffers for the reduce algorithm
 ! in thrlmbda
       call nwpw_timing_init()
 
-      treset  = -1.0
-      treduce = -1.0
-      do i=1,mthr
-        thrtreduce(i) = 0.0
-        thrtreset(i) = 0.0
-      end do
+!      treset  = -1.0
+!      treduce = -1.0
+!      do i=1,mthr
+!        thrtreduce(i) = 0.0
+!        thrtreset(i) = 0.0
+!      end do
 
+      call Parallel_taskid(taskid)
+
+      ffmcount = 0
+      fmfcount=0
+      mmmcount=0
+#ifndef OPENMP_REDUCE
+      call omp_init_nest_lock(reduce_lock1)
+      call omp_init_nest_lock(reduce_lock2)
+      call omp_init_nest_lock(reduce_lock3)
+#endif
+!$OMP PARALLEL default(none)
+!$OMP& shared(ffmcount,fmfcount,mmmcount)
+!$OMP& firstprivate(number_tests,npack1,ispin,nida,nidb)
+!$OMP& shared(dpsi1,ne,psi1,psi2,dte,ierr,taskid,adiff,notgram)
+!$OMP& private(i,n,k,tid,nthr) shared(lmbda,thrlmbda,tmp)
+!$OMP& shared(reduce_lock1,reduce_lock2,reduce_lock3)
       do i=1,number_tests
 
-!$OMP PARALLEL private(n,k,tid,nthr) 
+!!$OMP PARALLEL private(n,k,tid,nthr) 
         tid  = Parallel_threadid()
         nthr = Parallel_nthreads()
          do n=tid,(ne(1)+ne(2)-1),nthr
@@ -260,33 +287,52 @@ c     -----------------------------------
                psi2(k+n*npack1)=psi1(k+n*npack1)+dte*dpsi1(k+n*npack1)
             end do
          end do
-!$OMP END PARALLEL
+!!$OMP END PARALLEL
 
-      tstart = omp_get_wtime()
+! ideal thing to do is to declare the parallel region outside of this
+! loop
+
+!      tstart = omp_get_wtime()
          call psi_lmbda(ispin,ne,ne(1)+ne(2),nida,nidb,
      >                  psi1,psi2,dte,lmbda,tmp,ierr,
-     >                  thrlmbda,thrtreset,thrtreduce)
-      tstop = omp_get_wtime()
-      tpsi = tpsi + tstop - tstart
+     >                  thrlmbda,taskid,adiff,notgram,
+     >                          ffmcount,fmfcount,mmmcount)
+!      tstop = omp_get_wtime()
+!      tpsi = tpsi + tstop - tstart
+
+
       end do
+!$OMP END PARALLEL
+
+
+#ifndef OPENMP_REDUCE
+      call omp_destroy_nest_lock(reduce_lock1)
+      call omp_destroy_nest_lock(reduce_lock2)
+      call omp_destroy_nest_lock(reduce_lock3)
+#endif
+
+
 !      write(*,*) "TIME ELAPSED: ",tpsi
 
-      do i=1,mthr
-!        write(*,*) "T",i, "Reset time",thrtreset(i), "Reduce time",
-!     >                                                  thrtreduce(i)
-        if((treset .eq. -1.0) .or. (treset .le. thrtreset(i))) then
-          treset = thrtreset(i)
-        end if
-
-        if((treduce .eq. -1.0) .or. (treduce .le. thrtreduce(i))) then
-          treduce = thrtreduce(i)
-        end if
-      end do
-
-      write(*,*) "Reset time",treset, "Reduce time",treduce
+!      do i=1,mthr
+!!        write(*,*) "T",i, "Reset time",thrtreset(i), "Reduce time",
+!!     >                                                  thrtreduce(i)
+!        if((treset .eq. -1.0) .or. (treset .le. thrtreset(i))) then
+!          treset = thrtreset(i)
+!        end if
+!
+!        if((treduce .eq. -1.0) .or. (treduce .le. thrtreduce(i))) then
+!          treduce = thrtreduce(i)
+!        end if
+!      end do
+!
+!      write(*,*) "Reset time",treset, "Reduce time",treduce
 
       call Parallel_barrier()
 !      write(*,*) "ALIVE"
+      write(*,*) "ffm count per step:",ffmcount/number_tests
+      write(*,*) "fmf count per step:",fmfcount/number_tests
+      write(*,*) "mmm count per step:",mmmcount/number_tests
       call nwpw_timing_print_final(oprint,number_tests)
 
       end
