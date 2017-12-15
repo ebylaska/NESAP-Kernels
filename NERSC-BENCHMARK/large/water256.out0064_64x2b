@@ -1,0 +1,3023 @@
+[PE_0]: MPI rank order: Using default aprun rank ordering.
+[PE_0]: rank 0 is on nid11520
+[PE_0]: rank 1 is on nid11521
+[PE_0]: rank 2 is on nid11522
+[PE_0]: rank 3 is on nid11526
+[PE_0]: rank 4 is on nid11527
+[PE_0]: rank 5 is on nid11530
+[PE_0]: rank 6 is on nid11531
+[PE_0]: rank 7 is on nid11532
+[PE_0]: rank 8 is on nid11533
+[PE_0]: rank 9 is on nid11534
+[PE_0]: rank 10 is on nid11535
+[PE_0]: rank 11 is on nid11540
+[PE_0]: rank 12 is on nid11541
+[PE_0]: rank 13 is on nid11542
+[PE_0]: rank 14 is on nid11543
+[PE_0]: rank 15 is on nid11544
+[PE_0]: rank 16 is on nid11545
+[PE_0]: rank 17 is on nid11546
+[PE_0]: rank 18 is on nid11547
+[PE_0]: rank 19 is on nid11548
+[PE_0]: rank 20 is on nid11549
+[PE_0]: rank 21 is on nid11550
+[PE_0]: rank 22 is on nid11551
+[PE_0]: rank 23 is on nid11552
+[PE_0]: rank 24 is on nid11553
+[PE_0]: rank 25 is on nid11554
+[PE_0]: rank 26 is on nid11555
+[PE_0]: rank 27 is on nid11556
+[PE_0]: rank 28 is on nid11557
+[PE_0]: rank 29 is on nid11558
+[PE_0]: rank 30 is on nid11559
+[PE_0]: rank 31 is on nid11560
+[PE_0]: rank 32 is on nid11561
+[PE_0]: rank 33 is on nid11562
+[PE_0]: rank 34 is on nid11563
+[PE_0]: rank 35 is on nid11564
+[PE_0]: rank 36 is on nid11565
+[PE_0]: rank 37 is on nid11566
+[PE_0]: rank 38 is on nid11567
+[PE_0]: rank 39 is on nid11568
+[PE_0]: rank 40 is on nid11569
+[PE_0]: rank 41 is on nid11570
+[PE_0]: rank 42 is on nid11571
+[PE_0]: rank 43 is on nid11572
+[PE_0]: rank 44 is on nid11573
+[PE_0]: rank 45 is on nid11574
+[PE_0]: rank 46 is on nid11575
+[PE_0]: rank 47 is on nid11576
+[PE_0]: rank 48 is on nid11577
+[PE_0]: rank 49 is on nid11578
+[PE_0]: rank 50 is on nid11579
+[PE_0]: rank 51 is on nid11580
+[PE_0]: rank 52 is on nid11581
+[PE_0]: rank 53 is on nid11582
+[PE_0]: rank 54 is on nid11583
+[PE_0]: rank 55 is on nid11584
+[PE_0]: rank 56 is on nid11585
+[PE_0]: rank 57 is on nid11586
+[PE_0]: rank 58 is on nid11587
+[PE_0]: rank 59 is on nid11588
+[PE_0]: rank 60 is on nid11589
+[PE_0]: rank 61 is on nid11590
+[PE_0]: rank 62 is on nid11591
+[PE_0]: rank 63 is on nid11592
+MPI VERSION    : CRAY MPICH version 7.4.4 (ANL base 3.2rc1)
+MPI BUILD INFO : Built Mon Sep 26 14:08:25 2016 (git hash 7f377e8) MT-G
+ argument  1 = ./water256.nw2
+  NWChem w/ OpenMP: maximum threads = 66
+                                         
+                                         
+ 
+ 
+              Northwest Computational Chemistry Package (NWChem) 6.6
+              ------------------------------------------------------
+ 
+ 
+                    Environmental Molecular Sciences Laboratory
+                       Pacific Northwest National Laboratory
+                                Richland, WA 99352
+ 
+                              Copyright (c) 1994-2015
+                       Pacific Northwest National Laboratory
+                            Battelle Memorial Institute
+ 
+             NWChem is an open-source computational chemistry package
+                        distributed under the terms of the
+                      Educational Community License (ECL) 2.0
+             A copy of the license is included with this distribution
+                              in the LICENSE.TXT file
+ 
+                                  ACKNOWLEDGMENT
+                                  --------------
+
+            This software and its documentation were developed at the
+            EMSL at Pacific Northwest National Laboratory, a multiprogram
+            national laboratory, operated for the U.S. Department of Energy
+            by Battelle under Contract Number DE-AC05-76RL01830. Support
+            for this work was provided by the Department of Energy Office
+            of Biological and Environmental Research, Office of Basic
+            Energy Sciences, and the Office of Advanced Scientific Computing.
+
+
+           Job information
+           ---------------
+
+    hostname        = nid11520
+    program         = /global/cscratch1/sd/ebylaska/water256/./nwchem.eric
+    date            = Sat Apr 15 23:11:21 2017
+
+    compiled        = Thu_Apr_13_21:15:26_2017
+    source          = /global/homes/e/ebylaska/nwchem-releases/nwchem
+    nwchem branch   = Development
+    nwchem revision = 29200
+    ga revision     = 10752
+    input           = ./water256.nw2
+    prefix          = water256.
+    data base       = ./perm_water256/water256.db
+    status          = restart
+    nproc           =       64
+    time left       =     -1s
+
+
+
+           Memory information
+           ------------------
+
+    heap     = 1572864000 doubles =  12000.0 Mbytes
+    stack    =  524287997 doubles =   4000.0 Mbytes
+    global   =   13107200 doubles =    100.0 Mbytes (distinct from heap & stack)
+    total    = 2110259197 doubles =  16100.0 Mbytes
+    verify   = yes
+    hardfail = no 
+
+
+           Directory information
+           ---------------------
+ 
+  0 permanent = ./perm_water256
+  0 scratch   = ./perm_water256
+ 
+ 
+           Previous task information
+           -------------------------
+
+    Theory    = pspw                            
+    Operation = steepest_descent              
+    Status    = unknown                       
+    Qmmm      = F
+    Ignore    = F
+
+ 
+           Geometries in the database
+           --------------------------
+ 
+       Name                              Natoms  Last Modified
+       --------------------------------  ------  ------------------------
+    1  geometry                             773  Sat Apr 15 23:03:20 2017  
+ 
+  The geometry named "geometry" is the default for restart
+ 
+ 
+ 
+           Basis sets in the database
+           --------------------------
+ 
+  There are no basis sets in the database
+ 
+ 
+ 
+                                NWChem Input Module
+                                -------------------
+ 
+ 
+               tequil 300K  methane.xyz + 256 water aimd simulation
+               ----------------------------------------------------
+ >>>> PSPW Parallel Module - steepest_descent <<<<
+          ****************************************************
+          *                                                  *
+          *     Car-Parrinello microcluster calculation      *
+          *                                                  *
+          *     [     steepest descent minimization   ]      *
+          *                                                  *
+          *     [ NorthWest Chemistry implementation ]       *
+          *                                                  *
+          *            version #5.00   06/01/99              *
+          *                                                  *
+          *    This code was developed by Eric J. Bylaska,   *
+          *    and was based upon algorithms and code        *
+          *    developed by the group of Prof. John H. Weare *
+          *                                                  *
+          ****************************************************
+     >>>  JOB STARTED       AT Sat Apr 15 23:11:28 2017  <<<
+          ================ PSPW input data ===================
+
+ input psi filename:./perm_water256/water256.movecs
+
+ number of processors used:        64
+ processor grid           :  32 x   2
+ parallel mapping         :   2d hilbert
+ parallel mapping         :     balanced
+ parallel io              :        on
+ number of threads        :        66
+
+ options:
+      ionic motion         = no
+      boundary conditions  = periodic    (version3)
+      electron spin        = restricted
+      exchange-correlation = PBE96 (White and Bird) parameterization
+
+ The masses of QM H atoms converted to 2.0 amu. 
+ To turn off this default set nwpw:makehmass2 .false.
+
+ elements involved in the cluster:
+      1: C   valence charge:  4.0000  lmax=  2
+             comment    : Parameterized (J.Phys.Chem., vol 100, page 6966) Hamman psp
+             pseudpotential type            :   0
+             highest angular component      :   2
+             local potential used           :   2
+             number of non-local projections:   4
+             cutoff =   0.800   0.850   0.850
+ 
+      2: H   valence charge:  1.0000  lmax=  1
+             comment    : Parameterized (Chem.Phys.Lett., vol 322, page 447) Hamman psp
+             pseudpotential type            :   0
+             highest angular component      :   1
+             local potential used           :   1
+             number of non-local projections:   1
+             cutoff =   0.800   0.800
+ 
+      3: O   valence charge:  6.0000  lmax=  2
+             comment    : Parameterized (Chem.Phys.Lett., vol 322, page 447) Hamman psp
+             pseudpotential type            :   0
+             highest angular component      :   2
+             local potential used           :   2
+             number of non-local projections:   4
+             cutoff =   0.700   0.700   0.700
+ 
+
+ total charge=   0.000
+
+ atomic composition:
+     C :    1     H :  516     O :  256
+
+ initial position of ions:
+        1 C    (   -0.22227   -0.93594    0.31429 ) - atomic mass=  12.000          
+        2 H    (    1.83394   -0.93556    0.33088 ) - atomic mass=   2.000          
+        3 H    (   -0.90824    1.00235    0.33088 ) - atomic mass=   2.000          
+        4 H    (   -0.92090   -1.92446    1.97632 ) - atomic mass=   2.000          
+        5 H    (   -0.89369   -1.88591   -1.38096 ) - atomic mass=   2.000          
+        6 O    (   -3.35600   12.54650   -6.22017 ) - atomic mass=  15.995          
+        7 H    (   -4.89613   12.43122   -5.13169 ) - atomic mass=   2.000          
+        8 H    (   -2.53586   14.23024   -5.97640 ) - atomic mass=   2.000          
+        9 O    (    7.40977  -11.11854    5.03503 ) - atomic mass=  15.995          
+       10 H    (    5.73169  -11.98593    5.12385 ) - atomic mass=   2.000          
+       11 H    (    7.45701   -9.70881    6.29170 ) - atomic mass=   2.000          
+       12 O    (   13.21690   -2.79997  -18.06876 ) - atomic mass=  15.995          
+       13 H    (   13.27548   -1.10583   18.37305 ) - atomic mass=   2.000          
+       14 H    (   14.57750   -2.90390  -16.76107 ) - atomic mass=   2.000          
+       15 O    (   11.08340   -8.59765    1.55699 ) - atomic mass=  15.995          
+       16 H    (   10.08184   -7.22193    2.37997 ) - atomic mass=   2.000          
+       17 H    (   11.01159  -10.15478    2.62563 ) - atomic mass=   2.000          
+       18 O    (   -9.49572   11.87375  -11.30732 ) - atomic mass=  15.995          
+       19 H    (   -7.89134   12.45957  -12.11423 ) - atomic mass=   2.000          
+       20 H    (  -10.21003   13.26270  -10.24340 ) - atomic mass=   2.000          
+       21 O    (   -2.47728    3.93690    7.08161 ) - atomic mass=  15.995          
+       22 H    (   -0.90994    4.91200    7.48979 ) - atomic mass=   2.000          
+       23 H    (   -3.78497    4.26761    8.40442 ) - atomic mass=   2.000          
+       24 O    (   -4.89613   -8.48804  -16.26218 ) - atomic mass=  15.995          
+       25 H    (   -3.02908   -8.22537  -16.14312 ) - atomic mass=   2.000          
+       26 H    (   -5.72572   -6.88367  -16.81965 ) - atomic mass=   2.000          
+       27 O    (   -1.76409   -3.49728   -3.41960 ) - atomic mass=  15.995          
+       28 H    (   -1.70532   -2.91713   -5.21673 ) - atomic mass=   2.000          
+       29 H    (   -1.80850   -5.38511   -3.36858 ) - atomic mass=   2.000          
+       30 O    (   -7.92536  -17.75148  -10.19238 ) - atomic mass=  15.995          
+       31 H    (   -8.25795   17.66420  -10.21694 ) - atomic mass=   2.000          
+       32 H    (   -8.27307  -17.02772  -11.90258 ) - atomic mass=   2.000          
+       33 O    (  -10.11933   -7.35043   -3.06622 ) - atomic mass=  15.995          
+       34 H    (   -8.98927   -5.96337   -3.67282 ) - atomic mass=   2.000          
+       35 H    (   -9.38800   -9.02095   -3.56322 ) - atomic mass=   2.000          
+       36 O    (    5.06840   18.35962  -16.99350 ) - atomic mass=  15.995          
+       37 H    (    4.82651  -17.13165  -16.45115 ) - atomic mass=   2.000          
+       38 H    (    6.37231   17.53192  -15.89935 ) - atomic mass=   2.000          
+       39 O    (    3.02183   -0.76029  -13.27074 ) - atomic mass=  15.995          
+       40 H    (    1.23868   -0.13186  -13.26696 ) - atomic mass=   2.000          
+       41 H    (    4.18023    0.63196  -12.73217 ) - atomic mass=   2.000          
+       42 O    (  -14.86821   -6.07486  -12.83610 ) - atomic mass=  15.995          
+       43 H    (  -15.72048   -5.85566  -11.16370 ) - atomic mass=   2.000          
+       44 H    (  -15.82252   -5.11866  -14.15702 ) - atomic mass=   2.000          
+       45 O    (  -11.96181   12.48036   16.61528 ) - atomic mass=  15.995          
+       46 H    (  -10.33287   13.31750   17.08582 ) - atomic mass=   2.000          
+       47 H    (  -13.26761   13.80127   16.26568 ) - atomic mass=   2.000          
+       48 O    (   13.93499    6.01371   10.91586 ) - atomic mass=  15.995          
+       49 H    (   12.29471    5.15200   11.28058 ) - atomic mass=   2.000          
+       50 H    (   14.31105    5.89655    9.06582 ) - atomic mass=   2.000          
+       51 O    (   -6.22460   12.27627   17.61683 ) - atomic mass=  15.995          
+       52 H    (   -5.26462   12.92444   16.12206 ) - atomic mass=   2.000          
+       53 H    (   -6.41358   13.65765  -18.39223 ) - atomic mass=   2.000          
+       54 O    (    1.14306  -15.33830    2.59351 ) - atomic mass=  15.995          
+       55 H    (    1.51042  -14.12510    3.99380 ) - atomic mass=   2.000          
+       56 H    (    0.73753  -17.03527    3.32105 ) - atomic mass=   2.000          
+       57 O    (   17.59161    8.97302   13.09283 ) - atomic mass=  15.995          
+       58 H    (   18.53459   10.47725   12.44276 ) - atomic mass=   2.000          
+       59 H    (   16.38408    8.37020   11.77191 ) - atomic mass=   2.000          
+       60 O    (   13.94255    7.20424   -8.89225 ) - atomic mass=  15.995          
+       61 H    (   13.48713    8.47603   -7.57133 ) - atomic mass=   2.000          
+       62 H    (   14.50569    8.09619  -10.46072 ) - atomic mass=   2.000          
+       63 O    (    6.31373   17.12908    6.12352 ) - atomic mass=  15.995          
+       64 H    (    7.82551   16.01792    6.35028 ) - atomic mass=   2.000          
+       65 H    (    5.90177   17.97568    7.76380 ) - atomic mass=   2.000          
+       66 O    (  -13.41501   -1.95847   10.58327 ) - atomic mass=  15.995          
+       67 H    (  -13.32241   -0.16399   11.16909 ) - atomic mass=   2.000          
+       68 H    (  -11.72748   -2.49100    9.91998 ) - atomic mass=   2.000          
+       69 O    (   10.90009    9.96513  -14.51040 ) - atomic mass=  15.995          
+       70 H    (   12.76903    9.84230  -14.76551 ) - atomic mass=   2.000          
+       71 H    (   10.53538   11.14621  -13.08177 ) - atomic mass=   2.000          
+       72 O    (   -8.08976  -12.50182  -13.64680 ) - atomic mass=  15.995          
+       73 H    (   -7.22427  -10.99571  -14.39324 ) - atomic mass=   2.000          
+       74 H    (   -8.77006  -12.05396  -11.94037 ) - atomic mass=   2.000          
+       75 O    (    5.21013  -11.52105   10.36784 ) - atomic mass=  15.995          
+       76 H    (    4.13676  -11.62499   11.91931 ) - atomic mass=   2.000          
+       77 H    (    4.26527  -10.60832    9.00913 ) - atomic mass=   2.000          
+       78 O    (   -0.77123   -8.61466    1.03089 ) - atomic mass=  15.995          
+       79 H    (   -1.96327   -7.47326    0.11249 ) - atomic mass=   2.000          
+       80 H    (   -1.31434  -10.40990    0.79902 ) - atomic mass=   2.000          
+       81 O    (   -4.30086  -16.99559  -14.99039 ) - atomic mass=  15.995          
+       82 H    (   -4.99439  -17.00504  -13.23106 ) - atomic mass=   2.000          
+       83 H    (   -3.29553  -15.41956  -15.26251 ) - atomic mass=   2.000          
+       84 O    (  -13.29218   11.86619    6.86807 ) - atomic mass=  15.995          
+       85 H    (  -12.12244   12.14209    8.32694 ) - atomic mass=   2.000          
+       86 H    (  -12.28117   11.56951    5.29960 ) - atomic mass=   2.000          
+       87 O    (    6.16066  -13.62999  -15.59699 ) - atomic mass=  15.995          
+       88 H    (    6.60853  -14.29139  -13.88490 ) - atomic mass=   2.000          
+       89 H    (    7.70646  -12.92323  -16.42469 ) - atomic mass=   2.000          
+       90 O    (   -7.80063   16.53571  -16.32454 ) - atomic mass=  15.995          
+       91 H    (   -6.07153   16.79271  -15.60644 ) - atomic mass=   2.000          
+       92 H    (   -8.86644   18.05316  -15.95982 ) - atomic mass=   2.000          
+       93 O    (   -8.32220  -17.05795    9.00157 ) - atomic mass=  15.995          
+       94 H    (   -7.69481  -17.56440   10.71177 ) - atomic mass=   2.000          
+       95 H    (   -8.61133  -15.19090    8.96377 ) - atomic mass=   2.000          
+       96 O    (    6.21168   -5.77440   -3.11913 ) - atomic mass=  15.995          
+       97 H    (    6.71435   -3.95648   -3.21929 ) - atomic mass=   2.000          
+       98 H    (    5.71469   -6.19392   -1.34449 ) - atomic mass=   2.000          
+       99 O    (    7.53071   -1.61776   18.51823 ) - atomic mass=  15.995          
+      100 H    (    8.96313   -0.51257  -18.22215 ) - atomic mass=   2.000          
+      101 H    (    6.27971   -1.76648  -17.36233 ) - atomic mass=   2.000          
+      102 O    (  -16.14377  -13.52416  -16.30186 ) - atomic mass=  15.995          
+      103 H    (  -17.27572  -12.60198  -17.50373 ) - atomic mass=   2.000          
+      104 H    (  -14.37877  -13.52605  -16.97460 ) - atomic mass=   2.000          
+      105 O    (   14.76836  -12.93646   -3.36102 ) - atomic mass=  15.995          
+      106 H    (   14.23357  -11.12610   -3.44795 ) - atomic mass=   2.000          
+      107 H    (   14.51703  -13.74715   -5.04854 ) - atomic mass=   2.000          
+      108 O    (  -16.03606   15.43967  -13.62601 ) - atomic mass=  15.995          
+      109 H    (  -14.76805   16.71523  -13.04775 ) - atomic mass=   2.000          
+      110 H    (  -16.74471   15.96879  -15.29653 ) - atomic mass=   2.000          
+      111 O    (    9.74358  -15.54806  -12.05754 ) - atomic mass=  15.995          
+      112 H    (    9.88531  -17.37731  -12.50918 ) - atomic mass=   2.000          
+      113 H    (   10.97568  -14.54840  -13.08177 ) - atomic mass=   2.000          
+      114 O    (   17.39697    1.08153  -14.56709 ) - atomic mass=  15.995          
+      115 H    (   17.56516    1.79207  -12.82477 ) - atomic mass=   2.000          
+      116 H    (   16.64864    2.38733  -15.71038 ) - atomic mass=   2.000          
+      117 O    (   -1.07604   13.41766   15.57404 ) - atomic mass=  15.995          
+      118 H    (   -0.70887   13.90710   13.78636 ) - atomic mass=   2.000          
+      119 H    (   -0.39971   14.74236   16.74000 ) - atomic mass=   2.000          
+      120 O    (    4.61676  -14.85075   -9.81632 ) - atomic mass=  15.995          
+      121 H    (    4.94368  -16.70646   -9.67837 ) - atomic mass=   2.000          
+      122 H    (    6.13987  -13.89644   -9.22862 ) - atomic mass=   2.000          
+      123 O    (  -14.81908   -1.79274  -16.02407 ) - atomic mass=  15.995          
+      124 H    (  -16.20047   -0.69219  -15.34944 ) - atomic mass=   2.000          
+      125 H    (  -14.93624   -1.86833  -17.90813 ) - atomic mass=   2.000          
+      126 O    (   -4.77707   -3.98672   14.44776 ) - atomic mass=  15.995          
+      127 H    (   -4.22338   -3.14957   16.04836 ) - atomic mass=   2.000          
+      128 H    (   -3.25773   -4.47805   13.43676 ) - atomic mass=   2.000          
+      129 O    (  -11.03773   -2.52955    0.65559 ) - atomic mass=  15.995          
+      130 H    (  -11.95425   -1.64308   -0.73940 ) - atomic mass=   2.000          
+      131 H    (  -12.28684   -3.39523    1.77923 ) - atomic mass=   2.000          
+      132 O    (    1.67691   11.21235   -7.54109 ) - atomic mass=  15.995          
+      133 H    (    1.62267    9.35664   -7.89447 ) - atomic mass=   2.000          
+      134 H    (    0.05823   11.74525   -6.72473 ) - atomic mass=   2.000          
+      135 O    (    9.96090   15.39242   16.53213 ) - atomic mass=  15.995          
+      136 H    (    8.87620   14.50425   17.79824 ) - atomic mass=   2.000          
+      137 H    (    8.95368   16.74925   15.68364 ) - atomic mass=   2.000          
+      138 O    (    8.00692  -11.86876   -7.00063 ) - atomic mass=  15.995          
+      139 H    (    7.52126  -12.85142   -5.46050 ) - atomic mass=   2.000          
+      140 H    (    8.84029  -10.25494   -6.48096 ) - atomic mass=   2.000          
+      141 O    (   -5.95437   18.12341    4.26025 ) - atomic mass=  15.995          
+      142 H    (   -6.94081  -18.27682    5.60762 ) - atomic mass=   2.000          
+      143 H    (   -4.35566   17.43744    4.99913 ) - atomic mass=   2.000          
+      144 O    (  -11.30419    8.53272    0.01895 ) - atomic mass=  15.995          
+      145 H    (   -9.73193    9.15822    0.86025 ) - atomic mass=   2.000          
+      146 H    (  -11.47993    6.67512    0.31575 ) - atomic mass=   2.000          
+      147 O    (  -18.15822   -3.30075    7.96411 ) - atomic mass=  15.995          
+      148 H    (  -16.73148   -3.03052    9.17542 ) - atomic mass=   2.000          
+      149 H    (  -18.00326   -2.08187    6.52792 ) - atomic mass=   2.000          
+      150 O    (  -17.18879    5.62443    3.41176 ) - atomic mass=  15.995          
+      151 H    (  -15.78284    5.90411    4.64197 ) - atomic mass=   2.000          
+      152 H    (  -17.23604    7.04928    2.17286 ) - atomic mass=   2.000          
+      153 O    (   -5.03597    6.99448   17.10093 ) - atomic mass=  15.995          
+      154 H    (   -3.54497    6.28016   18.01367 ) - atomic mass=   2.000          
+      155 H    (   -4.79219    8.85397   16.85716 ) - atomic mass=   2.000          
+      156 O    (    4.41266    8.16422    4.38497 ) - atomic mass=  15.995          
+      157 H    (    5.52571    7.34975    3.09240 ) - atomic mass=   2.000          
+      158 H    (    3.40544    6.83574    5.27503 ) - atomic mass=   2.000          
+      159 O    (   -0.16331    7.64077   -2.57867 ) - atomic mass=  15.995          
+      160 H    (   -0.81375    7.28928   -4.31722 ) - atomic mass=   2.000          
+      161 H    (   -0.62289    9.40388   -2.07978 ) - atomic mass=   2.000          
+      162 O    (   -6.45515    7.30818   11.80403 ) - atomic mass=  15.995          
+      163 H    (   -5.53107    8.65366   10.85350 ) - atomic mass=   2.000          
+      164 H    (   -6.26051    7.60108   13.65974 ) - atomic mass=   2.000          
+      165 O    (  -13.33375  -12.19380   13.76368 ) - atomic mass=  15.995          
+      166 H    (  -13.96681  -10.47982   13.27991 ) - atomic mass=   2.000          
+      167 H    (  -13.78729  -13.43724   12.41630 ) - atomic mass=   2.000          
+      168 O    (  -13.69280  -14.70335    2.90909 ) - atomic mass=  15.995          
+      169 H    (  -13.21848  -15.93734    4.25836 ) - atomic mass=   2.000          
+      170 H    (  -12.19992  -13.62432    2.48768 ) - atomic mass=   2.000          
+      171 O    (   16.35195   13.62553   -0.85675 ) - atomic mass=  15.995          
+      172 H    (   16.41431   15.22613    0.14537 ) - atomic mass=   2.000          
+      173 H    (   17.78248   12.50303   -0.34237 ) - atomic mass=   2.000          
+      174 O    (   17.87507   12.44256   -5.83278 ) - atomic mass=  15.995          
+      175 H    (  -17.83919   12.20257   -4.81989 ) - atomic mass=   2.000          
+      176 H    (   16.37652   12.38398   -4.68572 ) - atomic mass=   2.000          
+      177 O    (   -1.55055  -14.96413   14.98444 ) - atomic mass=  15.995          
+      178 H    (   -2.74751  -16.28694   14.36272 ) - atomic mass=   2.000          
+      179 H    (   -2.29775  -13.25204   14.69342 ) - atomic mass=   2.000          
+      180 O    (    1.28706   16.60752   11.61506 ) - atomic mass=  15.995          
+      181 H    (    2.58341   15.24125   11.45632 ) - atomic mass=   2.000          
+      182 H    (    2.12610   18.21378   12.14607 ) - atomic mass=   2.000          
+      183 O    (   -7.30931    1.59175   11.49979 ) - atomic mass=  15.995          
+      184 H    (   -6.41546    0.33830   12.59394 ) - atomic mass=   2.000          
+      185 H    (   -6.71215    3.33408   11.91931 ) - atomic mass=   2.000          
+      186 O    (  -11.71426   -9.29685  -18.07253 ) - atomic mass=  15.995          
+      187 H    (  -10.65412   -7.75861  -17.78341 ) - atomic mass=   2.000          
+      188 H    (  -12.98604   -8.93969   17.86282 ) - atomic mass=   2.000          
+      189 O    (  -17.42123    9.72136   17.86438 ) - atomic mass=  15.995          
+      190 H    (  -15.86032    8.68012   18.09304 ) - atomic mass=   2.000          
+      191 H    (  -17.87287    9.78183   16.02946 ) - atomic mass=   2.000          
+      192 O    (   -9.73949   -4.81064   16.04647 ) - atomic mass=  15.995          
+      193 H    (   -8.74550   -4.23049   17.54691 ) - atomic mass=   2.000          
+      194 H    (  -10.11744   -3.33098   14.93342 ) - atomic mass=   2.000          
+      195 O    (   -3.42592    6.63543  -11.40369 ) - atomic mass=  15.995          
+      196 H    (   -3.20860    8.40611  -12.03108 ) - atomic mass=   2.000          
+      197 H    (   -2.20705    6.31229   -9.99774 ) - atomic mass=   2.000          
+      198 O    (    9.12375    0.31298    4.83472 ) - atomic mass=  15.995          
+      199 H    (    9.54138   -1.42500    4.22056 ) - atomic mass=   2.000          
+      200 H    (   10.71301    1.19737    5.34873 ) - atomic mass=   2.000          
+      201 O    (   -9.91335  -15.44790  -17.92136 ) - atomic mass=  15.995          
+      202 H    (   -9.78296  -14.54840   17.71165 ) - atomic mass=   2.000          
+      203 H    (   -9.50895  -14.24793  -16.51918 ) - atomic mass=   2.000          
+      204 O    (   17.86751   -8.59009   -4.75942 ) - atomic mass=  15.995          
+      205 H    (  -18.63287   -9.37433   -3.23063 ) - atomic mass=   2.000          
+      206 H    (   16.30093   -7.66223   -4.25864 ) - atomic mass=   2.000          
+      207 O    (   14.07105   17.91710   -4.28131 ) - atomic mass=  15.995          
+      208 H    (   15.94566   17.84340   -4.04888 ) - atomic mass=   2.000          
+      209 H    (   13.25658   18.45756   -2.66560 ) - atomic mass=   2.000          
+      210 O    (    1.38570  -10.50438    5.61707 ) - atomic mass=  15.995          
+      211 H    (    0.26509   -9.75794    6.94177 ) - atomic mass=   2.000          
+      212 H    (    0.84883   -9.88077    3.91443 ) - atomic mass=   2.000          
+      213 O    (  -14.90600   16.78515    0.10417 ) - atomic mass=  15.995          
+      214 H    (  -15.54662   18.11363    1.28676 ) - atomic mass=   2.000          
+      215 H    (  -13.01817   16.73980    0.17334 ) - atomic mass=   2.000          
+      216 O    (  -14.24460    0.21225  -10.75741 ) - atomic mass=  15.995          
+      217 H    (  -14.97403    1.72404  -11.62479 ) - atomic mass=   2.000          
+      218 H    (  -13.09943   -0.70632  -11.94793 ) - atomic mass=   2.000          
+      219 O    (  -14.93057   -7.08398   15.54380 ) - atomic mass=  15.995          
+      220 H    (  -13.73059   -5.62322   15.55703 ) - atomic mass=   2.000          
+      221 H    (  -15.81496   -7.15579   13.87517 ) - atomic mass=   2.000          
+      222 O    (  -14.16145   10.31284   -4.13203 ) - atomic mass=  15.995          
+      223 H    (  -13.78162   10.08985   -5.96884 ) - atomic mass=   2.000          
+      224 H    (  -13.30163    8.95224   -3.14181 ) - atomic mass=   2.000          
+      225 O    (   -1.44038   -3.01540    4.69299 ) - atomic mass=  15.995          
+      226 H    (   -0.11158   -4.17758    5.36952 ) - atomic mass=   2.000          
+      227 H    (   -1.66791   -1.56106    5.87785 ) - atomic mass=   2.000          
+      228 O    (    1.93523   12.78649  -13.44460 ) - atomic mass=  15.995          
+      229 H    (    1.97114   14.63086  -13.03264 ) - atomic mass=   2.000          
+      230 H    (    3.25237   11.88887  -12.42981 ) - atomic mass=   2.000          
+      231 O    (   -9.20092   -2.11532    6.82083 ) - atomic mass=  15.995          
+      232 H    (   -8.55086   -1.15666    8.31371 ) - atomic mass=   2.000          
+      233 H    (   -8.56030   -1.31653    5.23346 ) - atomic mass=   2.000          
+      234 O    (    6.74081   -5.95203   14.36461 ) - atomic mass=  15.995          
+      235 H    (    7.42300   -7.71326   14.45721 ) - atomic mass=   2.000          
+      236 H    (    7.91433   -4.77473   15.26034 ) - atomic mass=   2.000          
+      237 O    (  -12.86888    6.72992  -18.48482 ) - atomic mass=  15.995          
+      238 H    (  -11.80307    5.22759  -18.06342 ) - atomic mass=   2.000          
+      239 H    (  -11.79929    8.28894  -18.45459 ) - atomic mass=   2.000          
+      240 O    (   -9.58643    3.90667   -5.96128 ) - atomic mass=  15.995          
+      241 H    (   -8.10866    5.06129   -5.72695 ) - atomic mass=   2.000          
+      242 H    (  -10.67869    4.55862   -7.35968 ) - atomic mass=   2.000          
+      243 O    (   11.41032   11.08385   12.91141 ) - atomic mass=  15.995          
+      244 H    (   12.78982   10.05584   13.69376 ) - atomic mass=   2.000          
+      245 H    (   11.21757   12.70523   13.86383 ) - atomic mass=   2.000          
+      246 O    (    8.74770  -11.64389   15.77624 ) - atomic mass=  15.995          
+      247 H    (   10.19712  -10.51005   15.34538 ) - atomic mass=   2.000          
+      248 H    (    8.60975  -11.80451   17.65462 ) - atomic mass=   2.000          
+      249 O    (   15.09529   17.49191   14.68209 ) - atomic mass=  15.995          
+      250 H    (   14.24113   16.23902   15.80836 ) - atomic mass=   2.000          
+      251 H    (   14.52837   17.22546   12.89818 ) - atomic mass=   2.000          
+      252 O    (   -1.21362   10.49614  -17.01996 ) - atomic mass=  15.995          
+      253 H    (   -0.21187   11.09897  -15.53652 ) - atomic mass=   2.000          
+      254 H    (   -1.65789   11.96635  -18.11978 ) - atomic mass=   2.000          
+      255 O    (  -18.64010   12.99058    5.26369 ) - atomic mass=  15.995          
+      256 H    (  -17.13021   12.69200    6.35973 ) - atomic mass=   2.000          
+      257 H    (  -18.57774   14.74803    4.57205 ) - atomic mass=   2.000          
+      258 O    (   -9.72060   -4.57253  -15.77652 ) - atomic mass=  15.995          
+      259 H    (  -11.41568   -3.74105  -15.70471 ) - atomic mass=   2.000          
+      260 H    (   -8.45637   -3.50484  -14.86189 ) - atomic mass=   2.000          
+      261 O    (    4.07062    4.09753   -4.10935 ) - atomic mass=  15.995          
+      262 H    (    5.82996    4.38288   -4.74052 ) - atomic mass=   2.000          
+      263 H    (    4.05551    4.19580   -2.22340 ) - atomic mass=   2.000          
+      264 O    (   15.97590   -7.81719  -10.35300 ) - atomic mass=  15.995          
+      265 H    (   17.30249   -7.73782   -9.01130 ) - atomic mass=   2.000          
+      266 H    (   14.69844   -9.13433   -9.89758 ) - atomic mass=   2.000          
+      267 O    (    1.13777   -4.80875   15.06003 ) - atomic mass=  15.995          
+      268 H    (    2.87821   -5.52306   14.88996 ) - atomic mass=   2.000          
+      269 H    (    0.76455   -4.48938   16.88551 ) - atomic mass=   2.000          
+      270 O    (   14.33751    1.44436   16.04080 ) - atomic mass=  15.995          
+      271 H    (   14.15420    2.63110   17.50156 ) - atomic mass=   2.000          
+      272 H    (   16.12141    1.48404   15.41719 ) - atomic mass=   2.000          
+      273 O    (    3.93267   13.50081    2.85051 ) - atomic mass=  15.995          
+      274 H    (    4.58463   11.72636    2.81083 ) - atomic mass=   2.000          
+      275 H    (    4.34275   14.28504    4.51914 ) - atomic mass=   2.000          
+      276 O    (    3.36387  -15.91278   13.40841 ) - atomic mass=  15.995          
+      277 H    (    4.25393  -14.72792   14.58004 ) - atomic mass=   2.000          
+      278 H    (    1.49984  -15.81073   13.70699 ) - atomic mass=   2.000          
+      279 O    (    9.23714    8.03383   17.49967 ) - atomic mass=  15.995          
+      280 H    (    8.77604    9.54561   16.46410 ) - atomic mass=   2.000          
+      281 H    (    9.94767    8.59886  -18.12767 ) - atomic mass=   2.000          
+      282 O    (  -18.00138  -15.92223   13.96210 ) - atomic mass=  15.995          
+      283 H    (   18.43287  -14.63721   12.86795 ) - atomic mass=   2.000          
+      284 H    (   18.00957  -17.19779   14.53847 ) - atomic mass=   2.000          
+      285 O    (   -5.40446   -5.40779    8.68976 ) - atomic mass=  15.995          
+      286 H    (   -4.07787   -4.16813    9.21322 ) - atomic mass=   2.000          
+      287 H    (   -6.23216   -4.81253    7.10051 ) - atomic mass=   2.000          
+      288 O    (    0.44783  -14.59375  -16.37367 ) - atomic mass=  15.995          
+      289 H    (    1.14873  -12.98937  -15.66502 ) - atomic mass=   2.000          
+      290 H    (   -0.34396  -14.24604  -18.05553 ) - atomic mass=   2.000          
+      291 O    (    2.98781   16.58484   -1.76042 ) - atomic mass=  15.995          
+      292 H    (    4.26716   15.81383   -2.91693 ) - atomic mass=   2.000          
+      293 H    (    3.06151   15.72879   -0.07856 ) - atomic mass=   2.000          
+      294 O    (   10.69978   -2.39424    9.87273 ) - atomic mass=  15.995          
+      295 H    (   11.79016   -1.60566    8.54804 ) - atomic mass=   2.000          
+      296 H    (   11.67866   -2.55336   11.48278 ) - atomic mass=   2.000          
+      297 O    (    4.14054   -7.25027   -8.48784 ) - atomic mass=  15.995          
+      298 H    (    4.09897   -6.77784   -6.65859 ) - atomic mass=   2.000          
+      299 H    (    4.48825   -5.71015   -9.52719 ) - atomic mass=   2.000          
+      300 O    (  -17.82563    9.06562   -0.30212 ) - atomic mass=  15.995          
+      301 H    (  -15.96425    9.20168   -0.60051 ) - atomic mass=   2.000          
+      302 H    (  -18.63821    8.19635   -1.77176 ) - atomic mass=   2.000          
+      303 O    (   18.38341    6.60520   -5.53231 ) - atomic mass=  15.995          
+      304 H    (  -18.31162    8.20580   -6.34867 ) - atomic mass=   2.000          
+      305 H    (   16.62974    6.20836   -6.11435 ) - atomic mass=   2.000          
+      306 O    (   16.45589   17.80371    4.13175 ) - atomic mass=  15.995          
+      307 H    (   15.01781   17.51270    5.32416 ) - atomic mass=   2.000          
+      308 H    (   18.03759   18.12119    5.11818 ) - atomic mass=   2.000          
+      309 O    (   15.18977  -14.36887    2.25090 ) - atomic mass=  15.995          
+      310 H    (   15.60740  -16.14332    2.75414 ) - atomic mass=   2.000          
+      311 H    (   15.16899  -14.23848    0.36573 ) - atomic mass=   2.000          
+      312 O    (   -1.80397    1.52183  -13.47672 ) - atomic mass=  15.995          
+      313 H    (   -1.79527    3.31707  -14.06254 ) - atomic mass=   2.000          
+      314 H    (   -2.87034    1.37066  -11.92337 ) - atomic mass=   2.000          
+      315 O    (  -10.70325    6.38032  -10.70827 ) - atomic mass=  15.995          
+      316 H    (   -9.83587    8.02060  -11.06543 ) - atomic mass=   2.000          
+      317 H    (  -10.05130    5.05373  -11.88557 ) - atomic mass=   2.000          
+      318 O    (   16.06283    1.77128   -9.48940 ) - atomic mass=  15.995          
+      319 H    (   16.93021    0.19978   -8.89792 ) - atomic mass=   2.000          
+      320 H    (   16.93399    3.28306   -8.76374 ) - atomic mass=   2.000          
+      321 O    (  -14.72459   -0.17230    5.26936 ) - atomic mass=  15.995          
+      322 H    (  -15.72992    1.29885    5.90053 ) - atomic mass=   2.000          
+      323 H    (  -13.95169   -1.08221    6.73390 ) - atomic mass=   2.000          
+      324 O    (   13.64587   17.88308  -16.96327 ) - atomic mass=  15.995          
+      325 H    (   12.37408   17.78671  -18.35788 ) - atomic mass=   2.000          
+      326 H    (   15.07450  -18.27904  -17.49050 ) - atomic mass=   2.000          
+      327 O    (   15.96645   -9.55952   13.64652 ) - atomic mass=  15.995          
+      328 H    (   14.39231   -8.66946   13.09661 ) - atomic mass=   2.000          
+      329 H    (   16.52959   -8.86977   15.31514 ) - atomic mass=   2.000          
+      330 O    (    4.17078    7.25715  -16.98594 ) - atomic mass=  15.995          
+      331 H    (    5.32729    7.02850  -18.46371 ) - atomic mass=   2.000          
+      332 H    (    4.11598    9.08263  -16.50595 ) - atomic mass=   2.000          
+      333 O    (    9.78138    2.45914   12.59961 ) - atomic mass=  15.995          
+      334 H    (    9.70957    1.03107   11.36373 ) - atomic mass=   2.000          
+      335 H    (   11.29127    2.25127   13.71455 ) - atomic mass=   2.000          
+      336 O    (   -6.19059    0.80412   -2.57300 ) - atomic mass=  15.995          
+      337 H    (   -6.78774    1.62955   -4.16415 ) - atomic mass=   2.000          
+      338 H    (   -6.23405   -1.07333   -2.78276 ) - atomic mass=   2.000          
+      339 O    (   -7.69859   12.64098    2.91098 ) - atomic mass=  15.995          
+      340 H    (   -7.71560   14.34552    3.72923 ) - atomic mass=   2.000          
+      341 H    (   -6.00917   12.33863    2.12070 ) - atomic mass=   2.000          
+      342 O    (  -10.93191  -11.69869    7.22334 ) - atomic mass=  15.995          
+      343 H    (  -10.69003  -10.57052    5.72856 ) - atomic mass=   2.000          
+      344 H    (  -10.67113  -10.70658    8.81071 ) - atomic mass=   2.000          
+      345 O    (   -2.71727    9.55884    8.89008 ) - atomic mass=  15.995          
+      346 H    (   -2.67381   11.43534    9.10550 ) - atomic mass=   2.000          
+      347 H    (   -0.95094    8.88610    8.88252 ) - atomic mass=   2.000          
+      348 O    (  -12.94825   17.67143    5.53581 ) - atomic mass=  15.995          
+      349 H    (  -11.79363   16.73980    4.36607 ) - atomic mass=   2.000          
+      350 H    (  -12.67802   17.06294    7.30460 ) - atomic mass=   2.000          
+      351 O    (    5.71469    3.53439    0.90542 ) - atomic mass=  15.995          
+      352 H    (    4.26716    2.98070    1.98747 ) - atomic mass=   2.000          
+      353 H    (    7.27182    2.58764    1.40563 ) - atomic mass=   2.000          
+      354 O    (    5.75059    4.07296  -12.60178 ) - atomic mass=  15.995          
+      355 H    (    5.72980    5.32774  -14.01529 ) - atomic mass=   2.000          
+      356 H    (    6.74270    4.77405  -11.15425 ) - atomic mass=   2.000          
+      357 O    (   -8.28818  -14.04573   14.39674 ) - atomic mass=  15.995          
+      358 H    (   -7.44537  -12.70591   15.42853 ) - atomic mass=   2.000          
+      359 H    (   -9.68658  -13.27661   13.38573 ) - atomic mass=   2.000          
+      360 O    (    3.60197    1.54640   12.12340 ) - atomic mass=  15.995          
+      361 H    (    4.85297    0.44866   11.22956 ) - atomic mass=   2.000          
+      362 H    (    4.35597    2.17568   13.73911 ) - atomic mass=   2.000          
+      363 O    (   16.26692  -16.08852   -9.20216 ) - atomic mass=  15.995          
+      364 H    (   18.14530  -16.24915   -9.07555 ) - atomic mass=   2.000          
+      365 H    (   15.45433  -17.65510   -8.52942 ) - atomic mass=   2.000          
+      366 O    (    6.96380   11.60352  -10.63079 ) - atomic mass=  15.995          
+      367 H    (    6.53483   13.44412  -10.64402 ) - atomic mass=   2.000          
+      368 H    (    6.82207   10.93645   -8.86768 ) - atomic mass=   2.000          
+      369 O    (   12.64053   -3.25161   -8.92626 ) - atomic mass=  15.995          
+      370 H    (   13.87263   -4.35332   -9.84278 ) - atomic mass=   2.000          
+      371 H    (   12.27015   -1.71961   -9.96939 ) - atomic mass=   2.000          
+      372 O    (  -12.59487  -17.71180  -13.68081 ) - atomic mass=  15.995          
+      373 H    (  -13.41879  -16.49292  -12.49595 ) - atomic mass=   2.000          
+      374 H    (  -12.73471  -17.06173  -15.44960 ) - atomic mass=   2.000          
+      375 O    (   -0.64008   17.38608   -5.69861 ) - atomic mass=  15.995          
+      376 H    (    0.52607   18.16843   -4.43438 ) - atomic mass=   2.000          
+      377 H    (   -1.53392  -18.54361   -6.65859 ) - atomic mass=   2.000          
+      378 O    (   -3.50529   15.39809    9.99745 ) - atomic mass=  15.995          
+      379 H    (   -1.78923   16.00280   10.50957 ) - atomic mass=   2.000          
+      380 H    (   -4.81487   16.58673   10.66642 ) - atomic mass=   2.000          
+      381 O    (    7.39654   -0.40172   -3.24763 ) - atomic mass=  15.995          
+      382 H    (    8.39054    1.16392   -3.61613 ) - atomic mass=   2.000          
+      383 H    (    6.12287   -0.03757   -1.90026 ) - atomic mass=   2.000          
+      384 O    (   10.39554    7.98092    4.25836 ) - atomic mass=  15.995          
+      385 H    (    9.39398    7.77305    5.84762 ) - atomic mass=   2.000          
+      386 H    (   12.22857    8.13777    4.68544 ) - atomic mass=   2.000          
+      387 O    (   16.74502   -9.53306    0.66221 ) - atomic mass=  15.995          
+      388 H    (   15.59417  -11.02217    0.83455 ) - atomic mass=   2.000          
+      389 H    (   15.74535   -7.94002    0.83058 ) - atomic mass=   2.000          
+      390 O    (   -2.38657   12.92633    1.10081 ) - atomic mass=  15.995          
+      391 H    (   -0.85438   13.43278    2.08385 ) - atomic mass=   2.000          
+      392 H    (   -2.74562   14.22835   -0.22105 ) - atomic mass=   2.000          
+      393 O    (  -11.85221    3.23393    1.66792 ) - atomic mass=  15.995          
+      394 H    (  -10.76561    1.97537    0.76955 ) - atomic mass=   2.000          
+      395 H    (  -12.55141    2.45347    3.24168 ) - atomic mass=   2.000          
+      396 O    (   15.54126    5.75860  -17.64546 ) - atomic mass=  15.995          
+      397 H    (   16.62596    6.28394   18.18408 ) - atomic mass=   2.000          
+      398 H    (   15.86818    6.89999  -16.17525 ) - atomic mass=   2.000          
+      399 O    (    2.23570   -0.69007   -7.18771 ) - atomic mass=  15.995          
+      400 H    (    3.60008   -0.85903   -8.48218 ) - atomic mass=   2.000          
+      401 H    (    2.94246    0.10303   -5.62491 ) - atomic mass=   2.000          
+      402 O    (    2.09208   11.66966    8.86362 ) - atomic mass=  15.995          
+      403 H    (    2.55317   10.58874    7.38396 ) - atomic mass=   2.000          
+      404 H    (    3.52449   11.69045   10.09761 ) - atomic mass=   2.000          
+      405 O    (   18.63285   17.54104  -17.84766 ) - atomic mass=  15.995          
+      406 H    (   17.70122   17.54482   17.78723 ) - atomic mass=   2.000          
+      407 H    (  -17.63132  -18.16566  -17.69837 ) - atomic mass=   2.000          
+      408 O    (   16.24235  -13.31818    9.29826 ) - atomic mass=  15.995          
+      409 H    (   16.60707  -12.12955    7.87529 ) - atomic mass=   2.000          
+      410 H    (   14.91198  -12.57363   10.41508 ) - atomic mass=   2.000          
+      411 O    (   -7.33954    8.37398  -15.79164 ) - atomic mass=  15.995          
+      412 H    (   -7.60410   10.24481  -15.71416 ) - atomic mass=   2.000          
+      413 H    (   -5.83910    7.99604  -16.87823 ) - atomic mass=   2.000          
+      414 O    (   -3.84544   -9.19858   -4.13581 ) - atomic mass=  15.995          
+      415 H    (   -5.47627  -10.14911   -4.06778 ) - atomic mass=   2.000          
+      416 H    (   -2.84955   -9.76361   -5.64003 ) - atomic mass=   2.000          
+      417 O    (   14.67955   -7.08776    6.98145 ) - atomic mass=  15.995          
+      418 H    (   13.75358   -6.78918    5.36007 ) - atomic mass=   2.000          
+      419 H    (   16.00235   -5.75739    7.20444 ) - atomic mass=   2.000          
+      420 O    (  -16.83163  -10.65178    5.28448 ) - atomic mass=  15.995          
+      421 H    (  -15.47859  -11.72703    4.52103 ) - atomic mass=   2.000          
+      422 H    (  -17.89744   -9.91101    3.91065 ) - atomic mass=   2.000          
+      423 O    (   18.02814   -8.59576   18.55602 ) - atomic mass=  15.995          
+      424 H    (  -17.51793   -8.08175   18.01934 ) - atomic mass=   2.000          
+      425 H    (   17.47823   -7.52995  -17.26784 ) - atomic mass=   2.000          
+      426 O    (   -7.29797   -3.51806   -6.76630 ) - atomic mass=  15.995          
+      427 H    (   -6.37578   -4.47616   -8.10801 ) - atomic mass=   2.000          
+      428 H    (   -9.15179   -3.84688   -6.91937 ) - atomic mass=   2.000          
+      429 O    (   -0.87743  -15.48381   -8.93571 ) - atomic mass=  15.995          
+      430 H    (    0.67460  -14.40856   -9.01130 ) - atomic mass=   2.000          
+      431 H    (   -2.37901  -14.45769   -9.44783 ) - atomic mass=   2.000          
+      432 O    (   10.80561   -3.27240    1.52657 ) - atomic mass=  15.995          
+      433 H    (   12.54983   -3.19492    2.24996 ) - atomic mass=   2.000          
+      434 H    (   10.71490   -2.18713   -0.01828 ) - atomic mass=   2.000          
+      435 O    (   12.45912   -7.64145   -3.41015 ) - atomic mass=  15.995          
+      436 H    (   11.79960   -7.59987   -1.63948 ) - atomic mass=   2.000          
+      437 H    (   11.27993   -6.69469   -4.54399 ) - atomic mass=   2.000          
+      438 O    (   13.44933    9.57963   -2.96040 ) - atomic mass=  15.995          
+      439 H    (   11.68433   10.03505   -2.46529 ) - atomic mass=   2.000          
+      440 H    (   14.65876   10.25426   -1.67538 ) - atomic mass=   2.000          
+      441 O    (   16.02314  -14.49737  -14.11167 ) - atomic mass=  15.995          
+      442 H    (   17.66153  -14.10053  -14.96394 ) - atomic mass=   2.000          
+      443 H    (   16.28770  -14.57863  -12.24084 ) - atomic mass=   2.000          
+      444 O    (  -14.62821  -15.17011    9.10550 ) - atomic mass=  15.995          
+      445 H    (  -16.24960  -15.14177    8.13230 ) - atomic mass=   2.000          
+      446 H    (  -13.43580  -13.89455    8.37985 ) - atomic mass=   2.000          
+      447 O    (   -4.51629  -14.40100    0.79090 ) - atomic mass=  15.995          
+      448 H    (   -5.72572  -15.71814    1.40034 ) - atomic mass=   2.000          
+      449 H    (   -2.87979  -14.56918    1.72310 ) - atomic mass=   2.000          
+      450 O    (   17.08139   -4.50261  -14.36489 ) - atomic mass=  15.995          
+      451 H    (   17.82972   -2.91146  -13.67514 ) - atomic mass=   2.000          
+      452 H    (   17.37052   -5.91613  -13.14224 ) - atomic mass=   2.000          
+      453 O    (  -14.10854  -11.24326  -11.18070 ) - atomic mass=  15.995          
+      454 H    (  -13.88555  -10.07541  -12.65091 ) - atomic mass=   2.000          
+      455 H    (  -14.02350  -10.25305   -9.57255 ) - atomic mass=   2.000          
+      456 O    (  -16.71069   12.87342   11.10105 ) - atomic mass=  15.995          
+      457 H    (  -16.82786   14.70078   11.57160 ) - atomic mass=   2.000          
+      458 H    (  -15.84898   12.70901    9.42676 ) - atomic mass=   2.000          
+      459 O    (   10.31239   16.49224  -13.32932 ) - atomic mass=  15.995          
+      460 H    (   11.76370   16.90798  -14.46505 ) - atomic mass=   2.000          
+      461 H    (   10.96623   15.96690  -11.63613 ) - atomic mass=   2.000          
+      462 O    (    8.04094    7.85431    9.98990 ) - atomic mass=  15.995          
+      463 H    (    8.14676    6.12710   10.74768 ) - atomic mass=   2.000          
+      464 H    (    9.51304    8.88799   10.57004 ) - atomic mass=   2.000          
+      465 O    (  -13.46414    6.38977    6.90586 ) - atomic mass=  15.995          
+      466 H    (  -11.64056    5.95513    7.14397 ) - atomic mass=   2.000          
+      467 H    (  -13.73248    8.21524    7.30837 ) - atomic mass=   2.000          
+      468 O    (  -17.36076   -8.11766   10.74201 ) - atomic mass=  15.995          
+      469 H    (  -17.26438   -8.52395    8.89952 ) - atomic mass=   2.000          
+      470 H    (   18.58972   -9.17968   11.55270 ) - atomic mass=   2.000          
+      471 O    (   -1.24121   -1.71678   10.57193 ) - atomic mass=  15.995          
+      472 H    (    0.28513   -2.47305   11.39018 ) - atomic mass=   2.000          
+      473 H    (   -1.08511    0.16652   10.56626 ) - atomic mass=   2.000          
+      474 O    (   -8.49416    5.19357    6.36918 ) - atomic mass=  15.995          
+      475 H    (   -8.29574    3.47770    5.60384 ) - atomic mass=   2.000          
+      476 H    (   -7.47560    6.44268    5.38274 ) - atomic mass=   2.000          
+      477 O    (    8.40755    5.23704   -7.97384 ) - atomic mass=  15.995          
+      478 H    (    9.52815    4.67390   -6.56221 ) - atomic mass=   2.000          
+      479 H    (    8.08251    7.09275   -7.81888 ) - atomic mass=   2.000          
+      480 O    (   10.63553  -16.42300    4.92165 ) - atomic mass=  15.995          
+      481 H    (    9.72657  -15.39499    6.22178 ) - atomic mass=   2.000          
+      482 H    (   12.14353  -15.46680    4.30560 ) - atomic mass=   2.000          
+      483 O    (  -17.89933   -2.90768   -8.30454 ) - atomic mass=  15.995          
+      484 H    (  -16.29684   -2.09737   -8.89036 ) - atomic mass=   2.000          
+      485 H    (  -17.64989   -3.61822   -6.57166 ) - atomic mass=   2.000          
+      486 O    (   -7.31497    3.29629  -13.45593 ) - atomic mass=  15.995          
+      487 H    (   -6.53074    4.99326  -13.73372 ) - atomic mass=   2.000          
+      488 H    (   -7.02585    2.75394  -11.66825 ) - atomic mass=   2.000          
+      489 O    (  -12.83864    9.12798   12.88874 ) - atomic mass=  15.995          
+      490 H    (  -12.72337   10.47347   11.56782 ) - atomic mass=   2.000          
+      491 H    (  -12.52684    9.88576   14.59138 ) - atomic mass=   2.000          
+      492 O    (   -0.31335   16.98735  -17.85900 ) - atomic mass=  15.995          
+      493 H    (    1.52441   17.12341  -17.43948 ) - atomic mass=   2.000          
+      494 H    (   -1.25368   18.40087  -17.02752 ) - atomic mass=   2.000          
+      495 O    (    8.86297   11.00637   -0.25903 ) - atomic mass=  15.995          
+      496 H    (    8.83462    9.89332    1.26843 ) - atomic mass=   2.000          
+      497 H    (    9.31461   12.76759    0.25342 ) - atomic mass=   2.000          
+      498 O    (   -6.50239   -0.45671    2.67855 ) - atomic mass=  15.995          
+      499 H    (   -5.20037   -0.38547    1.31057 ) - atomic mass=   2.000          
+      500 H    (   -8.17669   -0.91856    1.93078 ) - atomic mass=   2.000          
+      501 O    (   -1.12556   -8.82253   10.65886 ) - atomic mass=  15.995          
+      502 H    (   -2.95916   -8.36332   10.64374 ) - atomic mass=   2.000          
+      503 H    (   -0.57187   -9.14000   12.43709 ) - atomic mass=   2.000          
+      504 O    (  -15.89622  -14.23092   -7.39936 ) - atomic mass=  15.995          
+      505 H    (  -15.99638  -13.18968   -5.82522 ) - atomic mass=   2.000          
+      506 H    (  -15.72048  -13.09142   -8.89792 ) - atomic mass=   2.000          
+      507 O    (    0.59712   -5.53818  -17.13901 ) - atomic mass=  15.995          
+      508 H    (    2.38499   -6.12022  -16.95004 ) - atomic mass=   2.000          
+      509 H    (    0.15655   -4.38356  -15.71038 ) - atomic mass=   2.000          
+      510 O    (   -8.94014   -8.67702   11.77191 ) - atomic mass=  15.995          
+      511 H    (   -7.81575   -7.34098   11.04814 ) - atomic mass=   2.000          
+      512 H    (  -10.01728   -7.92680   13.13062 ) - atomic mass=   2.000          
+      513 O    (   10.80750   17.15176    0.64615 ) - atomic mass=  15.995          
+      514 H    (   12.46101   16.27115    0.90920 ) - atomic mass=   2.000          
+      515 H    (   10.34451   18.10040    2.21235 ) - atomic mass=   2.000          
+      516 O    (   -3.89079  -10.64611  -10.01474 ) - atomic mass=  15.995          
+      517 H    (   -2.69459  -10.27195  -11.43015 ) - atomic mass=   2.000          
+      518 H    (   -5.36289   -9.46503  -10.10734 ) - atomic mass=   2.000          
+      519 O    (    8.11464  -17.25637   10.73634 ) - atomic mass=  15.995          
+      520 H    (    6.27405  -17.13732   11.14641 ) - atomic mass=   2.000          
+      521 H    (    9.13131  -16.76693   12.25190 ) - atomic mass=   2.000          
+      522 O    (   14.92521   12.97357   17.81147 ) - atomic mass=  15.995          
+      523 H    (   16.23101   11.68478   17.36361 ) - atomic mass=   2.000          
+      524 H    (   15.62819   14.16410  -18.18436 ) - atomic mass=   2.000          
+      525 O    (   -3.04419    0.28936   17.24455 ) - atomic mass=  15.995          
+      526 H    (   -4.25362    1.36121   18.22532 ) - atomic mass=   2.000          
+      527 H    (   -1.35043    1.12669   17.20298 ) - atomic mass=   2.000          
+      528 O    (   12.88620  -12.11632   -9.13413 ) - atomic mass=  15.995          
+      529 H    (   11.17033  -12.84953   -9.43838 ) - atomic mass=   2.000          
+      530 H    (   14.20334  -13.41267   -9.52908 ) - atomic mass=   2.000          
+      531 O    (    2.09586  -11.00138  -12.29753 ) - atomic mass=  15.995          
+      532 H    (    3.20702  -12.47537  -11.89691 ) - atomic mass=   2.000          
+      533 H    (    2.74782   -9.46125  -11.41692 ) - atomic mass=   2.000          
+      534 O    (    5.18745   16.94389   -8.46328 ) - atomic mass=  15.995          
+      535 H    (    3.59063   15.95367   -8.26675 ) - atomic mass=   2.000          
+      536 H    (    6.44979   16.36374   -7.18393 ) - atomic mass=   2.000          
+      537 O    (   10.13476   13.28349    6.96067 ) - atomic mass=  15.995          
+      538 H    (    9.41666   11.56195    7.26491 ) - atomic mass=   2.000          
+      539 H    (   12.01125   13.23247    7.18176 ) - atomic mass=   2.000          
+      540 O    (   -5.31564  -11.67034    6.99090 ) - atomic mass=  15.995          
+      541 H    (   -5.50840  -10.11132    8.04159 ) - atomic mass=   2.000          
+      542 H    (   -5.37990  -11.20736    5.15976 ) - atomic mass=   2.000          
+      543 O    (   11.05694    1.62199  -11.29409 ) - atomic mass=  15.995          
+      544 H    (   12.74069    2.42512  -11.59455 ) - atomic mass=   2.000          
+      545 H    (    9.91555    2.85409  -10.43048 ) - atomic mass=   2.000          
+      546 O    (    9.74736   -5.22260  -14.56331 ) - atomic mass=  15.995          
+      547 H    (   10.97757   -5.34354  -15.99384 ) - atomic mass=   2.000          
+      548 H    (   10.18578   -3.73916  -13.47861 ) - atomic mass=   2.000          
+      549 O    (  -12.94258   17.16121   10.75901 ) - atomic mass=  15.995          
+      550 H    (  -13.22415   16.80594   12.59394 ) - atomic mass=   2.000          
+      551 H    (  -13.19580  -18.27904   10.42831 ) - atomic mass=   2.000          
+      552 O    (    2.29428   -9.86565   16.46032 ) - atomic mass=  15.995          
+      553 H    (    0.62358   -9.62944   17.31069 ) - atomic mass=   2.000          
+      554 H    (    3.65677   -9.10976   17.52990 ) - atomic mass=   2.000          
+      555 O    (  -13.52272  -18.52438   15.79135 ) - atomic mass=  15.995          
+      556 H    (  -12.01472  -17.84408   16.70409 ) - atomic mass=   2.000          
+      557 H    (  -14.51294  -17.09197   15.05625 ) - atomic mass=   2.000          
+      558 O    (   -1.34268    3.65345    0.93754 ) - atomic mass=  15.995          
+      559 H    (   -1.68132    4.49626    2.59540 ) - atomic mass=   2.000          
+      560 H    (   -1.25292    4.95925   -0.42571 ) - atomic mass=   2.000          
+      561 O    (    6.46491   10.03694   -4.92193 ) - atomic mass=  15.995          
+      562 H    (    7.00348   10.63787   -3.21362 ) - atomic mass=   2.000          
+      563 H    (    4.61487   10.35063   -5.14492 ) - atomic mass=   2.000          
+      564 O    (  -16.61810  -12.22970   -1.41800 ) - atomic mass=  15.995          
+      565 H    (  -15.81307  -13.62999   -0.43818 ) - atomic mass=   2.000          
+      566 H    (  -18.06941  -11.52483   -0.43289 ) - atomic mass=   2.000          
+      567 O    (   -4.22338  -15.00382   -4.77264 ) - atomic mass=  15.995          
+      568 H    (   -3.80386  -14.97169   -2.93016 ) - atomic mass=   2.000          
+      569 H    (   -2.93837  -14.00415   -5.72884 ) - atomic mass=   2.000          
+      570 O    (    4.59786   -7.53940    2.02432 ) - atomic mass=  15.995          
+      571 H    (    2.87254   -7.56586    1.25520 ) - atomic mass=   2.000          
+      572 H    (    4.74526   -8.93591    3.28893 ) - atomic mass=   2.000          
+      573 O    (  -15.17434   10.82685  -10.45694 ) - atomic mass=  15.995          
+      574 H    (  -15.27072   11.86808  -12.03108 ) - atomic mass=   2.000          
+      575 H    (  -13.82319    9.51916  -10.64780 ) - atomic mass=   2.000          
+      576 O    (   11.04371  -12.07285   10.12029 ) - atomic mass=  15.995          
+      577 H    (    9.17099  -11.90656   10.30170 ) - atomic mass=   2.000          
+      578 H    (   11.62386  -11.07508    8.62551 ) - atomic mass=   2.000          
+      579 O    (  -17.38721    3.89722   15.41719 ) - atomic mass=  15.995          
+      580 H    (  -15.61465    3.33030   15.74600 ) - atomic mass=   2.000          
+      581 H    (  -17.39666    5.74915   15.04113 ) - atomic mass=   2.000          
+      582 O    (  -11.40434  -17.59463   -5.51909 ) - atomic mass=  15.995          
+      583 H    (  -11.78040   17.84184   -5.64948 ) - atomic mass=   2.000          
+      584 H    (  -12.14511  -16.69323   -7.00630 ) - atomic mass=   2.000          
+      585 O    (    8.31306   -7.03107    8.40631 ) - atomic mass=  15.995          
+      586 H    (    8.09385   -7.73782   10.14485 ) - atomic mass=   2.000          
+      587 H    (    9.73980   -5.79329    8.40442 ) - atomic mass=   2.000          
+      588 O    (   16.56927    9.40766  -14.47261 ) - atomic mass=  15.995          
+      589 H    (   17.70500    9.90277  -15.89935 ) - atomic mass=   2.000          
+      590 H    (   16.44833   10.83629  -13.24240 ) - atomic mass=   2.000          
+      591 O    (   14.91576    0.54919   -3.71251 ) - atomic mass=  15.995          
+      592 H    (   13.56839    0.13459   -4.97106 ) - atomic mass=   2.000          
+      593 H    (   16.19322   -0.84274   -3.67660 ) - atomic mass=   2.000          
+      594 O    (    8.25070   -9.87888  -12.16714 ) - atomic mass=  15.995          
+      595 H    (    8.59463   -8.02128  -12.23517 ) - atomic mass=   2.000          
+      596 H    (    7.11875  -10.25494  -10.70260 ) - atomic mass=   2.000          
+      597 O    (   15.59228    7.62376    5.58494 ) - atomic mass=  15.995          
+      598 H    (   17.14564    6.72803    4.98779 ) - atomic mass=   2.000          
+      599 H    (   15.85307    9.49081    5.45455 ) - atomic mass=   2.000          
+      600 O    (   16.02125   -3.35555   13.14196 ) - atomic mass=  15.995          
+      601 H    (   17.14753   -4.13978   11.84372 ) - atomic mass=   2.000          
+      602 H    (   16.94344   -1.95167   14.00934 ) - atomic mass=   2.000          
+      603 O    (   13.73846  -17.99148    9.23401 ) - atomic mass=  15.995          
+      604 H    (   14.84017  -16.58930    9.85950 ) - atomic mass=   2.000          
+      605 H    (   12.22479  -17.26393    8.36662 ) - atomic mass=   2.000          
+      606 O    (   -0.95378    5.27483  -16.96138 ) - atomic mass=  15.995          
+      607 H    (   -0.66333    7.11353  -16.62500 ) - atomic mass=   2.000          
+      608 H    (    0.68537    4.34509  -16.82721 ) - atomic mass=   2.000          
+      609 O    (  -14.51105   -7.42602   -6.72284 ) - atomic mass=  15.995          
+      610 H    (  -16.12677   -7.80585   -5.81955 ) - atomic mass=   2.000          
+      611 H    (  -13.11454   -7.24082   -5.46239 ) - atomic mass=   2.000          
+      612 O    (   -9.58831   -7.30508  -10.73851 ) - atomic mass=  15.995          
+      613 H    (   -8.87400   -6.81753  -12.41847 ) - atomic mass=   2.000          
+      614 H    (  -11.31930   -8.02506  -10.97472 ) - atomic mass=   2.000          
+      615 O    (    6.53861   12.52571  -17.24672 ) - atomic mass=  15.995          
+      616 H    (    5.07218   13.55561  -16.64957 ) - atomic mass=   2.000          
+      617 H    (    7.70835   12.19501  -15.79919 ) - atomic mass=   2.000          
+      618 O    (    5.64099   12.32162   13.23456 ) - atomic mass=  15.995          
+      619 H    (    5.20257   11.21613   14.70287 ) - atomic mass=   2.000          
+      620 H    (    7.28127   11.75470   12.48622 ) - atomic mass=   2.000          
+      621 O    (   -9.39745  -10.68013    1.41016 ) - atomic mass=  15.995          
+      622 H    (   -7.78741  -11.34531    0.67789 ) - atomic mass=   2.000          
+      623 H    (  -10.07964   -9.31574    0.29403 ) - atomic mass=   2.000          
+      624 O    (   12.22479   -7.51295   16.69275 ) - atomic mass=  15.995          
+      625 H    (   13.54004   -6.15612   16.69842 ) - atomic mass=   2.000          
+      626 H    (   12.79549   -8.94725   17.78502 ) - atomic mass=   2.000          
+      627 O    (   -2.38090   -3.94514   -9.53475 ) - atomic mass=  15.995          
+      628 H    (   -0.76197   -4.84276   -9.15303 ) - atomic mass=   2.000          
+      629 H    (   -2.32232   -2.20433   -8.79965 ) - atomic mass=   2.000          
+      630 O    (    5.67500   -7.99860  -17.26940 ) - atomic mass=  15.995          
+      631 H    (    6.03216   -8.76583  -15.57999 ) - atomic mass=   2.000          
+      632 H    (    7.23781   -7.16146  -17.92325 ) - atomic mass=   2.000          
+      633 O    (    6.90710   -2.51311  -10.03364 ) - atomic mass=  15.995          
+      634 H    (    7.24158   -1.19143  -11.34133 ) - atomic mass=   2.000          
+      635 H    (    8.29983   -2.50253   -8.75619 ) - atomic mass=   2.000          
+      636 O    (   16.31983   -3.38011    2.58973 ) - atomic mass=  15.995          
+      637 H    (   17.78437   -3.80530    1.47271 ) - atomic mass=   2.000          
+      638 H    (   15.94944   -1.53196    2.46690 ) - atomic mass=   2.000          
+      639 O    (   -4.89235    7.22881   -5.75908 ) - atomic mass=  15.995          
+      640 H    (   -5.33832    7.63888   -3.96951 ) - atomic mass=   2.000          
+      641 H    (   -5.45359    8.63854   -6.88536 ) - atomic mass=   2.000          
+      642 O    (   14.42254    1.60120    7.44632 ) - atomic mass=  15.995          
+      643 H    (   14.92710    2.68213    5.97990 ) - atomic mass=   2.000          
+      644 H    (   15.95700    0.77672    8.17954 ) - atomic mass=   2.000          
+      645 O    (    0.95125   17.73001  -11.52274 ) - atomic mass=  15.995          
+      646 H    (    1.13399  -18.54361   -9.94104 ) - atomic mass=   2.000          
+      647 H    (    0.29609  -18.44912  -12.90980 ) - atomic mass=   2.000          
+      648 O    (    7.26048  -14.25360   -1.60924 ) - atomic mass=  15.995          
+      649 H    (    8.09952  -15.77294   -0.86034 ) - atomic mass=   2.000          
+      650 H    (    7.32851  -12.82497   -0.37412 ) - atomic mass=   2.000          
+      651 O    (   -4.00795   14.43244  -11.61723 ) - atomic mass=  15.995          
+      652 H    (   -2.23917   14.83117  -12.15013 ) - atomic mass=   2.000          
+      653 H    (   -4.04197   14.09985   -9.75585 ) - atomic mass=   2.000          
+      654 O    (  -16.13055    2.35331   -2.61647 ) - atomic mass=  15.995          
+      655 H    (  -16.45936    3.79518   -3.79377 ) - atomic mass=   2.000          
+      656 H    (  -16.09842    2.98826   -0.83748 ) - atomic mass=   2.000          
+      657 O    (    4.41833   -1.82846    1.15467 ) - atomic mass=  15.995          
+      658 H    (    4.76415   -3.65979    1.47403 ) - atomic mass=   2.000          
+      659 H    (    5.51249   -0.77590    2.28057 ) - atomic mass=   2.000          
+      660 O    (   -8.80975   12.01170   10.11462 ) - atomic mass=  15.995          
+      661 H    (   -7.10333   12.82429   10.16564 ) - atomic mass=   2.000          
+      662 H    (   -8.65101   10.18434   10.56437 ) - atomic mass=   2.000          
+      663 O    (  -12.36621   -0.92820   -4.60257 ) - atomic mass=  15.995          
+      664 H    (  -13.61343    0.43770   -4.99374 ) - atomic mass=   2.000          
+      665 H    (  -10.65412   -0.40776   -5.20539 ) - atomic mass=   2.000          
+      666 O    (  -12.52495   15.06361   -7.46739 ) - atomic mass=  15.995          
+      667 H    (  -12.47582   14.97290   -5.57956 ) - atomic mass=   2.000          
+      668 H    (  -13.89122   13.92978   -8.11746 ) - atomic mass=   2.000          
+      669 O    (   -9.96626   16.76814    0.46791 ) - atomic mass=  15.995          
+      670 H    (   -9.84343   14.88787    0.60183 ) - atomic mass=   2.000          
+      671 H    (   -8.38645   17.55427    1.14390 ) - atomic mass=   2.000          
+      672 O    (    5.93578    3.09787   16.71165 ) - atomic mass=  15.995          
+      673 H    (    7.65543    3.46258   16.02190 ) - atomic mass=   2.000          
+      674 H    (    6.05484    1.72593   18.00611 ) - atomic mass=   2.000          
+      675 O    (   -6.43625    6.29339   -0.69084 ) - atomic mass=  15.995          
+      676 H    (   -5.48383    6.76582    0.87235 ) - atomic mass=   2.000          
+      677 H    (   -6.33610    4.42445   -0.94916 ) - atomic mass=   2.000          
+      678 O    (    8.67778   16.10674   -4.25864 ) - atomic mass=  15.995          
+      679 H    (    9.93633   16.77003   -5.50208 ) - atomic mass=   2.000          
+      680 H    (    9.33351   16.35807   -2.50308 ) - atomic mass=   2.000          
+      681 O    (   -4.90935   17.36719   -1.63570 ) - atomic mass=  15.995          
+      682 H    (   -3.66969  -18.56250   -2.10813 ) - atomic mass=   2.000          
+      683 H    (   -6.17925   17.16688   -3.01898 ) - atomic mass=   2.000          
+      684 O    (    0.47844   16.95523    5.03881 ) - atomic mass=  15.995          
+      685 H    (    0.43177   16.62830    6.89830 ) - atomic mass=   2.000          
+      686 H    (    2.27538   17.05349    4.46056 ) - atomic mass=   2.000          
+      687 O    (   -1.91792  -15.52916    8.33450 ) - atomic mass=  15.995          
+      688 H    (   -3.56198  -16.38710    7.96978 ) - atomic mass=   2.000          
+      689 H    (   -2.12957  -13.66022    8.15119 ) - atomic mass=   2.000          
+      690 O    (   -7.51529   12.76004   -2.83756 ) - atomic mass=  15.995          
+      691 H    (   -9.03651   11.64888   -2.99063 ) - atomic mass=   2.000          
+      692 H    (   -7.34899   13.35719   -1.05215 ) - atomic mass=   2.000          
+      693 O    (  -12.16968    3.46636   12.09316 ) - atomic mass=  15.995          
+      694 H    (  -12.73660    5.25215   12.34449 ) - atomic mass=   2.000          
+      695 H    (  -10.30452    3.43613   11.79080 ) - atomic mass=   2.000          
+      696 O    (   -3.67347    7.84675    3.49113 ) - atomic mass=  15.995          
+      697 H    (   -2.65302    9.04672    2.44611 ) - atomic mass=   2.000          
+      698 H    (   -3.45804    8.26438    5.32038 ) - atomic mass=   2.000          
+      699 O    (   16.89431   14.04883  -10.88402 ) - atomic mass=  15.995          
+      700 H    (   17.91854   13.41010   -9.43082 ) - atomic mass=   2.000          
+      701 H    (   18.04326   14.78771  -12.18982 ) - atomic mass=   2.000          
+      702 O    (  -15.28206   -5.40023    3.27759 ) - atomic mass=  15.995          
+      703 H    (  -16.06630   -6.43202    4.65331 ) - atomic mass=   2.000          
+      704 H    (  -15.01939   -3.63145    3.88986 ) - atomic mass=   2.000          
+      705 O    (  -17.92579   -2.71493   -2.43883 ) - atomic mass=  15.995          
+      706 H    (  -17.10564   -1.02174   -2.61080 ) - atomic mass=   2.000          
+      707 H    (  -16.60865   -4.01884   -2.07411 ) - atomic mass=   2.000          
+      708 O    (    1.55937  -12.78528   -2.90370 ) - atomic mass=  15.995          
+      709 H    (    3.06151  -13.42968   -3.85235 ) - atomic mass=   2.000          
+      710 H    (    1.21978  -13.90967   -1.42405 ) - atomic mass=   2.000          
+      711 O    (    2.61743    5.99104    9.20755 ) - atomic mass=  15.995          
+      712 H    (    3.14466    5.52616   10.96310 ) - atomic mass=   2.000          
+      713 H    (    3.19946    4.65878    8.00190 ) - atomic mass=   2.000          
+      714 O    (  -12.65156   -0.21634   16.00300 ) - atomic mass=  15.995          
+      715 H    (  -12.18858    0.33660   14.25501 ) - atomic mass=   2.000          
+      716 H    (  -11.27206    0.26233   17.20109 ) - atomic mass=   2.000          
+      717 O    (   -8.24661    2.62732  -18.46782 ) - atomic mass=  15.995          
+      718 H    (   -7.56631    4.19202   18.00233 ) - atomic mass=   2.000          
+      719 H    (   -7.92536    2.69724  -16.60644 ) - atomic mass=   2.000          
+      720 O    (   -2.54720    1.38011   -7.84156 ) - atomic mass=  15.995          
+      721 H    (   -0.95038    0.82755   -6.99496 ) - atomic mass=   2.000          
+      722 H    (   -3.57143    2.41756   -6.63780 ) - atomic mass=   2.000          
+      723 O    (   14.61719    2.04151    1.47649 ) - atomic mass=  15.995          
+      724 H    (   14.02759    1.97915   -0.31837 ) - atomic mass=   2.000          
+      725 H    (   15.64142    3.60431    1.75031 ) - atomic mass=   2.000          
+      726 O    (  -18.10909   18.18577   -4.32478 ) - atomic mass=  15.995          
+      727 H    (  -16.90722   17.04059   -3.41393 ) - atomic mass=   2.000          
+      728 H    (  -17.27383  -17.43401   -4.64792 ) - atomic mass=   2.000          
+      729 O    (   -4.54653   -9.93746   15.19231 ) - atomic mass=  15.995          
+      730 H    (   -6.10555   -9.21370   14.40619 ) - atomic mass=   2.000          
+      731 H    (   -4.66936   -9.80707   17.07259 ) - atomic mass=   2.000          
+      732 O    (   -5.21171   -2.47456  -14.57843 ) - atomic mass=  15.995          
+      733 H    (   -5.20415   -0.59970  -14.81654 ) - atomic mass=   2.000          
+      734 H    (   -3.86245   -2.95871  -13.34822 ) - atomic mass=   2.000          
+      735 O    (   11.90354  -11.18657  -16.00895 ) - atomic mass=  15.995          
+      736 H    (   13.43611  -12.22214  -15.61967 ) - atomic mass=   2.000          
+      737 H    (   11.23647  -10.42501  -14.41403 ) - atomic mass=   2.000          
+      738 O    (   -6.76506   18.18199   14.64618 ) - atomic mass=  15.995          
+      739 H    (   -6.68381   17.15398   16.22977 ) - atomic mass=   2.000          
+      740 H    (   -7.36033  -17.35842   15.06003 ) - atomic mass=   2.000          
+      741 O    (   10.51648    4.63799   -2.93394 ) - atomic mass=  15.995          
+      742 H    (   11.51426    6.23292   -3.11724 ) - atomic mass=   2.000          
+      743 H    (    9.31272    4.80996   -1.48830 ) - atomic mass=   2.000          
+      744 O    (  -17.34375    3.25660    9.62896 ) - atomic mass=  15.995          
+      745 H    (  -15.58631    3.92746    9.45699 ) - atomic mass=   2.000          
+      746 H    (  -18.09964    3.87832   11.24656 ) - atomic mass=   2.000          
+      747 O    (    9.27682  -16.67245   17.04613 ) - atomic mass=  15.995          
+      748 H    (    7.50993  -16.47970   17.68675 ) - atomic mass=   2.000          
+      749 H    (   10.19523  -15.03028   17.22377 ) - atomic mass=   2.000          
+      750 O    (    3.16545   -5.31519    8.48189 ) - atomic mass=  15.995          
+      751 H    (    5.02683   -5.61944    8.61984 ) - atomic mass=   2.000          
+      752 H    (    2.23759   -6.66068    9.42865 ) - atomic mass=   2.000          
+      753 O    (   -9.06486  -12.82874   -3.79188 ) - atomic mass=  15.995          
+      754 H    (   -7.84410  -14.21391   -4.19061 ) - atomic mass=   2.000          
+      755 H    (  -10.34043  -13.45235   -2.54466 ) - atomic mass=   2.000          
+      756 O    (    1.09657    5.76994   -8.14958 ) - atomic mass=  15.995          
+      757 H    (    1.30728    4.69846   -9.69160 ) - atomic mass=   2.000          
+      758 H    (    1.75099    4.83830   -6.64158 ) - atomic mass=   2.000          
+      759 O    (    3.71536    2.00183    5.97801 ) - atomic mass=  15.995          
+      760 H    (    5.02872    1.23271    7.09673 ) - atomic mass=   2.000          
+      761 H    (    2.28672    0.78616    5.75313 ) - atomic mass=   2.000          
+      762 O    (  -16.70880    5.32774  -14.03797 ) - atomic mass=  15.995          
+      763 H    (  -18.01838    6.64488  -14.38379 ) - atomic mass=   2.000          
+      764 H    (  -15.09876    5.79639  -14.90913 ) - atomic mass=   2.000          
+      765 O    (   10.48813    2.61599  -16.68359 ) - atomic mass=  15.995          
+      766 H    (   11.01915    1.93002  -15.00551 ) - atomic mass=   2.000          
+      767 H    (   11.94511    3.51361  -17.48672 ) - atomic mass=   2.000          
+      768 O    (   12.06606   14.50236   -8.49918 ) - atomic mass=  15.995          
+      769 H    (   12.39109   14.54583   -6.63780 ) - atomic mass=   2.000          
+      770 H    (   13.66665   14.07150   -9.40625 ) - atomic mass=   2.000          
+      771 O    (   -5.96382   -5.99927    1.42112 ) - atomic mass=  15.995          
+      772 H    (   -4.69392   -4.86922    2.24901 ) - atomic mass=   2.000          
+      773 H    (   -7.65701   -5.16024    1.43322 ) - atomic mass=   2.000          
+        G.C.   (    0.01783    0.27453   -0.21041 )
+        C.O.M. (   -0.02901    0.44972   -0.29014 )
+        number of constraints =      0 ( DOF =   2313 )
+
+ number of electrons: spin up=  1028 ( 514 per task)  down=  1028 ( 514 per task) (Fourier space)
+ number of orbitals : spin up=  1028 ( 514 per task)  down=  1028 ( 514 per task) (Fourier space)
+
+ supercell:
+      lattice:    a1=<  37.285   0.000   0.000 >
+                  a2=<   0.000  37.285   0.000 >
+                  a3=<   0.000   0.000  37.285 >
+      reciprocal: b1=<   0.169   0.000   0.000 >
+                  b2=<   0.000   0.169   0.000 >
+                  b3=<   0.000   0.000   0.169 >
+      volume :      51831.0
+      density cutoff=100.000  fft=180x180x180(  1237792 waves    38681 per task)
+      wavefnc cutoff= 50.000  fft=180x180x180(   437600 waves    13675 per task)
+      Ewald summation: cut radius=   11.87  and  1
+                        madelung= 1.76011888
+
+ technical parameters:
+      translation constrained
+      time step=      5.80     ficticious mass=  400000.0
+      tolerance=.100E-11 (energy)   0.100E-11 (electron)   0.100E-03 (ion)
+      maximum iterations =         4 (    2 inner      2 outer )
+
+
+
+          ================ iteration =========================
+     >>>  ITERATION STARTED AT Sat Apr 15 23:17:02 2017  <<<
+    iter.           Energy         DeltaE       DeltaRho 
+    ------------------------------------------------------
+       2   -0.4405098401E+04   -0.37975E+03    0.43498E-10    0.00000E+00
+       4   -0.4405098401E+04   -0.15032E-08    0.42722E-10    0.00000E+00
+ *** arived at the Maximum iiteration.   terminated.
+     >>>  ITERATION ENDED   AT Sat Apr 15 23:17:44 2017  <<<
+
+
+
+          =============  summary of results  =================
+ final position of ions:
+        1 C    (   -0.22227   -0.93594    0.31429 ) - atomic mass=  12.000          
+        2 H    (    1.83394   -0.93556    0.33088 ) - atomic mass=   2.000          
+        3 H    (   -0.90824    1.00235    0.33088 ) - atomic mass=   2.000          
+        4 H    (   -0.92090   -1.92446    1.97632 ) - atomic mass=   2.000          
+        5 H    (   -0.89369   -1.88591   -1.38096 ) - atomic mass=   2.000          
+        6 O    (   -3.35600   12.54650   -6.22017 ) - atomic mass=  15.995          
+        7 H    (   -4.89613   12.43122   -5.13169 ) - atomic mass=   2.000          
+        8 H    (   -2.53586   14.23024   -5.97640 ) - atomic mass=   2.000          
+        9 O    (    7.40977  -11.11854    5.03503 ) - atomic mass=  15.995          
+       10 H    (    5.73169  -11.98593    5.12385 ) - atomic mass=   2.000          
+       11 H    (    7.45701   -9.70881    6.29170 ) - atomic mass=   2.000          
+       12 O    (   13.21690   -2.79997  -18.06876 ) - atomic mass=  15.995          
+       13 H    (   13.27548   -1.10583   18.37305 ) - atomic mass=   2.000          
+       14 H    (   14.57750   -2.90390  -16.76107 ) - atomic mass=   2.000          
+       15 O    (   11.08340   -8.59765    1.55699 ) - atomic mass=  15.995          
+       16 H    (   10.08184   -7.22193    2.37997 ) - atomic mass=   2.000          
+       17 H    (   11.01159  -10.15478    2.62563 ) - atomic mass=   2.000          
+       18 O    (   -9.49572   11.87375  -11.30732 ) - atomic mass=  15.995          
+       19 H    (   -7.89134   12.45957  -12.11423 ) - atomic mass=   2.000          
+       20 H    (  -10.21003   13.26270  -10.24340 ) - atomic mass=   2.000          
+       21 O    (   -2.47728    3.93690    7.08161 ) - atomic mass=  15.995          
+       22 H    (   -0.90994    4.91200    7.48979 ) - atomic mass=   2.000          
+       23 H    (   -3.78497    4.26761    8.40442 ) - atomic mass=   2.000          
+       24 O    (   -4.89613   -8.48804  -16.26218 ) - atomic mass=  15.995          
+       25 H    (   -3.02908   -8.22537  -16.14312 ) - atomic mass=   2.000          
+       26 H    (   -5.72572   -6.88367  -16.81965 ) - atomic mass=   2.000          
+       27 O    (   -1.76409   -3.49728   -3.41960 ) - atomic mass=  15.995          
+       28 H    (   -1.70532   -2.91713   -5.21673 ) - atomic mass=   2.000          
+       29 H    (   -1.80850   -5.38511   -3.36858 ) - atomic mass=   2.000          
+       30 O    (   -7.92536  -17.75148  -10.19238 ) - atomic mass=  15.995          
+       31 H    (   -8.25795   17.66420  -10.21694 ) - atomic mass=   2.000          
+       32 H    (   -8.27307  -17.02772  -11.90258 ) - atomic mass=   2.000          
+       33 O    (  -10.11933   -7.35043   -3.06622 ) - atomic mass=  15.995          
+       34 H    (   -8.98927   -5.96337   -3.67282 ) - atomic mass=   2.000          
+       35 H    (   -9.38800   -9.02095   -3.56322 ) - atomic mass=   2.000          
+       36 O    (    5.06840   18.35962  -16.99350 ) - atomic mass=  15.995          
+       37 H    (    4.82651  -17.13165  -16.45115 ) - atomic mass=   2.000          
+       38 H    (    6.37231   17.53192  -15.89935 ) - atomic mass=   2.000          
+       39 O    (    3.02183   -0.76029  -13.27074 ) - atomic mass=  15.995          
+       40 H    (    1.23868   -0.13186  -13.26696 ) - atomic mass=   2.000          
+       41 H    (    4.18023    0.63196  -12.73217 ) - atomic mass=   2.000          
+       42 O    (  -14.86821   -6.07486  -12.83610 ) - atomic mass=  15.995          
+       43 H    (  -15.72048   -5.85566  -11.16370 ) - atomic mass=   2.000          
+       44 H    (  -15.82252   -5.11866  -14.15702 ) - atomic mass=   2.000          
+       45 O    (  -11.96181   12.48036   16.61528 ) - atomic mass=  15.995          
+       46 H    (  -10.33287   13.31750   17.08582 ) - atomic mass=   2.000          
+       47 H    (  -13.26761   13.80127   16.26568 ) - atomic mass=   2.000          
+       48 O    (   13.93499    6.01371   10.91586 ) - atomic mass=  15.995          
+       49 H    (   12.29471    5.15200   11.28058 ) - atomic mass=   2.000          
+       50 H    (   14.31105    5.89655    9.06582 ) - atomic mass=   2.000          
+       51 O    (   -6.22460   12.27627   17.61683 ) - atomic mass=  15.995          
+       52 H    (   -5.26462   12.92444   16.12206 ) - atomic mass=   2.000          
+       53 H    (   -6.41358   13.65765  -18.39223 ) - atomic mass=   2.000          
+       54 O    (    1.14306  -15.33830    2.59351 ) - atomic mass=  15.995          
+       55 H    (    1.51042  -14.12510    3.99380 ) - atomic mass=   2.000          
+       56 H    (    0.73753  -17.03527    3.32105 ) - atomic mass=   2.000          
+       57 O    (   17.59161    8.97302   13.09283 ) - atomic mass=  15.995          
+       58 H    (   18.53459   10.47725   12.44276 ) - atomic mass=   2.000          
+       59 H    (   16.38408    8.37020   11.77191 ) - atomic mass=   2.000          
+       60 O    (   13.94255    7.20424   -8.89225 ) - atomic mass=  15.995          
+       61 H    (   13.48713    8.47603   -7.57133 ) - atomic mass=   2.000          
+       62 H    (   14.50569    8.09619  -10.46072 ) - atomic mass=   2.000          
+       63 O    (    6.31373   17.12908    6.12352 ) - atomic mass=  15.995          
+       64 H    (    7.82551   16.01792    6.35028 ) - atomic mass=   2.000          
+       65 H    (    5.90177   17.97568    7.76380 ) - atomic mass=   2.000          
+       66 O    (  -13.41501   -1.95847   10.58327 ) - atomic mass=  15.995          
+       67 H    (  -13.32241   -0.16399   11.16909 ) - atomic mass=   2.000          
+       68 H    (  -11.72748   -2.49100    9.91998 ) - atomic mass=   2.000          
+       69 O    (   10.90009    9.96513  -14.51040 ) - atomic mass=  15.995          
+       70 H    (   12.76903    9.84230  -14.76551 ) - atomic mass=   2.000          
+       71 H    (   10.53538   11.14621  -13.08177 ) - atomic mass=   2.000          
+       72 O    (   -8.08976  -12.50182  -13.64680 ) - atomic mass=  15.995          
+       73 H    (   -7.22427  -10.99571  -14.39324 ) - atomic mass=   2.000          
+       74 H    (   -8.77006  -12.05396  -11.94037 ) - atomic mass=   2.000          
+       75 O    (    5.21013  -11.52105   10.36784 ) - atomic mass=  15.995          
+       76 H    (    4.13676  -11.62499   11.91931 ) - atomic mass=   2.000          
+       77 H    (    4.26527  -10.60832    9.00913 ) - atomic mass=   2.000          
+       78 O    (   -0.77123   -8.61466    1.03089 ) - atomic mass=  15.995          
+       79 H    (   -1.96327   -7.47326    0.11249 ) - atomic mass=   2.000          
+       80 H    (   -1.31434  -10.40990    0.79902 ) - atomic mass=   2.000          
+       81 O    (   -4.30086  -16.99559  -14.99039 ) - atomic mass=  15.995          
+       82 H    (   -4.99439  -17.00504  -13.23106 ) - atomic mass=   2.000          
+       83 H    (   -3.29553  -15.41956  -15.26251 ) - atomic mass=   2.000          
+       84 O    (  -13.29218   11.86619    6.86807 ) - atomic mass=  15.995          
+       85 H    (  -12.12244   12.14209    8.32694 ) - atomic mass=   2.000          
+       86 H    (  -12.28117   11.56951    5.29960 ) - atomic mass=   2.000          
+       87 O    (    6.16066  -13.62999  -15.59699 ) - atomic mass=  15.995          
+       88 H    (    6.60853  -14.29139  -13.88490 ) - atomic mass=   2.000          
+       89 H    (    7.70646  -12.92323  -16.42469 ) - atomic mass=   2.000          
+       90 O    (   -7.80063   16.53571  -16.32454 ) - atomic mass=  15.995          
+       91 H    (   -6.07153   16.79271  -15.60644 ) - atomic mass=   2.000          
+       92 H    (   -8.86644   18.05316  -15.95982 ) - atomic mass=   2.000          
+       93 O    (   -8.32220  -17.05795    9.00157 ) - atomic mass=  15.995          
+       94 H    (   -7.69481  -17.56440   10.71177 ) - atomic mass=   2.000          
+       95 H    (   -8.61133  -15.19090    8.96377 ) - atomic mass=   2.000          
+       96 O    (    6.21168   -5.77440   -3.11913 ) - atomic mass=  15.995          
+       97 H    (    6.71435   -3.95648   -3.21929 ) - atomic mass=   2.000          
+       98 H    (    5.71469   -6.19392   -1.34449 ) - atomic mass=   2.000          
+       99 O    (    7.53071   -1.61776   18.51823 ) - atomic mass=  15.995          
+      100 H    (    8.96313   -0.51257  -18.22215 ) - atomic mass=   2.000          
+      101 H    (    6.27971   -1.76648  -17.36233 ) - atomic mass=   2.000          
+      102 O    (  -16.14377  -13.52416  -16.30186 ) - atomic mass=  15.995          
+      103 H    (  -17.27572  -12.60198  -17.50373 ) - atomic mass=   2.000          
+      104 H    (  -14.37877  -13.52605  -16.97460 ) - atomic mass=   2.000          
+      105 O    (   14.76836  -12.93646   -3.36102 ) - atomic mass=  15.995          
+      106 H    (   14.23357  -11.12610   -3.44795 ) - atomic mass=   2.000          
+      107 H    (   14.51703  -13.74715   -5.04854 ) - atomic mass=   2.000          
+      108 O    (  -16.03606   15.43967  -13.62601 ) - atomic mass=  15.995          
+      109 H    (  -14.76805   16.71523  -13.04775 ) - atomic mass=   2.000          
+      110 H    (  -16.74471   15.96879  -15.29653 ) - atomic mass=   2.000          
+      111 O    (    9.74358  -15.54806  -12.05754 ) - atomic mass=  15.995          
+      112 H    (    9.88531  -17.37731  -12.50918 ) - atomic mass=   2.000          
+      113 H    (   10.97568  -14.54840  -13.08177 ) - atomic mass=   2.000          
+      114 O    (   17.39697    1.08153  -14.56709 ) - atomic mass=  15.995          
+      115 H    (   17.56516    1.79207  -12.82477 ) - atomic mass=   2.000          
+      116 H    (   16.64864    2.38733  -15.71038 ) - atomic mass=   2.000          
+      117 O    (   -1.07604   13.41766   15.57404 ) - atomic mass=  15.995          
+      118 H    (   -0.70887   13.90710   13.78636 ) - atomic mass=   2.000          
+      119 H    (   -0.39971   14.74236   16.74000 ) - atomic mass=   2.000          
+      120 O    (    4.61676  -14.85075   -9.81632 ) - atomic mass=  15.995          
+      121 H    (    4.94368  -16.70646   -9.67837 ) - atomic mass=   2.000          
+      122 H    (    6.13987  -13.89644   -9.22862 ) - atomic mass=   2.000          
+      123 O    (  -14.81908   -1.79274  -16.02407 ) - atomic mass=  15.995          
+      124 H    (  -16.20047   -0.69219  -15.34944 ) - atomic mass=   2.000          
+      125 H    (  -14.93624   -1.86833  -17.90813 ) - atomic mass=   2.000          
+      126 O    (   -4.77707   -3.98672   14.44776 ) - atomic mass=  15.995          
+      127 H    (   -4.22338   -3.14957   16.04836 ) - atomic mass=   2.000          
+      128 H    (   -3.25773   -4.47805   13.43676 ) - atomic mass=   2.000          
+      129 O    (  -11.03773   -2.52955    0.65559 ) - atomic mass=  15.995          
+      130 H    (  -11.95425   -1.64308   -0.73940 ) - atomic mass=   2.000          
+      131 H    (  -12.28684   -3.39523    1.77923 ) - atomic mass=   2.000          
+      132 O    (    1.67691   11.21235   -7.54109 ) - atomic mass=  15.995          
+      133 H    (    1.62267    9.35664   -7.89447 ) - atomic mass=   2.000          
+      134 H    (    0.05823   11.74525   -6.72473 ) - atomic mass=   2.000          
+      135 O    (    9.96090   15.39242   16.53213 ) - atomic mass=  15.995          
+      136 H    (    8.87620   14.50425   17.79824 ) - atomic mass=   2.000          
+      137 H    (    8.95368   16.74925   15.68364 ) - atomic mass=   2.000          
+      138 O    (    8.00692  -11.86876   -7.00063 ) - atomic mass=  15.995          
+      139 H    (    7.52126  -12.85142   -5.46050 ) - atomic mass=   2.000          
+      140 H    (    8.84029  -10.25494   -6.48096 ) - atomic mass=   2.000          
+      141 O    (   -5.95437   18.12341    4.26025 ) - atomic mass=  15.995          
+      142 H    (   -6.94081  -18.27682    5.60762 ) - atomic mass=   2.000          
+      143 H    (   -4.35566   17.43744    4.99913 ) - atomic mass=   2.000          
+      144 O    (  -11.30419    8.53272    0.01895 ) - atomic mass=  15.995          
+      145 H    (   -9.73193    9.15822    0.86025 ) - atomic mass=   2.000          
+      146 H    (  -11.47993    6.67512    0.31575 ) - atomic mass=   2.000          
+      147 O    (  -18.15822   -3.30075    7.96411 ) - atomic mass=  15.995          
+      148 H    (  -16.73148   -3.03052    9.17542 ) - atomic mass=   2.000          
+      149 H    (  -18.00326   -2.08187    6.52792 ) - atomic mass=   2.000          
+      150 O    (  -17.18879    5.62443    3.41176 ) - atomic mass=  15.995          
+      151 H    (  -15.78284    5.90411    4.64197 ) - atomic mass=   2.000          
+      152 H    (  -17.23604    7.04928    2.17286 ) - atomic mass=   2.000          
+      153 O    (   -5.03597    6.99448   17.10093 ) - atomic mass=  15.995          
+      154 H    (   -3.54497    6.28016   18.01367 ) - atomic mass=   2.000          
+      155 H    (   -4.79219    8.85397   16.85716 ) - atomic mass=   2.000          
+      156 O    (    4.41266    8.16422    4.38497 ) - atomic mass=  15.995          
+      157 H    (    5.52571    7.34975    3.09240 ) - atomic mass=   2.000          
+      158 H    (    3.40544    6.83574    5.27503 ) - atomic mass=   2.000          
+      159 O    (   -0.16331    7.64077   -2.57867 ) - atomic mass=  15.995          
+      160 H    (   -0.81375    7.28928   -4.31722 ) - atomic mass=   2.000          
+      161 H    (   -0.62289    9.40388   -2.07978 ) - atomic mass=   2.000          
+      162 O    (   -6.45515    7.30818   11.80403 ) - atomic mass=  15.995          
+      163 H    (   -5.53107    8.65366   10.85350 ) - atomic mass=   2.000          
+      164 H    (   -6.26051    7.60108   13.65974 ) - atomic mass=   2.000          
+      165 O    (  -13.33375  -12.19380   13.76368 ) - atomic mass=  15.995          
+      166 H    (  -13.96681  -10.47982   13.27991 ) - atomic mass=   2.000          
+      167 H    (  -13.78729  -13.43724   12.41630 ) - atomic mass=   2.000          
+      168 O    (  -13.69280  -14.70335    2.90909 ) - atomic mass=  15.995          
+      169 H    (  -13.21848  -15.93734    4.25836 ) - atomic mass=   2.000          
+      170 H    (  -12.19992  -13.62432    2.48768 ) - atomic mass=   2.000          
+      171 O    (   16.35195   13.62553   -0.85675 ) - atomic mass=  15.995          
+      172 H    (   16.41431   15.22613    0.14537 ) - atomic mass=   2.000          
+      173 H    (   17.78248   12.50303   -0.34237 ) - atomic mass=   2.000          
+      174 O    (   17.87507   12.44256   -5.83278 ) - atomic mass=  15.995          
+      175 H    (  -17.83919   12.20257   -4.81989 ) - atomic mass=   2.000          
+      176 H    (   16.37652   12.38398   -4.68572 ) - atomic mass=   2.000          
+      177 O    (   -1.55055  -14.96413   14.98444 ) - atomic mass=  15.995          
+      178 H    (   -2.74751  -16.28694   14.36272 ) - atomic mass=   2.000          
+      179 H    (   -2.29775  -13.25204   14.69342 ) - atomic mass=   2.000          
+      180 O    (    1.28706   16.60752   11.61506 ) - atomic mass=  15.995          
+      181 H    (    2.58341   15.24125   11.45632 ) - atomic mass=   2.000          
+      182 H    (    2.12610   18.21378   12.14607 ) - atomic mass=   2.000          
+      183 O    (   -7.30931    1.59175   11.49979 ) - atomic mass=  15.995          
+      184 H    (   -6.41546    0.33830   12.59394 ) - atomic mass=   2.000          
+      185 H    (   -6.71215    3.33408   11.91931 ) - atomic mass=   2.000          
+      186 O    (  -11.71426   -9.29685  -18.07253 ) - atomic mass=  15.995          
+      187 H    (  -10.65412   -7.75861  -17.78341 ) - atomic mass=   2.000          
+      188 H    (  -12.98604   -8.93969   17.86282 ) - atomic mass=   2.000          
+      189 O    (  -17.42123    9.72136   17.86438 ) - atomic mass=  15.995          
+      190 H    (  -15.86032    8.68012   18.09304 ) - atomic mass=   2.000          
+      191 H    (  -17.87287    9.78183   16.02946 ) - atomic mass=   2.000          
+      192 O    (   -9.73949   -4.81064   16.04647 ) - atomic mass=  15.995          
+      193 H    (   -8.74550   -4.23049   17.54691 ) - atomic mass=   2.000          
+      194 H    (  -10.11744   -3.33098   14.93342 ) - atomic mass=   2.000          
+      195 O    (   -3.42592    6.63543  -11.40369 ) - atomic mass=  15.995          
+      196 H    (   -3.20860    8.40611  -12.03108 ) - atomic mass=   2.000          
+      197 H    (   -2.20705    6.31229   -9.99774 ) - atomic mass=   2.000          
+      198 O    (    9.12375    0.31298    4.83472 ) - atomic mass=  15.995          
+      199 H    (    9.54138   -1.42500    4.22056 ) - atomic mass=   2.000          
+      200 H    (   10.71301    1.19737    5.34873 ) - atomic mass=   2.000          
+      201 O    (   -9.91335  -15.44790  -17.92136 ) - atomic mass=  15.995          
+      202 H    (   -9.78296  -14.54840   17.71165 ) - atomic mass=   2.000          
+      203 H    (   -9.50895  -14.24793  -16.51918 ) - atomic mass=   2.000          
+      204 O    (   17.86751   -8.59009   -4.75942 ) - atomic mass=  15.995          
+      205 H    (  -18.63287   -9.37433   -3.23063 ) - atomic mass=   2.000          
+      206 H    (   16.30093   -7.66223   -4.25864 ) - atomic mass=   2.000          
+      207 O    (   14.07105   17.91710   -4.28131 ) - atomic mass=  15.995          
+      208 H    (   15.94566   17.84340   -4.04888 ) - atomic mass=   2.000          
+      209 H    (   13.25658   18.45756   -2.66560 ) - atomic mass=   2.000          
+      210 O    (    1.38570  -10.50438    5.61707 ) - atomic mass=  15.995          
+      211 H    (    0.26509   -9.75794    6.94177 ) - atomic mass=   2.000          
+      212 H    (    0.84883   -9.88077    3.91443 ) - atomic mass=   2.000          
+      213 O    (  -14.90600   16.78515    0.10417 ) - atomic mass=  15.995          
+      214 H    (  -15.54662   18.11363    1.28676 ) - atomic mass=   2.000          
+      215 H    (  -13.01817   16.73980    0.17334 ) - atomic mass=   2.000          
+      216 O    (  -14.24460    0.21225  -10.75741 ) - atomic mass=  15.995          
+      217 H    (  -14.97403    1.72404  -11.62479 ) - atomic mass=   2.000          
+      218 H    (  -13.09943   -0.70632  -11.94793 ) - atomic mass=   2.000          
+      219 O    (  -14.93057   -7.08398   15.54380 ) - atomic mass=  15.995          
+      220 H    (  -13.73059   -5.62322   15.55703 ) - atomic mass=   2.000          
+      221 H    (  -15.81496   -7.15579   13.87517 ) - atomic mass=   2.000          
+      222 O    (  -14.16145   10.31284   -4.13203 ) - atomic mass=  15.995          
+      223 H    (  -13.78162   10.08985   -5.96884 ) - atomic mass=   2.000          
+      224 H    (  -13.30163    8.95224   -3.14181 ) - atomic mass=   2.000          
+      225 O    (   -1.44038   -3.01540    4.69299 ) - atomic mass=  15.995          
+      226 H    (   -0.11158   -4.17758    5.36952 ) - atomic mass=   2.000          
+      227 H    (   -1.66791   -1.56106    5.87785 ) - atomic mass=   2.000          
+      228 O    (    1.93523   12.78649  -13.44460 ) - atomic mass=  15.995          
+      229 H    (    1.97114   14.63086  -13.03264 ) - atomic mass=   2.000          
+      230 H    (    3.25237   11.88887  -12.42981 ) - atomic mass=   2.000          
+      231 O    (   -9.20092   -2.11532    6.82083 ) - atomic mass=  15.995          
+      232 H    (   -8.55086   -1.15666    8.31371 ) - atomic mass=   2.000          
+      233 H    (   -8.56030   -1.31653    5.23346 ) - atomic mass=   2.000          
+      234 O    (    6.74081   -5.95203   14.36461 ) - atomic mass=  15.995          
+      235 H    (    7.42300   -7.71326   14.45721 ) - atomic mass=   2.000          
+      236 H    (    7.91433   -4.77473   15.26034 ) - atomic mass=   2.000          
+      237 O    (  -12.86888    6.72992  -18.48482 ) - atomic mass=  15.995          
+      238 H    (  -11.80307    5.22759  -18.06342 ) - atomic mass=   2.000          
+      239 H    (  -11.79929    8.28894  -18.45459 ) - atomic mass=   2.000          
+      240 O    (   -9.58643    3.90667   -5.96128 ) - atomic mass=  15.995          
+      241 H    (   -8.10866    5.06129   -5.72695 ) - atomic mass=   2.000          
+      242 H    (  -10.67869    4.55862   -7.35968 ) - atomic mass=   2.000          
+      243 O    (   11.41032   11.08385   12.91141 ) - atomic mass=  15.995          
+      244 H    (   12.78982   10.05584   13.69376 ) - atomic mass=   2.000          
+      245 H    (   11.21757   12.70523   13.86383 ) - atomic mass=   2.000          
+      246 O    (    8.74770  -11.64389   15.77624 ) - atomic mass=  15.995          
+      247 H    (   10.19712  -10.51005   15.34538 ) - atomic mass=   2.000          
+      248 H    (    8.60975  -11.80451   17.65462 ) - atomic mass=   2.000          
+      249 O    (   15.09529   17.49191   14.68209 ) - atomic mass=  15.995          
+      250 H    (   14.24113   16.23902   15.80836 ) - atomic mass=   2.000          
+      251 H    (   14.52837   17.22546   12.89818 ) - atomic mass=   2.000          
+      252 O    (   -1.21362   10.49614  -17.01996 ) - atomic mass=  15.995          
+      253 H    (   -0.21187   11.09897  -15.53652 ) - atomic mass=   2.000          
+      254 H    (   -1.65789   11.96635  -18.11978 ) - atomic mass=   2.000          
+      255 O    (  -18.64010   12.99058    5.26369 ) - atomic mass=  15.995          
+      256 H    (  -17.13021   12.69200    6.35973 ) - atomic mass=   2.000          
+      257 H    (  -18.57774   14.74803    4.57205 ) - atomic mass=   2.000          
+      258 O    (   -9.72060   -4.57253  -15.77652 ) - atomic mass=  15.995          
+      259 H    (  -11.41568   -3.74105  -15.70471 ) - atomic mass=   2.000          
+      260 H    (   -8.45637   -3.50484  -14.86189 ) - atomic mass=   2.000          
+      261 O    (    4.07062    4.09753   -4.10935 ) - atomic mass=  15.995          
+      262 H    (    5.82996    4.38288   -4.74052 ) - atomic mass=   2.000          
+      263 H    (    4.05551    4.19580   -2.22340 ) - atomic mass=   2.000          
+      264 O    (   15.97590   -7.81719  -10.35300 ) - atomic mass=  15.995          
+      265 H    (   17.30249   -7.73782   -9.01130 ) - atomic mass=   2.000          
+      266 H    (   14.69844   -9.13433   -9.89758 ) - atomic mass=   2.000          
+      267 O    (    1.13777   -4.80875   15.06003 ) - atomic mass=  15.995          
+      268 H    (    2.87821   -5.52306   14.88996 ) - atomic mass=   2.000          
+      269 H    (    0.76455   -4.48938   16.88551 ) - atomic mass=   2.000          
+      270 O    (   14.33751    1.44436   16.04080 ) - atomic mass=  15.995          
+      271 H    (   14.15420    2.63110   17.50156 ) - atomic mass=   2.000          
+      272 H    (   16.12141    1.48404   15.41719 ) - atomic mass=   2.000          
+      273 O    (    3.93267   13.50081    2.85051 ) - atomic mass=  15.995          
+      274 H    (    4.58463   11.72636    2.81083 ) - atomic mass=   2.000          
+      275 H    (    4.34275   14.28504    4.51914 ) - atomic mass=   2.000          
+      276 O    (    3.36387  -15.91278   13.40841 ) - atomic mass=  15.995          
+      277 H    (    4.25393  -14.72792   14.58004 ) - atomic mass=   2.000          
+      278 H    (    1.49984  -15.81073   13.70699 ) - atomic mass=   2.000          
+      279 O    (    9.23714    8.03383   17.49967 ) - atomic mass=  15.995          
+      280 H    (    8.77604    9.54561   16.46410 ) - atomic mass=   2.000          
+      281 H    (    9.94767    8.59886  -18.12767 ) - atomic mass=   2.000          
+      282 O    (  -18.00138  -15.92223   13.96210 ) - atomic mass=  15.995          
+      283 H    (   18.43287  -14.63721   12.86795 ) - atomic mass=   2.000          
+      284 H    (   18.00957  -17.19779   14.53847 ) - atomic mass=   2.000          
+      285 O    (   -5.40446   -5.40779    8.68976 ) - atomic mass=  15.995          
+      286 H    (   -4.07787   -4.16813    9.21322 ) - atomic mass=   2.000          
+      287 H    (   -6.23216   -4.81253    7.10051 ) - atomic mass=   2.000          
+      288 O    (    0.44783  -14.59375  -16.37367 ) - atomic mass=  15.995          
+      289 H    (    1.14873  -12.98937  -15.66502 ) - atomic mass=   2.000          
+      290 H    (   -0.34396  -14.24604  -18.05553 ) - atomic mass=   2.000          
+      291 O    (    2.98781   16.58484   -1.76042 ) - atomic mass=  15.995          
+      292 H    (    4.26716   15.81383   -2.91693 ) - atomic mass=   2.000          
+      293 H    (    3.06151   15.72879   -0.07856 ) - atomic mass=   2.000          
+      294 O    (   10.69978   -2.39424    9.87273 ) - atomic mass=  15.995          
+      295 H    (   11.79016   -1.60566    8.54804 ) - atomic mass=   2.000          
+      296 H    (   11.67866   -2.55336   11.48278 ) - atomic mass=   2.000          
+      297 O    (    4.14054   -7.25027   -8.48784 ) - atomic mass=  15.995          
+      298 H    (    4.09897   -6.77784   -6.65859 ) - atomic mass=   2.000          
+      299 H    (    4.48825   -5.71015   -9.52719 ) - atomic mass=   2.000          
+      300 O    (  -17.82563    9.06562   -0.30212 ) - atomic mass=  15.995          
+      301 H    (  -15.96425    9.20168   -0.60051 ) - atomic mass=   2.000          
+      302 H    (  -18.63821    8.19635   -1.77176 ) - atomic mass=   2.000          
+      303 O    (   18.38341    6.60520   -5.53231 ) - atomic mass=  15.995          
+      304 H    (  -18.31162    8.20580   -6.34867 ) - atomic mass=   2.000          
+      305 H    (   16.62974    6.20836   -6.11435 ) - atomic mass=   2.000          
+      306 O    (   16.45589   17.80371    4.13175 ) - atomic mass=  15.995          
+      307 H    (   15.01781   17.51270    5.32416 ) - atomic mass=   2.000          
+      308 H    (   18.03759   18.12119    5.11818 ) - atomic mass=   2.000          
+      309 O    (   15.18977  -14.36887    2.25090 ) - atomic mass=  15.995          
+      310 H    (   15.60740  -16.14332    2.75414 ) - atomic mass=   2.000          
+      311 H    (   15.16899  -14.23848    0.36573 ) - atomic mass=   2.000          
+      312 O    (   -1.80397    1.52183  -13.47672 ) - atomic mass=  15.995          
+      313 H    (   -1.79527    3.31707  -14.06254 ) - atomic mass=   2.000          
+      314 H    (   -2.87034    1.37066  -11.92337 ) - atomic mass=   2.000          
+      315 O    (  -10.70325    6.38032  -10.70827 ) - atomic mass=  15.995          
+      316 H    (   -9.83587    8.02060  -11.06543 ) - atomic mass=   2.000          
+      317 H    (  -10.05130    5.05373  -11.88557 ) - atomic mass=   2.000          
+      318 O    (   16.06283    1.77128   -9.48940 ) - atomic mass=  15.995          
+      319 H    (   16.93021    0.19978   -8.89792 ) - atomic mass=   2.000          
+      320 H    (   16.93399    3.28306   -8.76374 ) - atomic mass=   2.000          
+      321 O    (  -14.72459   -0.17230    5.26936 ) - atomic mass=  15.995          
+      322 H    (  -15.72992    1.29885    5.90053 ) - atomic mass=   2.000          
+      323 H    (  -13.95169   -1.08221    6.73390 ) - atomic mass=   2.000          
+      324 O    (   13.64587   17.88308  -16.96327 ) - atomic mass=  15.995          
+      325 H    (   12.37408   17.78671  -18.35788 ) - atomic mass=   2.000          
+      326 H    (   15.07450  -18.27904  -17.49050 ) - atomic mass=   2.000          
+      327 O    (   15.96645   -9.55952   13.64652 ) - atomic mass=  15.995          
+      328 H    (   14.39231   -8.66946   13.09661 ) - atomic mass=   2.000          
+      329 H    (   16.52959   -8.86977   15.31514 ) - atomic mass=   2.000          
+      330 O    (    4.17078    7.25715  -16.98594 ) - atomic mass=  15.995          
+      331 H    (    5.32729    7.02850  -18.46371 ) - atomic mass=   2.000          
+      332 H    (    4.11598    9.08263  -16.50595 ) - atomic mass=   2.000          
+      333 O    (    9.78138    2.45914   12.59961 ) - atomic mass=  15.995          
+      334 H    (    9.70957    1.03107   11.36373 ) - atomic mass=   2.000          
+      335 H    (   11.29127    2.25127   13.71455 ) - atomic mass=   2.000          
+      336 O    (   -6.19059    0.80412   -2.57300 ) - atomic mass=  15.995          
+      337 H    (   -6.78774    1.62955   -4.16415 ) - atomic mass=   2.000          
+      338 H    (   -6.23405   -1.07333   -2.78276 ) - atomic mass=   2.000          
+      339 O    (   -7.69859   12.64098    2.91098 ) - atomic mass=  15.995          
+      340 H    (   -7.71560   14.34552    3.72923 ) - atomic mass=   2.000          
+      341 H    (   -6.00917   12.33863    2.12070 ) - atomic mass=   2.000          
+      342 O    (  -10.93191  -11.69869    7.22334 ) - atomic mass=  15.995          
+      343 H    (  -10.69003  -10.57052    5.72856 ) - atomic mass=   2.000          
+      344 H    (  -10.67113  -10.70658    8.81071 ) - atomic mass=   2.000          
+      345 O    (   -2.71727    9.55884    8.89008 ) - atomic mass=  15.995          
+      346 H    (   -2.67381   11.43534    9.10550 ) - atomic mass=   2.000          
+      347 H    (   -0.95094    8.88610    8.88252 ) - atomic mass=   2.000          
+      348 O    (  -12.94825   17.67143    5.53581 ) - atomic mass=  15.995          
+      349 H    (  -11.79363   16.73980    4.36607 ) - atomic mass=   2.000          
+      350 H    (  -12.67802   17.06294    7.30460 ) - atomic mass=   2.000          
+      351 O    (    5.71469    3.53439    0.90542 ) - atomic mass=  15.995          
+      352 H    (    4.26716    2.98070    1.98747 ) - atomic mass=   2.000          
+      353 H    (    7.27182    2.58764    1.40563 ) - atomic mass=   2.000          
+      354 O    (    5.75059    4.07296  -12.60178 ) - atomic mass=  15.995          
+      355 H    (    5.72980    5.32774  -14.01529 ) - atomic mass=   2.000          
+      356 H    (    6.74270    4.77405  -11.15425 ) - atomic mass=   2.000          
+      357 O    (   -8.28818  -14.04573   14.39674 ) - atomic mass=  15.995          
+      358 H    (   -7.44537  -12.70591   15.42853 ) - atomic mass=   2.000          
+      359 H    (   -9.68658  -13.27661   13.38573 ) - atomic mass=   2.000          
+      360 O    (    3.60197    1.54640   12.12340 ) - atomic mass=  15.995          
+      361 H    (    4.85297    0.44866   11.22956 ) - atomic mass=   2.000          
+      362 H    (    4.35597    2.17568   13.73911 ) - atomic mass=   2.000          
+      363 O    (   16.26692  -16.08852   -9.20216 ) - atomic mass=  15.995          
+      364 H    (   18.14530  -16.24915   -9.07555 ) - atomic mass=   2.000          
+      365 H    (   15.45433  -17.65510   -8.52942 ) - atomic mass=   2.000          
+      366 O    (    6.96380   11.60352  -10.63079 ) - atomic mass=  15.995          
+      367 H    (    6.53483   13.44412  -10.64402 ) - atomic mass=   2.000          
+      368 H    (    6.82207   10.93645   -8.86768 ) - atomic mass=   2.000          
+      369 O    (   12.64053   -3.25161   -8.92626 ) - atomic mass=  15.995          
+      370 H    (   13.87263   -4.35332   -9.84278 ) - atomic mass=   2.000          
+      371 H    (   12.27015   -1.71961   -9.96939 ) - atomic mass=   2.000          
+      372 O    (  -12.59487  -17.71180  -13.68081 ) - atomic mass=  15.995          
+      373 H    (  -13.41879  -16.49292  -12.49595 ) - atomic mass=   2.000          
+      374 H    (  -12.73471  -17.06173  -15.44960 ) - atomic mass=   2.000          
+      375 O    (   -0.64008   17.38608   -5.69861 ) - atomic mass=  15.995          
+      376 H    (    0.52607   18.16843   -4.43438 ) - atomic mass=   2.000          
+      377 H    (   -1.53392  -18.54361   -6.65859 ) - atomic mass=   2.000          
+      378 O    (   -3.50529   15.39809    9.99745 ) - atomic mass=  15.995          
+      379 H    (   -1.78923   16.00280   10.50957 ) - atomic mass=   2.000          
+      380 H    (   -4.81487   16.58673   10.66642 ) - atomic mass=   2.000          
+      381 O    (    7.39654   -0.40172   -3.24763 ) - atomic mass=  15.995          
+      382 H    (    8.39054    1.16392   -3.61613 ) - atomic mass=   2.000          
+      383 H    (    6.12287   -0.03757   -1.90026 ) - atomic mass=   2.000          
+      384 O    (   10.39554    7.98092    4.25836 ) - atomic mass=  15.995          
+      385 H    (    9.39398    7.77305    5.84762 ) - atomic mass=   2.000          
+      386 H    (   12.22857    8.13777    4.68544 ) - atomic mass=   2.000          
+      387 O    (   16.74502   -9.53306    0.66221 ) - atomic mass=  15.995          
+      388 H    (   15.59417  -11.02217    0.83455 ) - atomic mass=   2.000          
+      389 H    (   15.74535   -7.94002    0.83058 ) - atomic mass=   2.000          
+      390 O    (   -2.38657   12.92633    1.10081 ) - atomic mass=  15.995          
+      391 H    (   -0.85438   13.43278    2.08385 ) - atomic mass=   2.000          
+      392 H    (   -2.74562   14.22835   -0.22105 ) - atomic mass=   2.000          
+      393 O    (  -11.85221    3.23393    1.66792 ) - atomic mass=  15.995          
+      394 H    (  -10.76561    1.97537    0.76955 ) - atomic mass=   2.000          
+      395 H    (  -12.55141    2.45347    3.24168 ) - atomic mass=   2.000          
+      396 O    (   15.54126    5.75860  -17.64546 ) - atomic mass=  15.995          
+      397 H    (   16.62596    6.28394   18.18408 ) - atomic mass=   2.000          
+      398 H    (   15.86818    6.89999  -16.17525 ) - atomic mass=   2.000          
+      399 O    (    2.23570   -0.69007   -7.18771 ) - atomic mass=  15.995          
+      400 H    (    3.60008   -0.85903   -8.48218 ) - atomic mass=   2.000          
+      401 H    (    2.94246    0.10303   -5.62491 ) - atomic mass=   2.000          
+      402 O    (    2.09208   11.66966    8.86362 ) - atomic mass=  15.995          
+      403 H    (    2.55317   10.58874    7.38396 ) - atomic mass=   2.000          
+      404 H    (    3.52449   11.69045   10.09761 ) - atomic mass=   2.000          
+      405 O    (   18.63285   17.54104  -17.84766 ) - atomic mass=  15.995          
+      406 H    (   17.70122   17.54482   17.78723 ) - atomic mass=   2.000          
+      407 H    (  -17.63132  -18.16566  -17.69837 ) - atomic mass=   2.000          
+      408 O    (   16.24235  -13.31818    9.29826 ) - atomic mass=  15.995          
+      409 H    (   16.60707  -12.12955    7.87529 ) - atomic mass=   2.000          
+      410 H    (   14.91198  -12.57363   10.41508 ) - atomic mass=   2.000          
+      411 O    (   -7.33954    8.37398  -15.79164 ) - atomic mass=  15.995          
+      412 H    (   -7.60410   10.24481  -15.71416 ) - atomic mass=   2.000          
+      413 H    (   -5.83910    7.99604  -16.87823 ) - atomic mass=   2.000          
+      414 O    (   -3.84544   -9.19858   -4.13581 ) - atomic mass=  15.995          
+      415 H    (   -5.47627  -10.14911   -4.06778 ) - atomic mass=   2.000          
+      416 H    (   -2.84955   -9.76361   -5.64003 ) - atomic mass=   2.000          
+      417 O    (   14.67955   -7.08776    6.98145 ) - atomic mass=  15.995          
+      418 H    (   13.75358   -6.78918    5.36007 ) - atomic mass=   2.000          
+      419 H    (   16.00235   -5.75739    7.20444 ) - atomic mass=   2.000          
+      420 O    (  -16.83163  -10.65178    5.28448 ) - atomic mass=  15.995          
+      421 H    (  -15.47859  -11.72703    4.52103 ) - atomic mass=   2.000          
+      422 H    (  -17.89744   -9.91101    3.91065 ) - atomic mass=   2.000          
+      423 O    (   18.02814   -8.59576   18.55602 ) - atomic mass=  15.995          
+      424 H    (  -17.51793   -8.08175   18.01934 ) - atomic mass=   2.000          
+      425 H    (   17.47823   -7.52995  -17.26784 ) - atomic mass=   2.000          
+      426 O    (   -7.29797   -3.51806   -6.76630 ) - atomic mass=  15.995          
+      427 H    (   -6.37578   -4.47616   -8.10801 ) - atomic mass=   2.000          
+      428 H    (   -9.15179   -3.84688   -6.91937 ) - atomic mass=   2.000          
+      429 O    (   -0.87743  -15.48381   -8.93571 ) - atomic mass=  15.995          
+      430 H    (    0.67460  -14.40856   -9.01130 ) - atomic mass=   2.000          
+      431 H    (   -2.37901  -14.45769   -9.44783 ) - atomic mass=   2.000          
+      432 O    (   10.80561   -3.27240    1.52657 ) - atomic mass=  15.995          
+      433 H    (   12.54983   -3.19492    2.24996 ) - atomic mass=   2.000          
+      434 H    (   10.71490   -2.18713   -0.01828 ) - atomic mass=   2.000          
+      435 O    (   12.45912   -7.64145   -3.41015 ) - atomic mass=  15.995          
+      436 H    (   11.79960   -7.59987   -1.63948 ) - atomic mass=   2.000          
+      437 H    (   11.27993   -6.69469   -4.54399 ) - atomic mass=   2.000          
+      438 O    (   13.44933    9.57963   -2.96040 ) - atomic mass=  15.995          
+      439 H    (   11.68433   10.03505   -2.46529 ) - atomic mass=   2.000          
+      440 H    (   14.65876   10.25426   -1.67538 ) - atomic mass=   2.000          
+      441 O    (   16.02314  -14.49737  -14.11167 ) - atomic mass=  15.995          
+      442 H    (   17.66153  -14.10053  -14.96394 ) - atomic mass=   2.000          
+      443 H    (   16.28770  -14.57863  -12.24084 ) - atomic mass=   2.000          
+      444 O    (  -14.62821  -15.17011    9.10550 ) - atomic mass=  15.995          
+      445 H    (  -16.24960  -15.14177    8.13230 ) - atomic mass=   2.000          
+      446 H    (  -13.43580  -13.89455    8.37985 ) - atomic mass=   2.000          
+      447 O    (   -4.51629  -14.40100    0.79090 ) - atomic mass=  15.995          
+      448 H    (   -5.72572  -15.71814    1.40034 ) - atomic mass=   2.000          
+      449 H    (   -2.87979  -14.56918    1.72310 ) - atomic mass=   2.000          
+      450 O    (   17.08139   -4.50261  -14.36489 ) - atomic mass=  15.995          
+      451 H    (   17.82972   -2.91146  -13.67514 ) - atomic mass=   2.000          
+      452 H    (   17.37052   -5.91613  -13.14224 ) - atomic mass=   2.000          
+      453 O    (  -14.10854  -11.24326  -11.18070 ) - atomic mass=  15.995          
+      454 H    (  -13.88555  -10.07541  -12.65091 ) - atomic mass=   2.000          
+      455 H    (  -14.02350  -10.25305   -9.57255 ) - atomic mass=   2.000          
+      456 O    (  -16.71069   12.87342   11.10105 ) - atomic mass=  15.995          
+      457 H    (  -16.82786   14.70078   11.57160 ) - atomic mass=   2.000          
+      458 H    (  -15.84898   12.70901    9.42676 ) - atomic mass=   2.000          
+      459 O    (   10.31239   16.49224  -13.32932 ) - atomic mass=  15.995          
+      460 H    (   11.76370   16.90798  -14.46505 ) - atomic mass=   2.000          
+      461 H    (   10.96623   15.96690  -11.63613 ) - atomic mass=   2.000          
+      462 O    (    8.04094    7.85431    9.98990 ) - atomic mass=  15.995          
+      463 H    (    8.14676    6.12710   10.74768 ) - atomic mass=   2.000          
+      464 H    (    9.51304    8.88799   10.57004 ) - atomic mass=   2.000          
+      465 O    (  -13.46414    6.38977    6.90586 ) - atomic mass=  15.995          
+      466 H    (  -11.64056    5.95513    7.14397 ) - atomic mass=   2.000          
+      467 H    (  -13.73248    8.21524    7.30837 ) - atomic mass=   2.000          
+      468 O    (  -17.36076   -8.11766   10.74201 ) - atomic mass=  15.995          
+      469 H    (  -17.26438   -8.52395    8.89952 ) - atomic mass=   2.000          
+      470 H    (   18.58972   -9.17968   11.55270 ) - atomic mass=   2.000          
+      471 O    (   -1.24121   -1.71678   10.57193 ) - atomic mass=  15.995          
+      472 H    (    0.28513   -2.47305   11.39018 ) - atomic mass=   2.000          
+      473 H    (   -1.08511    0.16652   10.56626 ) - atomic mass=   2.000          
+      474 O    (   -8.49416    5.19357    6.36918 ) - atomic mass=  15.995          
+      475 H    (   -8.29574    3.47770    5.60384 ) - atomic mass=   2.000          
+      476 H    (   -7.47560    6.44268    5.38274 ) - atomic mass=   2.000          
+      477 O    (    8.40755    5.23704   -7.97384 ) - atomic mass=  15.995          
+      478 H    (    9.52815    4.67390   -6.56221 ) - atomic mass=   2.000          
+      479 H    (    8.08251    7.09275   -7.81888 ) - atomic mass=   2.000          
+      480 O    (   10.63553  -16.42300    4.92165 ) - atomic mass=  15.995          
+      481 H    (    9.72657  -15.39499    6.22178 ) - atomic mass=   2.000          
+      482 H    (   12.14353  -15.46680    4.30560 ) - atomic mass=   2.000          
+      483 O    (  -17.89933   -2.90768   -8.30454 ) - atomic mass=  15.995          
+      484 H    (  -16.29684   -2.09737   -8.89036 ) - atomic mass=   2.000          
+      485 H    (  -17.64989   -3.61822   -6.57166 ) - atomic mass=   2.000          
+      486 O    (   -7.31497    3.29629  -13.45593 ) - atomic mass=  15.995          
+      487 H    (   -6.53074    4.99326  -13.73372 ) - atomic mass=   2.000          
+      488 H    (   -7.02585    2.75394  -11.66825 ) - atomic mass=   2.000          
+      489 O    (  -12.83864    9.12798   12.88874 ) - atomic mass=  15.995          
+      490 H    (  -12.72337   10.47347   11.56782 ) - atomic mass=   2.000          
+      491 H    (  -12.52684    9.88576   14.59138 ) - atomic mass=   2.000          
+      492 O    (   -0.31335   16.98735  -17.85900 ) - atomic mass=  15.995          
+      493 H    (    1.52441   17.12341  -17.43948 ) - atomic mass=   2.000          
+      494 H    (   -1.25368   18.40087  -17.02752 ) - atomic mass=   2.000          
+      495 O    (    8.86297   11.00637   -0.25903 ) - atomic mass=  15.995          
+      496 H    (    8.83462    9.89332    1.26843 ) - atomic mass=   2.000          
+      497 H    (    9.31461   12.76759    0.25342 ) - atomic mass=   2.000          
+      498 O    (   -6.50239   -0.45671    2.67855 ) - atomic mass=  15.995          
+      499 H    (   -5.20037   -0.38547    1.31057 ) - atomic mass=   2.000          
+      500 H    (   -8.17669   -0.91856    1.93078 ) - atomic mass=   2.000          
+      501 O    (   -1.12556   -8.82253   10.65886 ) - atomic mass=  15.995          
+      502 H    (   -2.95916   -8.36332   10.64374 ) - atomic mass=   2.000          
+      503 H    (   -0.57187   -9.14000   12.43709 ) - atomic mass=   2.000          
+      504 O    (  -15.89622  -14.23092   -7.39936 ) - atomic mass=  15.995          
+      505 H    (  -15.99638  -13.18968   -5.82522 ) - atomic mass=   2.000          
+      506 H    (  -15.72048  -13.09142   -8.89792 ) - atomic mass=   2.000          
+      507 O    (    0.59712   -5.53818  -17.13901 ) - atomic mass=  15.995          
+      508 H    (    2.38499   -6.12022  -16.95004 ) - atomic mass=   2.000          
+      509 H    (    0.15655   -4.38356  -15.71038 ) - atomic mass=   2.000          
+      510 O    (   -8.94014   -8.67702   11.77191 ) - atomic mass=  15.995          
+      511 H    (   -7.81575   -7.34098   11.04814 ) - atomic mass=   2.000          
+      512 H    (  -10.01728   -7.92680   13.13062 ) - atomic mass=   2.000          
+      513 O    (   10.80750   17.15176    0.64615 ) - atomic mass=  15.995          
+      514 H    (   12.46101   16.27115    0.90920 ) - atomic mass=   2.000          
+      515 H    (   10.34451   18.10040    2.21235 ) - atomic mass=   2.000          
+      516 O    (   -3.89079  -10.64611  -10.01474 ) - atomic mass=  15.995          
+      517 H    (   -2.69459  -10.27195  -11.43015 ) - atomic mass=   2.000          
+      518 H    (   -5.36289   -9.46503  -10.10734 ) - atomic mass=   2.000          
+      519 O    (    8.11464  -17.25637   10.73634 ) - atomic mass=  15.995          
+      520 H    (    6.27405  -17.13732   11.14641 ) - atomic mass=   2.000          
+      521 H    (    9.13131  -16.76693   12.25190 ) - atomic mass=   2.000          
+      522 O    (   14.92521   12.97357   17.81147 ) - atomic mass=  15.995          
+      523 H    (   16.23101   11.68478   17.36361 ) - atomic mass=   2.000          
+      524 H    (   15.62819   14.16410  -18.18436 ) - atomic mass=   2.000          
+      525 O    (   -3.04419    0.28936   17.24455 ) - atomic mass=  15.995          
+      526 H    (   -4.25362    1.36121   18.22532 ) - atomic mass=   2.000          
+      527 H    (   -1.35043    1.12669   17.20298 ) - atomic mass=   2.000          
+      528 O    (   12.88620  -12.11632   -9.13413 ) - atomic mass=  15.995          
+      529 H    (   11.17033  -12.84953   -9.43838 ) - atomic mass=   2.000          
+      530 H    (   14.20334  -13.41267   -9.52908 ) - atomic mass=   2.000          
+      531 O    (    2.09586  -11.00138  -12.29753 ) - atomic mass=  15.995          
+      532 H    (    3.20702  -12.47537  -11.89691 ) - atomic mass=   2.000          
+      533 H    (    2.74782   -9.46125  -11.41692 ) - atomic mass=   2.000          
+      534 O    (    5.18745   16.94389   -8.46328 ) - atomic mass=  15.995          
+      535 H    (    3.59063   15.95367   -8.26675 ) - atomic mass=   2.000          
+      536 H    (    6.44979   16.36374   -7.18393 ) - atomic mass=   2.000          
+      537 O    (   10.13476   13.28349    6.96067 ) - atomic mass=  15.995          
+      538 H    (    9.41666   11.56195    7.26491 ) - atomic mass=   2.000          
+      539 H    (   12.01125   13.23247    7.18176 ) - atomic mass=   2.000          
+      540 O    (   -5.31564  -11.67034    6.99090 ) - atomic mass=  15.995          
+      541 H    (   -5.50840  -10.11132    8.04159 ) - atomic mass=   2.000          
+      542 H    (   -5.37990  -11.20736    5.15976 ) - atomic mass=   2.000          
+      543 O    (   11.05694    1.62199  -11.29409 ) - atomic mass=  15.995          
+      544 H    (   12.74069    2.42512  -11.59455 ) - atomic mass=   2.000          
+      545 H    (    9.91555    2.85409  -10.43048 ) - atomic mass=   2.000          
+      546 O    (    9.74736   -5.22260  -14.56331 ) - atomic mass=  15.995          
+      547 H    (   10.97757   -5.34354  -15.99384 ) - atomic mass=   2.000          
+      548 H    (   10.18578   -3.73916  -13.47861 ) - atomic mass=   2.000          
+      549 O    (  -12.94258   17.16121   10.75901 ) - atomic mass=  15.995          
+      550 H    (  -13.22415   16.80594   12.59394 ) - atomic mass=   2.000          
+      551 H    (  -13.19580  -18.27904   10.42831 ) - atomic mass=   2.000          
+      552 O    (    2.29428   -9.86565   16.46032 ) - atomic mass=  15.995          
+      553 H    (    0.62358   -9.62944   17.31069 ) - atomic mass=   2.000          
+      554 H    (    3.65677   -9.10976   17.52990 ) - atomic mass=   2.000          
+      555 O    (  -13.52272  -18.52438   15.79135 ) - atomic mass=  15.995          
+      556 H    (  -12.01472  -17.84408   16.70409 ) - atomic mass=   2.000          
+      557 H    (  -14.51294  -17.09197   15.05625 ) - atomic mass=   2.000          
+      558 O    (   -1.34268    3.65345    0.93754 ) - atomic mass=  15.995          
+      559 H    (   -1.68132    4.49626    2.59540 ) - atomic mass=   2.000          
+      560 H    (   -1.25292    4.95925   -0.42571 ) - atomic mass=   2.000          
+      561 O    (    6.46491   10.03694   -4.92193 ) - atomic mass=  15.995          
+      562 H    (    7.00348   10.63787   -3.21362 ) - atomic mass=   2.000          
+      563 H    (    4.61487   10.35063   -5.14492 ) - atomic mass=   2.000          
+      564 O    (  -16.61810  -12.22970   -1.41800 ) - atomic mass=  15.995          
+      565 H    (  -15.81307  -13.62999   -0.43818 ) - atomic mass=   2.000          
+      566 H    (  -18.06941  -11.52483   -0.43289 ) - atomic mass=   2.000          
+      567 O    (   -4.22338  -15.00382   -4.77264 ) - atomic mass=  15.995          
+      568 H    (   -3.80386  -14.97169   -2.93016 ) - atomic mass=   2.000          
+      569 H    (   -2.93837  -14.00415   -5.72884 ) - atomic mass=   2.000          
+      570 O    (    4.59786   -7.53940    2.02432 ) - atomic mass=  15.995          
+      571 H    (    2.87254   -7.56586    1.25520 ) - atomic mass=   2.000          
+      572 H    (    4.74526   -8.93591    3.28893 ) - atomic mass=   2.000          
+      573 O    (  -15.17434   10.82685  -10.45694 ) - atomic mass=  15.995          
+      574 H    (  -15.27072   11.86808  -12.03108 ) - atomic mass=   2.000          
+      575 H    (  -13.82319    9.51916  -10.64780 ) - atomic mass=   2.000          
+      576 O    (   11.04371  -12.07285   10.12029 ) - atomic mass=  15.995          
+      577 H    (    9.17099  -11.90656   10.30170 ) - atomic mass=   2.000          
+      578 H    (   11.62386  -11.07508    8.62551 ) - atomic mass=   2.000          
+      579 O    (  -17.38721    3.89722   15.41719 ) - atomic mass=  15.995          
+      580 H    (  -15.61465    3.33030   15.74600 ) - atomic mass=   2.000          
+      581 H    (  -17.39666    5.74915   15.04113 ) - atomic mass=   2.000          
+      582 O    (  -11.40434  -17.59463   -5.51909 ) - atomic mass=  15.995          
+      583 H    (  -11.78040   17.84184   -5.64948 ) - atomic mass=   2.000          
+      584 H    (  -12.14511  -16.69323   -7.00630 ) - atomic mass=   2.000          
+      585 O    (    8.31306   -7.03107    8.40631 ) - atomic mass=  15.995          
+      586 H    (    8.09385   -7.73782   10.14485 ) - atomic mass=   2.000          
+      587 H    (    9.73980   -5.79329    8.40442 ) - atomic mass=   2.000          
+      588 O    (   16.56927    9.40766  -14.47261 ) - atomic mass=  15.995          
+      589 H    (   17.70500    9.90277  -15.89935 ) - atomic mass=   2.000          
+      590 H    (   16.44833   10.83629  -13.24240 ) - atomic mass=   2.000          
+      591 O    (   14.91576    0.54919   -3.71251 ) - atomic mass=  15.995          
+      592 H    (   13.56839    0.13459   -4.97106 ) - atomic mass=   2.000          
+      593 H    (   16.19322   -0.84274   -3.67660 ) - atomic mass=   2.000          
+      594 O    (    8.25070   -9.87888  -12.16714 ) - atomic mass=  15.995          
+      595 H    (    8.59463   -8.02128  -12.23517 ) - atomic mass=   2.000          
+      596 H    (    7.11875  -10.25494  -10.70260 ) - atomic mass=   2.000          
+      597 O    (   15.59228    7.62376    5.58494 ) - atomic mass=  15.995          
+      598 H    (   17.14564    6.72803    4.98779 ) - atomic mass=   2.000          
+      599 H    (   15.85307    9.49081    5.45455 ) - atomic mass=   2.000          
+      600 O    (   16.02125   -3.35555   13.14196 ) - atomic mass=  15.995          
+      601 H    (   17.14753   -4.13978   11.84372 ) - atomic mass=   2.000          
+      602 H    (   16.94344   -1.95167   14.00934 ) - atomic mass=   2.000          
+      603 O    (   13.73846  -17.99148    9.23401 ) - atomic mass=  15.995          
+      604 H    (   14.84017  -16.58930    9.85950 ) - atomic mass=   2.000          
+      605 H    (   12.22479  -17.26393    8.36662 ) - atomic mass=   2.000          
+      606 O    (   -0.95378    5.27483  -16.96138 ) - atomic mass=  15.995          
+      607 H    (   -0.66333    7.11353  -16.62500 ) - atomic mass=   2.000          
+      608 H    (    0.68537    4.34509  -16.82721 ) - atomic mass=   2.000          
+      609 O    (  -14.51105   -7.42602   -6.72284 ) - atomic mass=  15.995          
+      610 H    (  -16.12677   -7.80585   -5.81955 ) - atomic mass=   2.000          
+      611 H    (  -13.11454   -7.24082   -5.46239 ) - atomic mass=   2.000          
+      612 O    (   -9.58831   -7.30508  -10.73851 ) - atomic mass=  15.995          
+      613 H    (   -8.87400   -6.81753  -12.41847 ) - atomic mass=   2.000          
+      614 H    (  -11.31930   -8.02506  -10.97472 ) - atomic mass=   2.000          
+      615 O    (    6.53861   12.52571  -17.24672 ) - atomic mass=  15.995          
+      616 H    (    5.07218   13.55561  -16.64957 ) - atomic mass=   2.000          
+      617 H    (    7.70835   12.19501  -15.79919 ) - atomic mass=   2.000          
+      618 O    (    5.64099   12.32162   13.23456 ) - atomic mass=  15.995          
+      619 H    (    5.20257   11.21613   14.70287 ) - atomic mass=   2.000          
+      620 H    (    7.28127   11.75470   12.48622 ) - atomic mass=   2.000          
+      621 O    (   -9.39745  -10.68013    1.41016 ) - atomic mass=  15.995          
+      622 H    (   -7.78741  -11.34531    0.67789 ) - atomic mass=   2.000          
+      623 H    (  -10.07964   -9.31574    0.29403 ) - atomic mass=   2.000          
+      624 O    (   12.22479   -7.51295   16.69275 ) - atomic mass=  15.995          
+      625 H    (   13.54004   -6.15612   16.69842 ) - atomic mass=   2.000          
+      626 H    (   12.79549   -8.94725   17.78502 ) - atomic mass=   2.000          
+      627 O    (   -2.38090   -3.94514   -9.53475 ) - atomic mass=  15.995          
+      628 H    (   -0.76197   -4.84276   -9.15303 ) - atomic mass=   2.000          
+      629 H    (   -2.32232   -2.20433   -8.79965 ) - atomic mass=   2.000          
+      630 O    (    5.67500   -7.99860  -17.26940 ) - atomic mass=  15.995          
+      631 H    (    6.03216   -8.76583  -15.57999 ) - atomic mass=   2.000          
+      632 H    (    7.23781   -7.16146  -17.92325 ) - atomic mass=   2.000          
+      633 O    (    6.90710   -2.51311  -10.03364 ) - atomic mass=  15.995          
+      634 H    (    7.24158   -1.19143  -11.34133 ) - atomic mass=   2.000          
+      635 H    (    8.29983   -2.50253   -8.75619 ) - atomic mass=   2.000          
+      636 O    (   16.31983   -3.38011    2.58973 ) - atomic mass=  15.995          
+      637 H    (   17.78437   -3.80530    1.47271 ) - atomic mass=   2.000          
+      638 H    (   15.94944   -1.53196    2.46690 ) - atomic mass=   2.000          
+      639 O    (   -4.89235    7.22881   -5.75908 ) - atomic mass=  15.995          
+      640 H    (   -5.33832    7.63888   -3.96951 ) - atomic mass=   2.000          
+      641 H    (   -5.45359    8.63854   -6.88536 ) - atomic mass=   2.000          
+      642 O    (   14.42254    1.60120    7.44632 ) - atomic mass=  15.995          
+      643 H    (   14.92710    2.68213    5.97990 ) - atomic mass=   2.000          
+      644 H    (   15.95700    0.77672    8.17954 ) - atomic mass=   2.000          
+      645 O    (    0.95125   17.73001  -11.52274 ) - atomic mass=  15.995          
+      646 H    (    1.13399  -18.54361   -9.94104 ) - atomic mass=   2.000          
+      647 H    (    0.29609  -18.44912  -12.90980 ) - atomic mass=   2.000          
+      648 O    (    7.26048  -14.25360   -1.60924 ) - atomic mass=  15.995          
+      649 H    (    8.09952  -15.77294   -0.86034 ) - atomic mass=   2.000          
+      650 H    (    7.32851  -12.82497   -0.37412 ) - atomic mass=   2.000          
+      651 O    (   -4.00795   14.43244  -11.61723 ) - atomic mass=  15.995          
+      652 H    (   -2.23917   14.83117  -12.15013 ) - atomic mass=   2.000          
+      653 H    (   -4.04197   14.09985   -9.75585 ) - atomic mass=   2.000          
+      654 O    (  -16.13055    2.35331   -2.61647 ) - atomic mass=  15.995          
+      655 H    (  -16.45936    3.79518   -3.79377 ) - atomic mass=   2.000          
+      656 H    (  -16.09842    2.98826   -0.83748 ) - atomic mass=   2.000          
+      657 O    (    4.41833   -1.82846    1.15467 ) - atomic mass=  15.995          
+      658 H    (    4.76415   -3.65979    1.47403 ) - atomic mass=   2.000          
+      659 H    (    5.51249   -0.77590    2.28057 ) - atomic mass=   2.000          
+      660 O    (   -8.80975   12.01170   10.11462 ) - atomic mass=  15.995          
+      661 H    (   -7.10333   12.82429   10.16564 ) - atomic mass=   2.000          
+      662 H    (   -8.65101   10.18434   10.56437 ) - atomic mass=   2.000          
+      663 O    (  -12.36621   -0.92820   -4.60257 ) - atomic mass=  15.995          
+      664 H    (  -13.61343    0.43770   -4.99374 ) - atomic mass=   2.000          
+      665 H    (  -10.65412   -0.40776   -5.20539 ) - atomic mass=   2.000          
+      666 O    (  -12.52495   15.06361   -7.46739 ) - atomic mass=  15.995          
+      667 H    (  -12.47582   14.97290   -5.57956 ) - atomic mass=   2.000          
+      668 H    (  -13.89122   13.92978   -8.11746 ) - atomic mass=   2.000          
+      669 O    (   -9.96626   16.76814    0.46791 ) - atomic mass=  15.995          
+      670 H    (   -9.84343   14.88787    0.60183 ) - atomic mass=   2.000          
+      671 H    (   -8.38645   17.55427    1.14390 ) - atomic mass=   2.000          
+      672 O    (    5.93578    3.09787   16.71165 ) - atomic mass=  15.995          
+      673 H    (    7.65543    3.46258   16.02190 ) - atomic mass=   2.000          
+      674 H    (    6.05484    1.72593   18.00611 ) - atomic mass=   2.000          
+      675 O    (   -6.43625    6.29339   -0.69084 ) - atomic mass=  15.995          
+      676 H    (   -5.48383    6.76582    0.87235 ) - atomic mass=   2.000          
+      677 H    (   -6.33610    4.42445   -0.94916 ) - atomic mass=   2.000          
+      678 O    (    8.67778   16.10674   -4.25864 ) - atomic mass=  15.995          
+      679 H    (    9.93633   16.77003   -5.50208 ) - atomic mass=   2.000          
+      680 H    (    9.33351   16.35807   -2.50308 ) - atomic mass=   2.000          
+      681 O    (   -4.90935   17.36719   -1.63570 ) - atomic mass=  15.995          
+      682 H    (   -3.66969  -18.56250   -2.10813 ) - atomic mass=   2.000          
+      683 H    (   -6.17925   17.16688   -3.01898 ) - atomic mass=   2.000          
+      684 O    (    0.47844   16.95523    5.03881 ) - atomic mass=  15.995          
+      685 H    (    0.43177   16.62830    6.89830 ) - atomic mass=   2.000          
+      686 H    (    2.27538   17.05349    4.46056 ) - atomic mass=   2.000          
+      687 O    (   -1.91792  -15.52916    8.33450 ) - atomic mass=  15.995          
+      688 H    (   -3.56198  -16.38710    7.96978 ) - atomic mass=   2.000          
+      689 H    (   -2.12957  -13.66022    8.15119 ) - atomic mass=   2.000          
+      690 O    (   -7.51529   12.76004   -2.83756 ) - atomic mass=  15.995          
+      691 H    (   -9.03651   11.64888   -2.99063 ) - atomic mass=   2.000          
+      692 H    (   -7.34899   13.35719   -1.05215 ) - atomic mass=   2.000          
+      693 O    (  -12.16968    3.46636   12.09316 ) - atomic mass=  15.995          
+      694 H    (  -12.73660    5.25215   12.34449 ) - atomic mass=   2.000          
+      695 H    (  -10.30452    3.43613   11.79080 ) - atomic mass=   2.000          
+      696 O    (   -3.67347    7.84675    3.49113 ) - atomic mass=  15.995          
+      697 H    (   -2.65302    9.04672    2.44611 ) - atomic mass=   2.000          
+      698 H    (   -3.45804    8.26438    5.32038 ) - atomic mass=   2.000          
+      699 O    (   16.89431   14.04883  -10.88402 ) - atomic mass=  15.995          
+      700 H    (   17.91854   13.41010   -9.43082 ) - atomic mass=   2.000          
+      701 H    (   18.04326   14.78771  -12.18982 ) - atomic mass=   2.000          
+      702 O    (  -15.28206   -5.40023    3.27759 ) - atomic mass=  15.995          
+      703 H    (  -16.06630   -6.43202    4.65331 ) - atomic mass=   2.000          
+      704 H    (  -15.01939   -3.63145    3.88986 ) - atomic mass=   2.000          
+      705 O    (  -17.92579   -2.71493   -2.43883 ) - atomic mass=  15.995          
+      706 H    (  -17.10564   -1.02174   -2.61080 ) - atomic mass=   2.000          
+      707 H    (  -16.60865   -4.01884   -2.07411 ) - atomic mass=   2.000          
+      708 O    (    1.55937  -12.78528   -2.90370 ) - atomic mass=  15.995          
+      709 H    (    3.06151  -13.42968   -3.85235 ) - atomic mass=   2.000          
+      710 H    (    1.21978  -13.90967   -1.42405 ) - atomic mass=   2.000          
+      711 O    (    2.61743    5.99104    9.20755 ) - atomic mass=  15.995          
+      712 H    (    3.14466    5.52616   10.96310 ) - atomic mass=   2.000          
+      713 H    (    3.19946    4.65878    8.00190 ) - atomic mass=   2.000          
+      714 O    (  -12.65156   -0.21634   16.00300 ) - atomic mass=  15.995          
+      715 H    (  -12.18858    0.33660   14.25501 ) - atomic mass=   2.000          
+      716 H    (  -11.27206    0.26233   17.20109 ) - atomic mass=   2.000          
+      717 O    (   -8.24661    2.62732  -18.46782 ) - atomic mass=  15.995          
+      718 H    (   -7.56631    4.19202   18.00233 ) - atomic mass=   2.000          
+      719 H    (   -7.92536    2.69724  -16.60644 ) - atomic mass=   2.000          
+      720 O    (   -2.54720    1.38011   -7.84156 ) - atomic mass=  15.995          
+      721 H    (   -0.95038    0.82755   -6.99496 ) - atomic mass=   2.000          
+      722 H    (   -3.57143    2.41756   -6.63780 ) - atomic mass=   2.000          
+      723 O    (   14.61719    2.04151    1.47649 ) - atomic mass=  15.995          
+      724 H    (   14.02759    1.97915   -0.31837 ) - atomic mass=   2.000          
+      725 H    (   15.64142    3.60431    1.75031 ) - atomic mass=   2.000          
+      726 O    (  -18.10909   18.18577   -4.32478 ) - atomic mass=  15.995          
+      727 H    (  -16.90722   17.04059   -3.41393 ) - atomic mass=   2.000          
+      728 H    (  -17.27383  -17.43401   -4.64792 ) - atomic mass=   2.000          
+      729 O    (   -4.54653   -9.93746   15.19231 ) - atomic mass=  15.995          
+      730 H    (   -6.10555   -9.21370   14.40619 ) - atomic mass=   2.000          
+      731 H    (   -4.66936   -9.80707   17.07259 ) - atomic mass=   2.000          
+      732 O    (   -5.21171   -2.47456  -14.57843 ) - atomic mass=  15.995          
+      733 H    (   -5.20415   -0.59970  -14.81654 ) - atomic mass=   2.000          
+      734 H    (   -3.86245   -2.95871  -13.34822 ) - atomic mass=   2.000          
+      735 O    (   11.90354  -11.18657  -16.00895 ) - atomic mass=  15.995          
+      736 H    (   13.43611  -12.22214  -15.61967 ) - atomic mass=   2.000          
+      737 H    (   11.23647  -10.42501  -14.41403 ) - atomic mass=   2.000          
+      738 O    (   -6.76506   18.18199   14.64618 ) - atomic mass=  15.995          
+      739 H    (   -6.68381   17.15398   16.22977 ) - atomic mass=   2.000          
+      740 H    (   -7.36033  -17.35842   15.06003 ) - atomic mass=   2.000          
+      741 O    (   10.51648    4.63799   -2.93394 ) - atomic mass=  15.995          
+      742 H    (   11.51426    6.23292   -3.11724 ) - atomic mass=   2.000          
+      743 H    (    9.31272    4.80996   -1.48830 ) - atomic mass=   2.000          
+      744 O    (  -17.34375    3.25660    9.62896 ) - atomic mass=  15.995          
+      745 H    (  -15.58631    3.92746    9.45699 ) - atomic mass=   2.000          
+      746 H    (  -18.09964    3.87832   11.24656 ) - atomic mass=   2.000          
+      747 O    (    9.27682  -16.67245   17.04613 ) - atomic mass=  15.995          
+      748 H    (    7.50993  -16.47970   17.68675 ) - atomic mass=   2.000          
+      749 H    (   10.19523  -15.03028   17.22377 ) - atomic mass=   2.000          
+      750 O    (    3.16545   -5.31519    8.48189 ) - atomic mass=  15.995          
+      751 H    (    5.02683   -5.61944    8.61984 ) - atomic mass=   2.000          
+      752 H    (    2.23759   -6.66068    9.42865 ) - atomic mass=   2.000          
+      753 O    (   -9.06486  -12.82874   -3.79188 ) - atomic mass=  15.995          
+      754 H    (   -7.84410  -14.21391   -4.19061 ) - atomic mass=   2.000          
+      755 H    (  -10.34043  -13.45235   -2.54466 ) - atomic mass=   2.000          
+      756 O    (    1.09657    5.76994   -8.14958 ) - atomic mass=  15.995          
+      757 H    (    1.30728    4.69846   -9.69160 ) - atomic mass=   2.000          
+      758 H    (    1.75099    4.83830   -6.64158 ) - atomic mass=   2.000          
+      759 O    (    3.71536    2.00183    5.97801 ) - atomic mass=  15.995          
+      760 H    (    5.02872    1.23271    7.09673 ) - atomic mass=   2.000          
+      761 H    (    2.28672    0.78616    5.75313 ) - atomic mass=   2.000          
+      762 O    (  -16.70880    5.32774  -14.03797 ) - atomic mass=  15.995          
+      763 H    (  -18.01838    6.64488  -14.38379 ) - atomic mass=   2.000          
+      764 H    (  -15.09876    5.79639  -14.90913 ) - atomic mass=   2.000          
+      765 O    (   10.48813    2.61599  -16.68359 ) - atomic mass=  15.995          
+      766 H    (   11.01915    1.93002  -15.00551 ) - atomic mass=   2.000          
+      767 H    (   11.94511    3.51361  -17.48672 ) - atomic mass=   2.000          
+      768 O    (   12.06606   14.50236   -8.49918 ) - atomic mass=  15.995          
+      769 H    (   12.39109   14.54583   -6.63780 ) - atomic mass=   2.000          
+      770 H    (   13.66665   14.07150   -9.40625 ) - atomic mass=   2.000          
+      771 O    (   -5.96382   -5.99927    1.42112 ) - atomic mass=  15.995          
+      772 H    (   -4.69392   -4.86922    2.24901 ) - atomic mass=   2.000          
+      773 H    (   -7.65701   -5.16024    1.43322 ) - atomic mass=   2.000          
+        G.C.   (    0.01783    0.27453   -0.21041 )
+        C.O.M. (   -0.02901    0.44972   -0.29014 )
+        number of constraints =      0 ( DOF =   2313 )
+ 
+ number of electrons: spin up= 1028.00000  down= 1028.00000 (real space)
+
+
+ total     energy    :  -0.4405098401E+04 (   -0.56987E+01/ion)
+ total orbital energy:  -0.7214820349E+03 (   -0.70183E+00/electron)
+ hartree   energy    :   0.2029137317E+04 (    0.19739E+01/electron)
+ exc-corr  energy    :  -0.1080411695E+04 (   -0.10510E+01/electron)
+ ion-ion   energy    :  -0.1975283921E+04 (   -0.25553E+01/ion)
+
+ K.S. kinetic energy :   0.3124963141E+04 (    0.30398E+01/electron)
+ K.S. V_l  energy    :  -0.6207353507E+04 (   -0.60383E+01/electron)
+ K.S. V_nl energy    :  -0.2961497361E+03 (   -0.28808E+00/electron)
+ K.S. V_Hart energy  :   0.4058274635E+04 (    0.39477E+01/electron)
+ K.S. V_xc energy    :  -0.1401216567E+04 (   -0.13631E+01/electron)
+ Virial Coefficient  :  -0.1230876974E+01
+
+ Diagonal Elements of Hamiltonian matrix(up/restricted)
+    -0.2578067E-03 (   0.000eV)
+    -0.9105250E-02 (   0.000eV)
+    -0.2535273E-01 (   0.000eV)
+    -0.5833556E-01 (   0.000eV)
+    -0.7119327E-01 (   0.000eV)
+    -0.7212652E-01 (   0.000eV)
+    -0.7567576E-01 (   0.000eV)
+    -0.7990615E-01 (   0.000eV)
+    -0.8108619E-01 (   0.000eV)
+    -0.8204704E-01 (   0.000eV)
+    -0.8244145E-01 (   0.000eV)
+    -0.8354052E-01 (   0.000eV)
+    -0.8403326E-01 (   0.000eV)
+    -0.8451511E-01 (   0.000eV)
+    -0.8473906E-01 (   0.000eV)
+    -0.8484131E-01 (   0.000eV)
+    -0.8572942E-01 (   0.000eV)
+    -0.8622032E-01 (   0.000eV)
+    -0.8656914E-01 (   0.000eV)
+    -0.8707061E-01 (   0.000eV)
+    -0.8863720E-01 (   0.000eV)
+    -0.8916616E-01 (   0.000eV)
+    -0.8964851E-01 (   0.000eV)
+    -0.9051769E-01 (   0.000eV)
+    -0.9082303E-01 (   0.000eV)
+    -0.9090742E-01 (   0.000eV)
+    -0.9102577E-01 (   0.000eV)
+    -0.9133234E-01 (   0.000eV)
+    -0.9272483E-01 (   0.000eV)
+    -0.9311782E-01 (   0.000eV)
+    -0.9320585E-01 (   0.000eV)
+    -0.9373933E-01 (   0.000eV)
+    -0.9394220E-01 (   0.000eV)
+    -0.9449347E-01 (   0.000eV)
+    -0.9463811E-01 (   0.000eV)
+    -0.9470144E-01 (   0.000eV)
+    -0.9512432E-01 (   0.000eV)
+    -0.9523517E-01 (   0.000eV)
+    -0.9540830E-01 (   0.000eV)
+    -0.9585156E-01 (   0.000eV)
+    -0.9612114E-01 (   0.000eV)
+    -0.9649735E-01 (   0.000eV)
+    -0.9660545E-01 (   0.000eV)
+    -0.9688740E-01 (   0.000eV)
+    -0.9711833E-01 (   0.000eV)
+    -0.9784297E-01 (   0.000eV)
+    -0.9800468E-01 (   0.000eV)
+    -0.9805206E-01 (   0.000eV)
+    -0.9829580E-01 (   0.000eV)
+    -0.9864623E-01 (   0.000eV)
+    -0.9900396E-01 (   0.000eV)
+    -0.9914059E-01 (   0.000eV)
+    -0.9932050E-01 (   0.000eV)
+    -0.9953160E-01 (   0.000eV)
+    -0.9982866E-01 (   0.000eV)
+    -0.9990976E-01 (   0.000eV)
+    -0.1001481E+00 (   0.000eV)
+    -0.1004254E+00 (   0.000eV)
+    -0.1006818E+00 (   0.000eV)
+    -0.1009565E+00 (   0.000eV)
+    -0.1011852E+00 (   0.000eV)
+    -0.1012709E+00 (   0.000eV)
+    -0.1019433E+00 (   0.000eV)
+    -0.1020102E+00 (   0.000eV)
+    -0.1022711E+00 (   0.000eV)
+    -0.1023418E+00 (   0.000eV)
+    -0.1026801E+00 (   0.000eV)
+    -0.1031173E+00 (   0.000eV)
+    -0.1032940E+00 (   0.000eV)
+    -0.1034499E+00 (   0.000eV)
+    -0.1037937E+00 (   0.000eV)
+    -0.1042652E+00 (   0.000eV)
+    -0.1043903E+00 (   0.000eV)
+    -0.1044715E+00 (   0.000eV)
+    -0.1046632E+00 (   0.000eV)
+    -0.1049141E+00 (   0.000eV)
+    -0.1053173E+00 (   0.000eV)
+    -0.1055054E+00 (   0.000eV)
+    -0.1058192E+00 (   0.000eV)
+    -0.1058626E+00 (   0.000eV)
+    -0.1060438E+00 (   0.000eV)
+    -0.1061299E+00 (   0.000eV)
+    -0.1062706E+00 (   0.000eV)
+    -0.1064030E+00 (   0.000eV)
+    -0.1065837E+00 (   0.000eV)
+    -0.1068041E+00 (   0.000eV)
+    -0.1072938E+00 (   0.000eV)
+    -0.1080393E+00 (   0.000eV)
+    -0.1081129E+00 (   0.000eV)
+    -0.1083634E+00 (   0.000eV)
+    -0.1085266E+00 (   0.000eV)
+    -0.1086388E+00 (   0.000eV)
+    -0.1087816E+00 (   0.000eV)
+    -0.1088675E+00 (   0.000eV)
+    -0.1090995E+00 (   0.000eV)
+    -0.1095060E+00 (   0.000eV)
+    -0.1096161E+00 (   0.000eV)
+    -0.1096864E+00 (   0.000eV)
+    -0.1101483E+00 (   0.000eV)
+    -0.1102930E+00 (   0.000eV)
+    -0.1107905E+00 (   0.000eV)
+    -0.1110849E+00 (   0.000eV)
+    -0.1111810E+00 (   0.000eV)
+    -0.1114390E+00 (   0.000eV)
+    -0.1116707E+00 (   0.000eV)
+    -0.1121030E+00 (   0.000eV)
+    -0.1121321E+00 (   0.000eV)
+    -0.1123811E+00 (   0.000eV)
+    -0.1125354E+00 (   0.000eV)
+    -0.1128503E+00 (   0.000eV)
+    -0.1129560E+00 (   0.000eV)
+    -0.1131235E+00 (   0.000eV)
+    -0.1133760E+00 (   0.000eV)
+    -0.1135211E+00 (   0.000eV)
+    -0.1136045E+00 (   0.000eV)
+    -0.1138470E+00 (   0.000eV)
+    -0.1140874E+00 (   0.000eV)
+    -0.1143626E+00 (   0.000eV)
+    -0.1144405E+00 (   0.000eV)
+    -0.1146626E+00 (   0.000eV)
+    -0.1147288E+00 (   0.000eV)
+    -0.1149386E+00 (   0.000eV)
+    -0.1149740E+00 (   0.000eV)
+    -0.1151656E+00 (   0.000eV)
+    -0.1153753E+00 (   0.000eV)
+    -0.1156193E+00 (   0.000eV)
+    -0.1157428E+00 (   0.000eV)
+    -0.1159286E+00 (   0.000eV)
+    -0.1161998E+00 (   0.000eV)
+    -0.1163989E+00 (   0.000eV)
+    -0.1164034E+00 (   0.000eV)
+    -0.1166446E+00 (   0.000eV)
+    -0.1168295E+00 (   0.000eV)
+    -0.1170274E+00 (   0.000eV)
+    -0.1173617E+00 (   0.000eV)
+    -0.1178141E+00 (   0.000eV)
+    -0.1179694E+00 (   0.000eV)
+    -0.1181283E+00 (   0.000eV)
+    -0.1182807E+00 (   0.000eV)
+    -0.1185815E+00 (   0.000eV)
+    -0.1187019E+00 (   0.000eV)
+    -0.1188146E+00 (   0.000eV)
+    -0.1189629E+00 (   0.000eV)
+    -0.1194702E+00 (   0.000eV)
+    -0.1196080E+00 (   0.000eV)
+    -0.1199446E+00 (   0.000eV)
+    -0.1200012E+00 (   0.000eV)
+    -0.1201435E+00 (   0.000eV)
+    -0.1203334E+00 (   0.000eV)
+    -0.1204773E+00 (   0.000eV)
+    -0.1207927E+00 (   0.000eV)
+    -0.1209391E+00 (   0.000eV)
+    -0.1212292E+00 (   0.000eV)
+    -0.1213933E+00 (   0.000eV)
+    -0.1216134E+00 (   0.000eV)
+    -0.1220915E+00 (   0.000eV)
+    -0.1221938E+00 (   0.000eV)
+    -0.1225125E+00 (   0.000eV)
+    -0.1228201E+00 (   0.000eV)
+    -0.1228785E+00 (   0.000eV)
+    -0.1232117E+00 (   0.000eV)
+    -0.1234161E+00 (   0.000eV)
+    -0.1235779E+00 (   0.000eV)
+    -0.1237135E+00 (   0.000eV)
+    -0.1241737E+00 (   0.000eV)
+    -0.1243357E+00 (   0.000eV)
+    -0.1244410E+00 (   0.000eV)
+    -0.1246414E+00 (   0.000eV)
+    -0.1250046E+00 (   0.000eV)
+    -0.1253294E+00 (   0.000eV)
+    -0.1255182E+00 (   0.000eV)
+    -0.1256046E+00 (   0.000eV)
+    -0.1258495E+00 (   0.000eV)
+    -0.1260724E+00 (   0.000eV)
+    -0.1261509E+00 (   0.000eV)
+    -0.1262742E+00 (   0.000eV)
+    -0.1267816E+00 (   0.000eV)
+    -0.1270921E+00 (   0.000eV)
+    -0.1271108E+00 (   0.000eV)
+    -0.1274812E+00 (   0.000eV)
+    -0.1276220E+00 (   0.000eV)
+    -0.1278626E+00 (   0.000eV)
+    -0.1279955E+00 (   0.000eV)
+    -0.1282456E+00 (   0.000eV)
+    -0.1284664E+00 (   0.000eV)
+    -0.1286069E+00 (   0.000eV)
+    -0.1286944E+00 (   0.000eV)
+    -0.1288860E+00 (   0.000eV)
+    -0.1291516E+00 (   0.000eV)
+    -0.1293691E+00 (   0.000eV)
+    -0.1294204E+00 (   0.000eV)
+    -0.1297050E+00 (   0.000eV)
+    -0.1297334E+00 (   0.000eV)
+    -0.1298176E+00 (   0.000eV)
+    -0.1301962E+00 (   0.000eV)
+    -0.1305241E+00 (   0.000eV)
+    -0.1306140E+00 (   0.000eV)
+    -0.1307226E+00 (   0.000eV)
+    -0.1308761E+00 (   0.000eV)
+    -0.1311609E+00 (   0.000eV)
+    -0.1312706E+00 (   0.000eV)
+    -0.1314575E+00 (   0.000eV)
+    -0.1317313E+00 (   0.000eV)
+    -0.1318570E+00 (   0.000eV)
+    -0.1319563E+00 (   0.000eV)
+    -0.1322654E+00 (   0.000eV)
+    -0.1328035E+00 (   0.000eV)
+    -0.1330929E+00 (   0.000eV)
+    -0.1333683E+00 (   0.000eV)
+    -0.1336010E+00 (   0.000eV)
+    -0.1336907E+00 (   0.000eV)
+    -0.1339225E+00 (   0.000eV)
+    -0.1342304E+00 (   0.000eV)
+    -0.1345355E+00 (   0.000eV)
+    -0.1347159E+00 (   0.000eV)
+    -0.1349177E+00 (   0.000eV)
+    -0.1352459E+00 (   0.000eV)
+    -0.1353408E+00 (   0.000eV)
+    -0.1355109E+00 (   0.000eV)
+    -0.1358145E+00 (   0.000eV)
+    -0.1360765E+00 (   0.000eV)
+    -0.1364369E+00 (   0.000eV)
+    -0.1365770E+00 (   0.000eV)
+    -0.1373725E+00 (   0.000eV)
+    -0.1378397E+00 (   0.000eV)
+    -0.1381985E+00 (   0.000eV)
+    -0.1383016E+00 (   0.000eV)
+    -0.1385927E+00 (   0.000eV)
+    -0.1388452E+00 (   0.000eV)
+    -0.1394133E+00 (   0.000eV)
+    -0.1395522E+00 (   0.000eV)
+    -0.1398331E+00 (   0.000eV)
+    -0.1401024E+00 (   0.000eV)
+    -0.1403010E+00 (   0.000eV)
+    -0.1405325E+00 (   0.000eV)
+    -0.1406834E+00 (   0.000eV)
+    -0.1409695E+00 (   0.000eV)
+    -0.1412139E+00 (   0.000eV)
+    -0.1414316E+00 (   0.000eV)
+    -0.1422484E+00 (   0.000eV)
+    -0.1425886E+00 (   0.000eV)
+    -0.1427834E+00 (   0.000eV)
+    -0.1431385E+00 (   0.000eV)
+    -0.1433211E+00 (   0.000eV)
+    -0.1440109E+00 (   0.000eV)
+    -0.1445207E+00 (   0.000eV)
+    -0.1447177E+00 (   0.000eV)
+    -0.1451788E+00 (   0.000eV)
+    -0.1456381E+00 (   0.000eV)
+    -0.1458895E+00 (   0.000eV)
+    -0.1468795E+00 (   0.000eV)
+    -0.1469396E+00 (   0.000eV)
+    -0.1470693E+00 (   0.000eV)
+    -0.1482489E+00 (   0.000eV)
+    -0.1483285E+00 (   0.000eV)
+    -0.1489719E+00 (   0.000eV)
+    -0.1493512E+00 (   0.000eV)
+    -0.1494891E+00 (   0.000eV)
+    -0.1511014E+00 (   0.000eV)
+    -0.1513330E+00 (   0.000eV)
+    -0.1521972E+00 (   0.000eV)
+    -0.1525642E+00 (   0.000eV)
+    -0.1529848E+00 (   0.000eV)
+    -0.1541088E+00 (   0.000eV)
+    -0.1542351E+00 (   0.000eV)
+    -0.1547583E+00 (   0.000eV)
+    -0.1550847E+00 (   0.000eV)
+    -0.1554113E+00 (   0.000eV)
+    -0.1555238E+00 (   0.000eV)
+    -0.1559514E+00 (   0.000eV)
+    -0.1566864E+00 (   0.000eV)
+    -0.1569339E+00 (   0.000eV)
+    -0.1573327E+00 (   0.000eV)
+    -0.1574849E+00 (   0.000eV)
+    -0.1580154E+00 (   0.000eV)
+    -0.1584843E+00 (   0.000eV)
+    -0.1588535E+00 (   0.000eV)
+    -0.1591282E+00 (   0.000eV)
+    -0.1600502E+00 (   0.000eV)
+    -0.1604815E+00 (   0.000eV)
+    -0.1609810E+00 (   0.000eV)
+    -0.1615099E+00 (   0.000eV)
+    -0.1617728E+00 (   0.000eV)
+    -0.1620778E+00 (   0.000eV)
+    -0.1622175E+00 (   0.000eV)
+    -0.1624491E+00 (   0.000eV)
+    -0.1628257E+00 (   0.000eV)
+    -0.1632540E+00 (   0.000eV)
+    -0.1636855E+00 (   0.000eV)
+    -0.1640835E+00 (   0.000eV)
+    -0.1643773E+00 (   0.000eV)
+    -0.1644016E+00 (   0.000eV)
+    -0.1649737E+00 (   0.000eV)
+    -0.1655010E+00 (   0.000eV)
+    -0.1660724E+00 (   0.000eV)
+    -0.1662694E+00 (   0.000eV)
+    -0.1664721E+00 (   0.000eV)
+    -0.1667357E+00 (   0.000eV)
+    -0.1671265E+00 (   0.000eV)
+    -0.1674631E+00 (   0.000eV)
+    -0.1679150E+00 (   0.000eV)
+    -0.1680283E+00 (   0.000eV)
+    -0.1685843E+00 (   0.000eV)
+    -0.1689074E+00 (   0.000eV)
+    -0.1693926E+00 (   0.000eV)
+    -0.1697491E+00 (   0.000eV)
+    -0.1699318E+00 (   0.000eV)
+    -0.1701954E+00 (   0.000eV)
+    -0.1704653E+00 (   0.000eV)
+    -0.1705712E+00 (   0.000eV)
+    -0.1711093E+00 (   0.000eV)
+    -0.1713309E+00 (   0.000eV)
+    -0.1716427E+00 (   0.000eV)
+    -0.1719607E+00 (   0.000eV)
+    -0.1722379E+00 (   0.000eV)
+    -0.1723824E+00 (   0.000eV)
+    -0.1726039E+00 (   0.000eV)
+    -0.1729054E+00 (   0.000eV)
+    -0.1733948E+00 (   0.000eV)
+    -0.1737042E+00 (   0.000eV)
+    -0.1737849E+00 (   0.000eV)
+    -0.1743869E+00 (   0.000eV)
+    -0.1746273E+00 (   0.000eV)
+    -0.1748182E+00 (   0.000eV)
+    -0.1753017E+00 (   0.000eV)
+    -0.1755270E+00 (   0.000eV)
+    -0.1758442E+00 (   0.000eV)
+    -0.1764530E+00 (   0.000eV)
+    -0.1766868E+00 (   0.000eV)
+    -0.1769032E+00 (   0.000eV)
+    -0.1775436E+00 (   0.000eV)
+    -0.1776364E+00 (   0.000eV)
+    -0.1778047E+00 (   0.000eV)
+    -0.1780622E+00 (   0.000eV)
+    -0.1784787E+00 (   0.000eV)
+    -0.1788076E+00 (   0.000eV)
+    -0.1790649E+00 (   0.000eV)
+    -0.1794618E+00 (   0.000eV)
+    -0.1796062E+00 (   0.000eV)
+    -0.1800911E+00 (   0.000eV)
+    -0.1803836E+00 (   0.000eV)
+    -0.1807929E+00 (   0.000eV)
+    -0.1808958E+00 (   0.000eV)
+    -0.1816791E+00 (   0.000eV)
+    -0.1819260E+00 (   0.000eV)
+    -0.1820584E+00 (   0.000eV)
+    -0.1822308E+00 (   0.000eV)
+    -0.1824652E+00 (   0.000eV)
+    -0.1826987E+00 (   0.000eV)
+    -0.1833485E+00 (   0.000eV)
+    -0.1834776E+00 (   0.000eV)
+    -0.1837375E+00 (   0.000eV)
+    -0.1839104E+00 (   0.000eV)
+    -0.1841603E+00 (   0.000eV)
+    -0.1844756E+00 (   0.000eV)
+    -0.1847507E+00 (   0.000eV)
+    -0.1849843E+00 (   0.000eV)
+    -0.1851108E+00 (   0.000eV)
+    -0.1853747E+00 (   0.000eV)
+    -0.1855772E+00 (   0.000eV)
+    -0.1861583E+00 (   0.000eV)
+    -0.1863339E+00 (   0.000eV)
+    -0.1865966E+00 (   0.000eV)
+    -0.1866543E+00 (   0.000eV)
+    -0.1868542E+00 (   0.000eV)
+    -0.1874304E+00 (   0.000eV)
+    -0.1877829E+00 (   0.000eV)
+    -0.1881777E+00 (   0.000eV)
+    -0.1885587E+00 (   0.000eV)
+    -0.1886853E+00 (   0.000eV)
+    -0.1892462E+00 (   0.000eV)
+    -0.1894965E+00 (   0.000eV)
+    -0.1895328E+00 (   0.000eV)
+    -0.1896958E+00 (   0.000eV)
+    -0.1899032E+00 (   0.000eV)
+    -0.1902564E+00 (   0.000eV)
+    -0.1903667E+00 (   0.000eV)
+    -0.1906008E+00 (   0.000eV)
+    -0.1909877E+00 (   0.000eV)
+    -0.1911181E+00 (   0.000eV)
+    -0.1912028E+00 (   0.000eV)
+    -0.1914551E+00 (   0.000eV)
+    -0.1915097E+00 (   0.000eV)
+    -0.1917762E+00 (   0.000eV)
+    -0.1921308E+00 (   0.000eV)
+    -0.1924094E+00 (   0.000eV)
+    -0.1926190E+00 (   0.000eV)
+    -0.1931505E+00 (   0.000eV)
+    -0.1932642E+00 (   0.000eV)
+    -0.1936556E+00 (   0.000eV)
+    -0.1940272E+00 (   0.000eV)
+    -0.1940369E+00 (   0.000eV)
+    -0.1942728E+00 (   0.000eV)
+    -0.1946698E+00 (   0.000eV)
+    -0.1948458E+00 (   0.000eV)
+    -0.1951400E+00 (   0.000eV)
+    -0.1955616E+00 (   0.000eV)
+    -0.1958267E+00 (   0.000eV)
+    -0.1961066E+00 (   0.000eV)
+    -0.1962932E+00 (   0.000eV)
+    -0.1964946E+00 (   0.000eV)
+    -0.1968149E+00 (   0.000eV)
+    -0.1969726E+00 (   0.000eV)
+    -0.1972689E+00 (   0.000eV)
+    -0.1975987E+00 (   0.000eV)
+    -0.1978379E+00 (   0.000eV)
+    -0.1981511E+00 (   0.000eV)
+    -0.1983570E+00 (   0.000eV)
+    -0.1986359E+00 (   0.000eV)
+    -0.1987481E+00 (   0.000eV)
+    -0.1991836E+00 (   0.000eV)
+    -0.1994038E+00 (   0.000eV)
+    -0.1996371E+00 (   0.000eV)
+    -0.2000554E+00 (   0.000eV)
+    -0.2002870E+00 (   0.000eV)
+    -0.2004218E+00 (   0.000eV)
+    -0.2005513E+00 (   0.000eV)
+    -0.2006792E+00 (   0.000eV)
+    -0.2014880E+00 (   0.000eV)
+    -0.2018211E+00 (   0.000eV)
+    -0.2019738E+00 (   0.000eV)
+    -0.2021131E+00 (   0.000eV)
+    -0.2026965E+00 (   0.000eV)
+    -0.2028469E+00 (   0.000eV)
+    -0.2031484E+00 (   0.000eV)
+    -0.2033574E+00 (   0.000eV)
+    -0.2035695E+00 (   0.000eV)
+    -0.2039805E+00 (   0.000eV)
+    -0.2042057E+00 (   0.000eV)
+    -0.2044314E+00 (   0.000eV)
+    -0.2045540E+00 (   0.000eV)
+    -0.2047896E+00 (   0.000eV)
+    -0.2052686E+00 (   0.000eV)
+    -0.2054308E+00 (   0.000eV)
+    -0.2056817E+00 (   0.000eV)
+    -0.2058041E+00 (   0.000eV)
+    -0.2060506E+00 (   0.000eV)
+    -0.2065808E+00 (   0.000eV)
+    -0.2067707E+00 (   0.000eV)
+    -0.2070713E+00 (   0.000eV)
+    -0.2073032E+00 (   0.000eV)
+    -0.2077159E+00 (   0.000eV)
+    -0.2078455E+00 (   0.000eV)
+    -0.2080274E+00 (   0.000eV)
+    -0.2084393E+00 (   0.000eV)
+    -0.2086436E+00 (   0.000eV)
+    -0.2089935E+00 (   0.000eV)
+    -0.2090358E+00 (   0.000eV)
+    -0.2095011E+00 (   0.000eV)
+    -0.2099868E+00 (   0.000eV)
+    -0.2101480E+00 (   0.000eV)
+    -0.2101872E+00 (   0.000eV)
+    -0.2106988E+00 (   0.000eV)
+    -0.2108525E+00 (   0.000eV)
+    -0.2115925E+00 (   0.000eV)
+    -0.2117287E+00 (   0.000eV)
+    -0.2124483E+00 (   0.000eV)
+    -0.2127049E+00 (   0.000eV)
+    -0.2130111E+00 (   0.000eV)
+    -0.2131026E+00 (   0.000eV)
+    -0.2133656E+00 (   0.000eV)
+    -0.2141160E+00 (   0.000eV)
+    -0.2150809E+00 (   0.000eV)
+    -0.2152054E+00 (   0.000eV)
+    -0.2155135E+00 (   0.000eV)
+    -0.2158883E+00 (   0.000eV)
+    -0.2161239E+00 (   0.000eV)
+    -0.2169361E+00 (   0.000eV)
+    -0.2173355E+00 (   0.000eV)
+    -0.2176427E+00 (   0.000eV)
+    -0.2178514E+00 (   0.000eV)
+    -0.2181243E+00 (   0.000eV)
+    -0.2189882E+00 (   0.000eV)
+    -0.2194429E+00 (   0.000eV)
+    -0.2196488E+00 (   0.000eV)
+    -0.2197559E+00 (   0.000eV)
+    -0.2200149E+00 (   0.000eV)
+    -0.2208222E+00 (   0.000eV)
+    -0.2209589E+00 (   0.000eV)
+    -0.2211172E+00 (   0.000eV)
+    -0.2212355E+00 (   0.000eV)
+    -0.2215525E+00 (   0.000eV)
+    -0.2216897E+00 (   0.000eV)
+    -0.2225107E+00 (   0.000eV)
+    -0.2226534E+00 (   0.000eV)
+    -0.2228999E+00 (   0.000eV)
+    -0.2232459E+00 (   0.000eV)
+    -0.2236042E+00 (   0.000eV)
+    -0.2242219E+00 (   0.000eV)
+    -0.2242530E+00 (   0.000eV)
+    -0.2257395E+00 (   0.000eV)
+    -0.2260979E+00 (   0.000eV)
+    -0.2264832E+00 (   0.000eV)
+    -0.2268932E+00 (   0.000eV)
+    -0.2276216E+00 (   0.000eV)
+    -0.2278384E+00 (   0.000eV)
+    -0.2281049E+00 (   0.000eV)
+    -0.2288410E+00 (   0.000eV)
+    -0.2293855E+00 (   0.000eV)
+    -0.2296147E+00 (   0.000eV)
+    -0.2307576E+00 (   0.000eV)
+    -0.2315454E+00 (   0.000eV)
+    -0.2326020E+00 (   0.000eV)
+    -0.2331120E+00 (   0.000eV)
+    -0.2334333E+00 (   0.000eV)
+    -0.2347173E+00 (   0.000eV)
+    -0.2354853E+00 (   0.000eV)
+    -0.2357988E+00 (   0.000eV)
+    -0.2377448E+00 (   0.000eV)
+    -0.2399330E+00 (   0.000eV)
+    -0.2428912E+00 (   0.000eV)
+    -0.2436812E+00 (   0.000eV)
+    -0.2468007E+00 (   0.000eV)
+    -0.2478353E+00 (   0.000eV)
+    -0.2554249E+00 (   0.000eV)
+    -0.2866437E+00 (   0.000eV)
+    -0.2889752E+00 (   0.000eV)
+    -0.2910124E+00 (   0.000eV)
+    -0.2954431E+00 (   0.000eV)
+    -0.2963050E+00 (   0.000eV)
+    -0.2973884E+00 (   0.000eV)
+    -0.3000770E+00 (   0.000eV)
+    -0.3006876E+00 (   0.000eV)
+    -0.3010951E+00 (   0.000eV)
+    -0.3013272E+00 (   0.000eV)
+    -0.3016222E+00 (   0.000eV)
+    -0.3021473E+00 (   0.000eV)
+    -0.3023838E+00 (   0.000eV)
+    -0.3025130E+00 (   0.000eV)
+    -0.3028561E+00 (   0.000eV)
+    -0.3033697E+00 (   0.000eV)
+    -0.3038196E+00 (   0.000eV)
+    -0.3040031E+00 (   0.000eV)
+    -0.3041258E+00 (   0.000eV)
+    -0.3046616E+00 (   0.000eV)
+    -0.3052859E+00 (   0.000eV)
+    -0.3055462E+00 (   0.000eV)
+    -0.3056367E+00 (   0.000eV)
+    -0.3063963E+00 (   0.000eV)
+    -0.3066940E+00 (   0.000eV)
+    -0.3069247E+00 (   0.000eV)
+    -0.3072489E+00 (   0.000eV)
+    -0.3074728E+00 (   0.000eV)
+    -0.3077081E+00 (   0.000eV)
+    -0.3085130E+00 (   0.000eV)
+    -0.3087449E+00 (   0.000eV)
+    -0.3093372E+00 (   0.000eV)
+    -0.3095064E+00 (   0.000eV)
+    -0.3097014E+00 (   0.000eV)
+    -0.3098176E+00 (   0.000eV)
+    -0.3099585E+00 (   0.000eV)
+    -0.3105737E+00 (   0.000eV)
+    -0.3106207E+00 (   0.000eV)
+    -0.3111326E+00 (   0.000eV)
+    -0.3111855E+00 (   0.000eV)
+    -0.3118348E+00 (   0.000eV)
+    -0.3125291E+00 (   0.000eV)
+    -0.3127186E+00 (   0.000eV)
+    -0.3128827E+00 (   0.000eV)
+    -0.3131117E+00 (   0.000eV)
+    -0.3133809E+00 (   0.000eV)
+    -0.3134987E+00 (   0.000eV)
+    -0.3137470E+00 (   0.000eV)
+    -0.3138650E+00 (   0.000eV)
+    -0.3152685E+00 (   0.000eV)
+    -0.3153423E+00 (   0.000eV)
+    -0.3154764E+00 (   0.000eV)
+    -0.3158578E+00 (   0.000eV)
+    -0.3162164E+00 (   0.000eV)
+    -0.3164578E+00 (   0.000eV)
+    -0.3166291E+00 (   0.000eV)
+    -0.3167760E+00 (   0.000eV)
+    -0.3170918E+00 (   0.000eV)
+    -0.3174974E+00 (   0.000eV)
+    -0.3176587E+00 (   0.000eV)
+    -0.3179640E+00 (   0.000eV)
+    -0.3184894E+00 (   0.000eV)
+    -0.3186702E+00 (   0.000eV)
+    -0.3189172E+00 (   0.000eV)
+    -0.3190396E+00 (   0.000eV)
+    -0.3193880E+00 (   0.000eV)
+    -0.3196124E+00 (   0.000eV)
+    -0.3197326E+00 (   0.000eV)
+    -0.3201006E+00 (   0.000eV)
+    -0.3204075E+00 (   0.000eV)
+    -0.3208693E+00 (   0.000eV)
+    -0.3210402E+00 (   0.000eV)
+    -0.3212530E+00 (   0.000eV)
+    -0.3214137E+00 (   0.000eV)
+    -0.3216316E+00 (   0.000eV)
+    -0.3219417E+00 (   0.000eV)
+    -0.3220154E+00 (   0.000eV)
+    -0.3222314E+00 (   0.000eV)
+    -0.3223309E+00 (   0.000eV)
+    -0.3225326E+00 (   0.000eV)
+    -0.3225988E+00 (   0.000eV)
+    -0.3229128E+00 (   0.000eV)
+    -0.3231002E+00 (   0.000eV)
+    -0.3232834E+00 (   0.000eV)
+    -0.3236438E+00 (   0.000eV)
+    -0.3239124E+00 (   0.000eV)
+    -0.3242662E+00 (   0.000eV)
+    -0.3243469E+00 (   0.000eV)
+    -0.3245693E+00 (   0.000eV)
+    -0.3249475E+00 (   0.000eV)
+    -0.3249946E+00 (   0.000eV)
+    -0.3250784E+00 (   0.000eV)
+    -0.3252991E+00 (   0.000eV)
+    -0.3256806E+00 (   0.000eV)
+    -0.3259796E+00 (   0.000eV)
+    -0.3261135E+00 (   0.000eV)
+    -0.3263702E+00 (   0.000eV)
+    -0.3264756E+00 (   0.000eV)
+    -0.3266032E+00 (   0.000eV)
+    -0.3267609E+00 (   0.000eV)
+    -0.3271123E+00 (   0.000eV)
+    -0.3272169E+00 (   0.000eV)
+    -0.3273980E+00 (   0.000eV)
+    -0.3274619E+00 (   0.000eV)
+    -0.3276718E+00 (   0.000eV)
+    -0.3277794E+00 (   0.000eV)
+    -0.3278578E+00 (   0.000eV)
+    -0.3281380E+00 (   0.000eV)
+    -0.3282414E+00 (   0.000eV)
+    -0.3284416E+00 (   0.000eV)
+    -0.3286388E+00 (   0.000eV)
+    -0.3289159E+00 (   0.000eV)
+    -0.3291431E+00 (   0.000eV)
+    -0.3293630E+00 (   0.000eV)
+    -0.3295196E+00 (   0.000eV)
+    -0.3296400E+00 (   0.000eV)
+    -0.3297608E+00 (   0.000eV)
+    -0.3299803E+00 (   0.000eV)
+    -0.3302174E+00 (   0.000eV)
+    -0.3303759E+00 (   0.000eV)
+    -0.3304635E+00 (   0.000eV)
+    -0.3306429E+00 (   0.000eV)
+    -0.3309090E+00 (   0.000eV)
+    -0.3312285E+00 (   0.000eV)
+    -0.3314374E+00 (   0.000eV)
+    -0.3315070E+00 (   0.000eV)
+    -0.3316827E+00 (   0.000eV)
+    -0.3318707E+00 (   0.000eV)
+    -0.3320362E+00 (   0.000eV)
+    -0.3330361E+00 (   0.000eV)
+    -0.3332891E+00 (   0.000eV)
+    -0.3333288E+00 (   0.000eV)
+    -0.3335095E+00 (   0.000eV)
+    -0.3337272E+00 (   0.000eV)
+    -0.3341989E+00 (   0.000eV)
+    -0.3343565E+00 (   0.000eV)
+    -0.3344946E+00 (   0.000eV)
+    -0.3349810E+00 (   0.000eV)
+    -0.3350328E+00 (   0.000eV)
+    -0.3352376E+00 (   0.000eV)
+    -0.3352756E+00 (   0.000eV)
+    -0.3356670E+00 (   0.000eV)
+    -0.3360515E+00 (   0.000eV)
+    -0.3363409E+00 (   0.000eV)
+    -0.3365907E+00 (   0.000eV)
+    -0.3368060E+00 (   0.000eV)
+    -0.3369453E+00 (   0.000eV)
+    -0.3370009E+00 (   0.000eV)
+    -0.3371827E+00 (   0.000eV)
+    -0.3374600E+00 (   0.000eV)
+    -0.3376599E+00 (   0.000eV)
+    -0.3378824E+00 (   0.000eV)
+    -0.3382278E+00 (   0.000eV)
+    -0.3383033E+00 (   0.000eV)
+    -0.3384673E+00 (   0.000eV)
+    -0.3385242E+00 (   0.000eV)
+    -0.3386066E+00 (   0.000eV)
+    -0.3389046E+00 (   0.000eV)
+    -0.3389861E+00 (   0.000eV)
+    -0.3392360E+00 (   0.000eV)
+    -0.3396758E+00 (   0.000eV)
+    -0.3397491E+00 (   0.000eV)
+    -0.3399744E+00 (   0.000eV)
+    -0.3403520E+00 (   0.000eV)
+    -0.3405675E+00 (   0.000eV)
+    -0.3406221E+00 (   0.000eV)
+    -0.3408306E+00 (   0.000eV)
+    -0.3410747E+00 (   0.000eV)
+    -0.3412177E+00 (   0.000eV)
+    -0.3414829E+00 (   0.000eV)
+    -0.3418380E+00 (   0.000eV)
+    -0.3419345E+00 (   0.000eV)
+    -0.3420746E+00 (   0.000eV)
+    -0.3423611E+00 (   0.000eV)
+    -0.3425053E+00 (   0.000eV)
+    -0.3426594E+00 (   0.000eV)
+    -0.3429456E+00 (   0.000eV)
+    -0.3431011E+00 (   0.000eV)
+    -0.3435605E+00 (   0.000eV)
+    -0.3438178E+00 (   0.000eV)
+    -0.3440665E+00 (   0.000eV)
+    -0.3442841E+00 (   0.000eV)
+    -0.3444914E+00 (   0.000eV)
+    -0.3446499E+00 (   0.000eV)
+    -0.3452022E+00 (   0.000eV)
+    -0.3453358E+00 (   0.000eV)
+    -0.3453930E+00 (   0.000eV)
+    -0.3459336E+00 (   0.000eV)
+    -0.3460266E+00 (   0.000eV)
+    -0.3462619E+00 (   0.000eV)
+    -0.3466671E+00 (   0.000eV)
+    -0.3467626E+00 (   0.000eV)
+    -0.3469837E+00 (   0.000eV)
+    -0.3472166E+00 (   0.000eV)
+    -0.3478069E+00 (   0.000eV)
+    -0.3478990E+00 (   0.000eV)
+    -0.3480637E+00 (   0.000eV)
+    -0.3481449E+00 (   0.000eV)
+    -0.3482038E+00 (   0.000eV)
+    -0.3483446E+00 (   0.000eV)
+    -0.3487113E+00 (   0.000eV)
+    -0.3490861E+00 (   0.000eV)
+    -0.3492866E+00 (   0.000eV)
+    -0.3494486E+00 (   0.000eV)
+    -0.3502762E+00 (   0.000eV)
+    -0.3506215E+00 (   0.000eV)
+    -0.3507854E+00 (   0.000eV)
+    -0.3508717E+00 (   0.000eV)
+    -0.3513049E+00 (   0.000eV)
+    -0.3516410E+00 (   0.000eV)
+    -0.3521255E+00 (   0.000eV)
+    -0.3523131E+00 (   0.000eV)
+    -0.3525457E+00 (   0.000eV)
+    -0.3527314E+00 (   0.000eV)
+    -0.3531140E+00 (   0.000eV)
+    -0.3533769E+00 (   0.000eV)
+    -0.3534205E+00 (   0.000eV)
+    -0.3535608E+00 (   0.000eV)
+    -0.3543446E+00 (   0.000eV)
+    -0.3550731E+00 (   0.000eV)
+    -0.3551969E+00 (   0.000eV)
+    -0.3553789E+00 (   0.000eV)
+    -0.3558687E+00 (   0.000eV)
+    -0.3563152E+00 (   0.000eV)
+    -0.3567308E+00 (   0.000eV)
+    -0.3568462E+00 (   0.000eV)
+    -0.3569749E+00 (   0.000eV)
+    -0.3579687E+00 (   0.000eV)
+    -0.3580893E+00 (   0.000eV)
+    -0.3583441E+00 (   0.000eV)
+    -0.3585526E+00 (   0.000eV)
+    -0.3595233E+00 (   0.000eV)
+    -0.3596181E+00 (   0.000eV)
+    -0.3600686E+00 (   0.000eV)
+    -0.3606663E+00 (   0.000eV)
+    -0.3610769E+00 (   0.000eV)
+    -0.3627184E+00 (   0.000eV)
+    -0.3636448E+00 (   0.000eV)
+    -0.3644335E+00 (   0.000eV)
+    -0.3657828E+00 (   0.000eV)
+    -0.3663676E+00 (   0.000eV)
+    -0.3664915E+00 (   0.000eV)
+    -0.3677461E+00 (   0.000eV)
+    -0.3701312E+00 (   0.000eV)
+    -0.3715840E+00 (   0.000eV)
+    -0.3720179E+00 (   0.000eV)
+    -0.3731404E+00 (   0.000eV)
+    -0.3733409E+00 (   0.000eV)
+    -0.3734940E+00 (   0.000eV)
+    -0.3740942E+00 (   0.000eV)
+    -0.3755563E+00 (   0.000eV)
+    -0.3765711E+00 (   0.000eV)
+    -0.3773493E+00 (   0.000eV)
+    -0.3813012E+00 (   0.000eV)
+    -0.3838212E+00 (   0.000eV)
+    -0.3860687E+00 (   0.000eV)
+    -0.3970037E+00 (   0.000eV)
+    -0.7111764E+00 (   0.000eV)
+    -0.7227650E+00 (   0.000eV)
+    -0.7235820E+00 (   0.000eV)
+    -0.7258311E+00 (   0.000eV)
+    -0.7287350E+00 (   0.000eV)
+    -0.7307731E+00 (   0.000eV)
+    -0.7314260E+00 (   0.000eV)
+    -0.7315495E+00 (   0.000eV)
+    -0.7324823E+00 (   0.000eV)
+    -0.7335111E+00 (   0.000eV)
+    -0.7335380E+00 (   0.000eV)
+    -0.7338080E+00 (   0.000eV)
+    -0.7348113E+00 (   0.000eV)
+    -0.7349029E+00 (   0.000eV)
+    -0.7349687E+00 (   0.000eV)
+    -0.7360101E+00 (   0.000eV)
+    -0.7365758E+00 (   0.000eV)
+    -0.7389657E+00 (   0.000eV)
+    -0.7393962E+00 (   0.000eV)
+    -0.7395247E+00 (   0.000eV)
+    -0.7400789E+00 (   0.000eV)
+    -0.7403363E+00 (   0.000eV)
+    -0.7405875E+00 (   0.000eV)
+    -0.7410047E+00 (   0.000eV)
+    -0.7413002E+00 (   0.000eV)
+    -0.7414086E+00 (   0.000eV)
+    -0.7415825E+00 (   0.000eV)
+    -0.7419883E+00 (   0.000eV)
+    -0.7422428E+00 (   0.000eV)
+    -0.7424769E+00 (   0.000eV)
+    -0.7426580E+00 (   0.000eV)
+    -0.7428817E+00 (   0.000eV)
+    -0.7437636E+00 (   0.000eV)
+    -0.7439009E+00 (   0.000eV)
+    -0.7444090E+00 (   0.000eV)
+    -0.7446749E+00 (   0.000eV)
+    -0.7449005E+00 (   0.000eV)
+    -0.7449820E+00 (   0.000eV)
+    -0.7450919E+00 (   0.000eV)
+    -0.7454572E+00 (   0.000eV)
+    -0.7456160E+00 (   0.000eV)
+    -0.7459979E+00 (   0.000eV)
+    -0.7460531E+00 (   0.000eV)
+    -0.7461302E+00 (   0.000eV)
+    -0.7463341E+00 (   0.000eV)
+    -0.7465189E+00 (   0.000eV)
+    -0.7471359E+00 (   0.000eV)
+    -0.7473451E+00 (   0.000eV)
+    -0.7477748E+00 (   0.000eV)
+    -0.7478664E+00 (   0.000eV)
+    -0.7479302E+00 (   0.000eV)
+    -0.7483343E+00 (   0.000eV)
+    -0.7485842E+00 (   0.000eV)
+    -0.7486069E+00 (   0.000eV)
+    -0.7487929E+00 (   0.000eV)
+    -0.7489684E+00 (   0.000eV)
+    -0.7491817E+00 (   0.000eV)
+    -0.7494501E+00 (   0.000eV)
+    -0.7495074E+00 (   0.000eV)
+    -0.7501332E+00 (   0.000eV)
+    -0.7502716E+00 (   0.000eV)
+    -0.7506351E+00 (   0.000eV)
+    -0.7508846E+00 (   0.000eV)
+    -0.7511111E+00 (   0.000eV)
+    -0.7513089E+00 (   0.000eV)
+    -0.7518455E+00 (   0.000eV)
+    -0.7521618E+00 (   0.000eV)
+    -0.7522120E+00 (   0.000eV)
+    -0.7524163E+00 (   0.000eV)
+    -0.7527869E+00 (   0.000eV)
+    -0.7530874E+00 (   0.000eV)
+    -0.7534282E+00 (   0.000eV)
+    -0.7535067E+00 (   0.000eV)
+    -0.7536180E+00 (   0.000eV)
+    -0.7537167E+00 (   0.000eV)
+    -0.7541430E+00 (   0.000eV)
+    -0.7542098E+00 (   0.000eV)
+    -0.7542695E+00 (   0.000eV)
+    -0.7545269E+00 (   0.000eV)
+    -0.7547952E+00 (   0.000eV)
+    -0.7548970E+00 (   0.000eV)
+    -0.7549738E+00 (   0.000eV)
+    -0.7550567E+00 (   0.000eV)
+    -0.7551368E+00 (   0.000eV)
+    -0.7555917E+00 (   0.000eV)
+    -0.7559994E+00 (   0.000eV)
+    -0.7560774E+00 (   0.000eV)
+    -0.7561949E+00 (   0.000eV)
+    -0.7564328E+00 (   0.000eV)
+    -0.7565089E+00 (   0.000eV)
+    -0.7569905E+00 (   0.000eV)
+    -0.7573583E+00 (   0.000eV)
+    -0.7574258E+00 (   0.000eV)
+    -0.7576468E+00 (   0.000eV)
+    -0.7578055E+00 (   0.000eV)
+    -0.7581363E+00 (   0.000eV)
+    -0.7584531E+00 (   0.000eV)
+    -0.7586732E+00 (   0.000eV)
+    -0.7590089E+00 (   0.000eV)
+    -0.7591635E+00 (   0.000eV)
+    -0.7592708E+00 (   0.000eV)
+    -0.7594268E+00 (   0.000eV)
+    -0.7595335E+00 (   0.000eV)
+    -0.7598167E+00 (   0.000eV)
+    -0.7600990E+00 (   0.000eV)
+    -0.7601589E+00 (   0.000eV)
+    -0.7603552E+00 (   0.000eV)
+    -0.7604656E+00 (   0.000eV)
+    -0.7607131E+00 (   0.000eV)
+    -0.7607766E+00 (   0.000eV)
+    -0.7608874E+00 (   0.000eV)
+    -0.7609117E+00 (   0.000eV)
+    -0.7611348E+00 (   0.000eV)
+    -0.7612720E+00 (   0.000eV)
+    -0.7613008E+00 (   0.000eV)
+    -0.7614578E+00 (   0.000eV)
+    -0.7615148E+00 (   0.000eV)
+    -0.7616118E+00 (   0.000eV)
+    -0.7616605E+00 (   0.000eV)
+    -0.7618210E+00 (   0.000eV)
+    -0.7620867E+00 (   0.000eV)
+    -0.7621332E+00 (   0.000eV)
+    -0.7621993E+00 (   0.000eV)
+    -0.7625107E+00 (   0.000eV)
+    -0.7625256E+00 (   0.000eV)
+    -0.7628682E+00 (   0.000eV)
+    -0.7631920E+00 (   0.000eV)
+    -0.7632544E+00 (   0.000eV)
+    -0.7635331E+00 (   0.000eV)
+    -0.7637124E+00 (   0.000eV)
+    -0.7637434E+00 (   0.000eV)
+    -0.7637914E+00 (   0.000eV)
+    -0.7642423E+00 (   0.000eV)
+    -0.7642996E+00 (   0.000eV)
+    -0.7646625E+00 (   0.000eV)
+    -0.7649591E+00 (   0.000eV)
+    -0.7652416E+00 (   0.000eV)
+    -0.7653753E+00 (   0.000eV)
+    -0.7654919E+00 (   0.000eV)
+    -0.7657502E+00 (   0.000eV)
+    -0.7663204E+00 (   0.000eV)
+    -0.7665754E+00 (   0.000eV)
+    -0.7667823E+00 (   0.000eV)
+    -0.7668147E+00 (   0.000eV)
+    -0.7669835E+00 (   0.000eV)
+    -0.7671009E+00 (   0.000eV)
+    -0.7675703E+00 (   0.000eV)
+    -0.7676147E+00 (   0.000eV)
+    -0.7677922E+00 (   0.000eV)
+    -0.7678705E+00 (   0.000eV)
+    -0.7682344E+00 (   0.000eV)
+    -0.7682779E+00 (   0.000eV)
+    -0.7686523E+00 (   0.000eV)
+    -0.7687350E+00 (   0.000eV)
+    -0.7688225E+00 (   0.000eV)
+    -0.7688617E+00 (   0.000eV)
+    -0.7689897E+00 (   0.000eV)
+    -0.7690626E+00 (   0.000eV)
+    -0.7693791E+00 (   0.000eV)
+    -0.7694340E+00 (   0.000eV)
+    -0.7696669E+00 (   0.000eV)
+    -0.7697556E+00 (   0.000eV)
+    -0.7699922E+00 (   0.000eV)
+    -0.7700452E+00 (   0.000eV)
+    -0.7701177E+00 (   0.000eV)
+    -0.7704122E+00 (   0.000eV)
+    -0.7708517E+00 (   0.000eV)
+    -0.7711204E+00 (   0.000eV)
+    -0.7712928E+00 (   0.000eV)
+    -0.7713757E+00 (   0.000eV)
+    -0.7714801E+00 (   0.000eV)
+    -0.7716981E+00 (   0.000eV)
+    -0.7718201E+00 (   0.000eV)
+    -0.7720018E+00 (   0.000eV)
+    -0.7722516E+00 (   0.000eV)
+    -0.7723178E+00 (   0.000eV)
+    -0.7726263E+00 (   0.000eV)
+    -0.7728216E+00 (   0.000eV)
+    -0.7730368E+00 (   0.000eV)
+    -0.7731705E+00 (   0.000eV)
+    -0.7734489E+00 (   0.000eV)
+    -0.7736430E+00 (   0.000eV)
+    -0.7743232E+00 (   0.000eV)
+    -0.7744346E+00 (   0.000eV)
+    -0.7748340E+00 (   0.000eV)
+    -0.7751927E+00 (   0.000eV)
+    -0.7754642E+00 (   0.000eV)
+    -0.7757559E+00 (   0.000eV)
+    -0.7761078E+00 (   0.000eV)
+    -0.7764557E+00 (   0.000eV)
+    -0.7765234E+00 (   0.000eV)
+    -0.7767580E+00 (   0.000eV)
+    -0.7770426E+00 (   0.000eV)
+    -0.7772636E+00 (   0.000eV)
+    -0.7775576E+00 (   0.000eV)
+    -0.7777226E+00 (   0.000eV)
+    -0.7778166E+00 (   0.000eV)
+    -0.7779714E+00 (   0.000eV)
+    -0.7781013E+00 (   0.000eV)
+    -0.7783812E+00 (   0.000eV)
+    -0.7787404E+00 (   0.000eV)
+    -0.7792563E+00 (   0.000eV)
+    -0.7794917E+00 (   0.000eV)
+    -0.7796041E+00 (   0.000eV)
+    -0.7797737E+00 (   0.000eV)
+    -0.7799068E+00 (   0.000eV)
+    -0.7801206E+00 (   0.000eV)
+    -0.7801876E+00 (   0.000eV)
+    -0.7803120E+00 (   0.000eV)
+    -0.7807807E+00 (   0.000eV)
+    -0.7811938E+00 (   0.000eV)
+    -0.7812766E+00 (   0.000eV)
+    -0.7813195E+00 (   0.000eV)
+    -0.7817669E+00 (   0.000eV)
+    -0.7826511E+00 (   0.000eV)
+    -0.7827185E+00 (   0.000eV)
+    -0.7830757E+00 (   0.000eV)
+    -0.7831334E+00 (   0.000eV)
+    -0.7836440E+00 (   0.000eV)
+    -0.7844930E+00 (   0.000eV)
+    -0.7847556E+00 (   0.000eV)
+    -0.7849134E+00 (   0.000eV)
+    -0.7860175E+00 (   0.000eV)
+    -0.7865692E+00 (   0.000eV)
+    -0.7866231E+00 (   0.000eV)
+    -0.7867249E+00 (   0.000eV)
+    -0.7869975E+00 (   0.000eV)
+    -0.7882042E+00 (   0.000eV)
+    -0.7882650E+00 (   0.000eV)
+    -0.7885407E+00 (   0.000eV)
+    -0.7886269E+00 (   0.000eV)
+    -0.7889263E+00 (   0.000eV)
+    -0.7890435E+00 (   0.000eV)
+    -0.7893761E+00 (   0.000eV)
+    -0.7901553E+00 (   0.000eV)
+    -0.7913970E+00 (   0.000eV)
+    -0.7916054E+00 (   0.000eV)
+    -0.7918446E+00 (   0.000eV)
+    -0.7928350E+00 (   0.000eV)
+    -0.7932592E+00 (   0.000eV)
+    -0.7933213E+00 (   0.000eV)
+    -0.7935223E+00 (   0.000eV)
+    -0.7936628E+00 (   0.000eV)
+    -0.7958703E+00 (   0.000eV)
+    -0.7965875E+00 (   0.000eV)
+    -0.7971345E+00 (   0.000eV)
+    -0.7987927E+00 (   0.000eV)
+    -0.8014069E+00 (   0.000eV)
+    -0.8018866E+00 (   0.000eV)
+    -0.8051992E+00 (   0.000eV)
+    -0.8054801E+00 (   0.000eV)
+    -0.8070059E+00 (   0.000eV)
+    -0.8098151E+00 (   0.000eV)
+    -0.8104388E+00 (   0.000eV)
+    -0.8193716E+00 (   0.000eV)
+    -0.8233972E+00 (   0.000eV)
+
+ Total PSPW energy   :  -0.4405098401E+04
+
+
+=== Spin Contamination ===
+ 
+ <Sexact^2> =   0.000000000000000E+000
+ <S^2>      =   0.000000000000000E+000
+ 
+
+
+== Center of Charge ==
+
+spin up     (    0.0113,    0.2995,   -0.2123 )
+spin down   (    0.0113,    0.2995,   -0.2123 )
+     total  (    0.0113,    0.2995,   -0.2123 )
+ionic       (   -0.0239,    0.4313,   -0.2818 )
+
+
+== Molecular Dipole wrt Center of Mass ==
+
+mu   =  (  -72.5338,  270.9422, -142.8159 ) au
+|mu| =   314.7495 au,     799.9673 Debye
+
+ output psi filename:./perm_water256/ttt.elc
+ 
+ Writing Crystallographic Information File:./perm_water256/water256.cif
+   - cell not shifted (nwpw:cif_shift_cell .false.)
+ 
+ -----------------
+ cputime in seconds
+ prologue    :    334.090579986572     
+ main loop   :    41.3550209999084     
+ epilogue    :    477.472428083420     
+ total       :    852.918029069901     
+ cputime/step:    10.3387552499771     
+ 
+
+
+Time spent doing                        total          step       percent
+  total time                 :   0.853157E+03  0.213289E+03       100.0 %
+  i/o time                   :   0.601864E+03  0.150466E+03        70.5 %
+  FFTs                       :   0.241699E+01  0.604246E+00         0.3 %
+  dot products               :   0.441453E+01  0.110363E+01         0.5 %
+  geodesic                   :   0.437325E+01  0.109331E+01         0.5 %
+  fmf_dgemm                  :   0.902161E+00  0.225540E+00         0.1 %
+  exchange correlation       :   0.208568E+01  0.521419E+00         0.2 %
+  local pseudopotentials     :   0.348491E+00  0.871229E-01         0.0 %
+  non-local pseudopotentials :   0.622827E+01  0.155707E+01         0.7 %
+  hartree potentials         :   0.105438E+00  0.263596E-01         0.0 %
+  ion-ion interaction        :   0.778208E+00  0.194552E+00         0.1 %
+  structure factors          :   0.509490E+00  0.127373E+00         0.1 %
+  phase factors              :   0.105040E-01  0.262600E-02         0.0 %
+  masking and packing        :   0.598005E+01  0.149501E+01         0.7 %
+  queue fft                  :   0.699851E+01  0.174963E+01         0.8 %
+  queue fft (serial)         :   0.130422E+01  0.326054E+00         0.2 %
+  queue fft (message passing):   0.509748E+01  0.127437E+01         0.6 %
+  MATHIAS InnerLoop          :   0.413521E+02  0.103380E+02         4.8 %
+  MATHIAS Phaze              :   0.220809E+00  0.552022E-01         0.0 %
+  MATHIAS Pipelined FFTs     :   0.432894E+01  0.108224E+01         0.5 %
+  MATHIAS Lagrange           :   0.190471E+02  0.476177E+01         2.2 %
+  MATHIAS Exch Corr          :   0.209167E+01  0.522918E+00         0.2 %
+  MATHIAS Hpsi               :   0.951968E+01  0.237992E+01         1.1 %
+  non-local psp FFM          :   0.325939E+01  0.814848E+00         0.4 %
+  non-local psp FMF          :   0.273821E+01  0.684553E+00         0.3 %
+  non-local psp FFM A        :   0.659542E-01  0.164885E-01         0.0 %
+  non-local psp FFM B        :   0.242120E+01  0.605300E+00         0.3 %
+     >>>  JOB COMPLETED     AT Sat Apr 15 23:25:41 2017  <<<
+
+ Task  times  cpu:     2941.3s     wall:      854.6s
+ 
+ 
+                                NWChem Input Module
+                                -------------------
+ 
+ 
+ Summary of allocated global arrays
+-----------------------------------
+  No active global arrays
+
+
+
+                         GA Statistics for process    0
+                         ------------------------------
+
+       create   destroy   get      put      acc     scatter   gather  read&inc
+calls:    0        0        0        0        0        0        0        0     
+number of processes/call 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00
+bytes total:             0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00
+bytes remote:            0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00
+Max memory consumed for GA by this process: 0 bytes
+ 
+ 
+ 
+                                     CITATION
+                                     --------
+                Please cite the following reference when publishing
+                           results obtained with NWChem:
+ 
+                 M. Valiev, E.J. Bylaska, N. Govind, K. Kowalski,
+              T.P. Straatsma, H.J.J. van Dam, D. Wang, J. Nieplocha,
+                        E. Apra, T.L. Windus, W.A. de Jong
+                 "NWChem: a comprehensive and scalable open-source
+                  solution for large scale molecular simulations"
+                      Comput. Phys. Commun. 181, 1477 (2010)
+                           doi:10.1016/j.cpc.2010.04.018
+ 
+                                      AUTHORS
+                                      -------
+          E. Apra, E. J. Bylaska, W. A. de Jong, N. Govind, K. Kowalski,
+       T. P. Straatsma, M. Valiev, H. J. J. van Dam, D. Wang, T. L. Windus,
+        J. Hammond, J. Autschbach, K. Bhaskaran-Nair, J. Brabec, K. Lopata,
+       S. A. Fischer, S. Krishnamoorthy, W. Ma, M. Klemm, O. Villa, Y. Chen,
+    V. Anisimov, F. Aquino, S. Hirata, M. T. Hackler, V. Konjkov, T. Risthaus,
+       M. Malagoli, A. Marenich, A. Otero-de-la-Roza, J. Mullin, P. Nichols,
+      R. Peverati, J. Pittner, Y. Zhao, P.-D. Fan, A. Fonari, M. Williamson,
+      R. J. Harrison, J. R. Rehr, M. Dupuis, D. Silverstein, D. M. A. Smith,
+            J. Nieplocha, V. Tipparaju, M. Krishnan, B. E. Van Kuiken,
+        A. Vazquez-Mayagoitia, L. Jensen, M. Swart, Q. Wu, T. Van Voorhis,
+     A. A. Auer, M. Nooijen, L. D. Crosby, E. Brown, G. Cisneros, G. I. Fann,
+   H. Fruchtl, J. Garza, K. Hirao, R. A. Kendall, J. A. Nichols, K. Tsemekhman,
+    K. Wolinski, J. Anchell, D. E. Bernholdt, P. Borowski, T. Clark, D. Clerc,
+   H. Dachsel, M. J. O. Deegan, K. Dyall, D. Elwood, E. Glendening, M. Gutowski,
+   A. C. Hess, J. Jaffe, B. G. Johnson, J. Ju, R. Kobayashi, R. Kutteh, Z. Lin,
+   R. Littlefield, X. Long, B. Meng, T. Nakajima, S. Niu, L. Pollack, M. Rosing,
+   K. Glaesemann, G. Sandrone, M. Stave, H. Taylor, G. Thomas, J. H. van Lenthe,
+                               A. T. Wong, Z. Zhang.
+
+ Total times  cpu:     2944.1s     wall:      868.1s
+MA_summarize_allocated_blocks: starting scan ...
+MA_summarize_allocated_blocks: scan completed: 0 heap blocks, 0 stack blocks
+MA usage statistics:
+
+	allocation statistics:
+					      heap	     stack
+					      ----	     -----
+	current number of blocks	         0	         0
+	maximum number of blocks	       277	        26
+	current total bytes		         0	         0
+	maximum total bytes		5057891752	  32487432
+	maximum total K-bytes		   5057892	     32488
+	maximum total M-bytes		      5058	        33

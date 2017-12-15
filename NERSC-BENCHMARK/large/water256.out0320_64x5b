@@ -1,0 +1,457 @@
+[PE_0]: MPI rank order: Using default aprun rank ordering.
+[PE_0]: rank 0 is on nid02458
+[PE_0]: rank 1 is on nid02674
+[PE_0]: rank 2 is on nid02675
+[PE_0]: rank 3 is on nid02677
+[PE_0]: rank 4 is on nid02678
+[PE_0]: rank 5 is on nid02679
+[PE_0]: rank 6 is on nid02680
+[PE_0]: rank 7 is on nid02681
+[PE_0]: rank 8 is on nid02682
+[PE_0]: rank 9 is on nid02687
+[PE_0]: rank 10 is on nid03819
+[PE_0]: rank 11 is on nid03820
+[PE_0]: rank 12 is on nid03821
+[PE_0]: rank 13 is on nid03822
+[PE_0]: rank 14 is on nid03827
+[PE_0]: rank 15 is on nid03828
+[PE_0]: rank 16 is on nid03831
+[PE_0]: rank 17 is on nid03833
+[PE_0]: rank 18 is on nid03834
+[PE_0]: rank 19 is on nid03835
+[PE_0]: rank 20 is on nid03836
+[PE_0]: rank 21 is on nid03837
+[PE_0]: rank 22 is on nid03838
+[PE_0]: rank 23 is on nid06122
+[PE_0]: rank 24 is on nid06134
+[PE_0]: rank 25 is on nid06135
+[PE_0]: rank 26 is on nid06281
+[PE_0]: rank 27 is on nid06282
+[PE_0]: rank 28 is on nid06283
+[PE_0]: rank 29 is on nid06292
+[PE_0]: rank 30 is on nid06297
+[PE_0]: rank 31 is on nid06298
+[PE_0]: rank 32 is on nid06301
+[PE_0]: rank 33 is on nid06302
+[PE_0]: rank 34 is on nid06307
+[PE_0]: rank 35 is on nid06308
+[PE_0]: rank 36 is on nid06311
+[PE_0]: rank 37 is on nid06312
+[PE_0]: rank 38 is on nid06313
+[PE_0]: rank 39 is on nid06327
+[PE_0]: rank 40 is on nid06328
+[PE_0]: rank 41 is on nid06331
+[PE_0]: rank 42 is on nid06332
+[PE_0]: rank 43 is on nid06335
+[PE_0]: rank 44 is on nid06336
+[PE_0]: rank 45 is on nid06341
+[PE_0]: rank 46 is on nid06342
+[PE_0]: rank 47 is on nid06343
+[PE_0]: rank 48 is on nid06344
+[PE_0]: rank 49 is on nid06345
+[PE_0]: rank 50 is on nid06346
+[PE_0]: rank 51 is on nid06355
+[PE_0]: rank 52 is on nid06356
+[PE_0]: rank 53 is on nid06357
+[PE_0]: rank 54 is on nid06358
+[PE_0]: rank 55 is on nid06359
+[PE_0]: rank 56 is on nid06360
+[PE_0]: rank 57 is on nid06361
+[PE_0]: rank 58 is on nid06362
+[PE_0]: rank 59 is on nid06363
+[PE_0]: rank 60 is on nid06364
+[PE_0]: rank 61 is on nid07678
+[PE_0]: rank 62 is on nid07679
+[PE_0]: rank 63 is on nid08421
+[PE_0]: rank 64 is on nid08422
+[PE_0]: rank 65 is on nid08423
+[PE_0]: rank 66 is on nid08424
+[PE_0]: rank 67 is on nid11520
+[PE_0]: rank 68 is on nid11521
+[PE_0]: rank 69 is on nid11524
+[PE_0]: rank 70 is on nid11534
+[PE_0]: rank 71 is on nid11541
+[PE_0]: rank 72 is on nid11556
+[PE_0]: rank 73 is on nid11557
+[PE_0]: rank 74 is on nid11559
+[PE_0]: rank 75 is on nid11562
+[PE_0]: rank 76 is on nid11563
+[PE_0]: rank 77 is on nid11567
+[PE_0]: rank 78 is on nid11568
+[PE_0]: rank 79 is on nid11569
+[PE_0]: rank 80 is on nid11570
+[PE_0]: rank 81 is on nid11587
+[PE_0]: rank 82 is on nid11602
+[PE_0]: rank 83 is on nid11606
+[PE_0]: rank 84 is on nid11607
+[PE_0]: rank 85 is on nid11608
+[PE_0]: rank 86 is on nid11611
+[PE_0]: rank 87 is on nid11614
+[PE_0]: rank 88 is on nid11617
+[PE_0]: rank 89 is on nid11619
+[PE_0]: rank 90 is on nid11625
+[PE_0]: rank 91 is on nid11626
+[PE_0]: rank 92 is on nid11633
+[PE_0]: rank 93 is on nid11634
+[PE_0]: rank 94 is on nid11637
+[PE_0]: rank 95 is on nid11640
+[PE_0]: rank 96 is on nid11641
+[PE_0]: rank 97 is on nid11642
+[PE_0]: rank 98 is on nid11650
+[PE_0]: rank 99 is on nid11653
+[PE_0]: rank 100 is on nid11657
+[PE_0]: rank 101 is on nid11661
+[PE_0]: rank 102 is on nid11668
+[PE_0]: rank 103 is on nid11670
+[PE_0]: rank 104 is on nid11671
+[PE_0]: rank 105 is on nid11678
+[PE_0]: rank 106 is on nid11684
+[PE_0]: rank 107 is on nid11686
+[PE_0]: rank 108 is on nid11690
+[PE_0]: rank 109 is on nid11699
+[PE_0]: rank 110 is on nid11700
+[PE_0]: rank 111 is on nid11706
+[PE_0]: rank 112 is on nid11713
+[PE_0]: rank 113 is on nid11719
+[PE_0]: rank 114 is on nid11729
+[PE_0]: rank 115 is on nid11732
+[PE_0]: rank 116 is on nid11742
+[PE_0]: rank 117 is on nid11745
+[PE_0]: rank 118 is on nid11747
+[PE_0]: rank 119 is on nid11749
+[PE_0]: rank 120 is on nid11750
+[PE_0]: rank 121 is on nid11764
+[PE_0]: rank 122 is on nid11766
+[PE_0]: rank 123 is on nid11767
+[PE_0]: rank 124 is on nid11777
+[PE_0]: rank 125 is on nid11780
+[PE_0]: rank 126 is on nid11781
+[PE_0]: rank 127 is on nid11786
+[PE_0]: rank 128 is on nid11788
+[PE_0]: rank 129 is on nid11789
+[PE_0]: rank 130 is on nid11790
+[PE_0]: rank 131 is on nid11796
+[PE_0]: rank 132 is on nid11799
+[PE_0]: rank 133 is on nid11806
+[PE_0]: rank 134 is on nid11807
+[PE_0]: rank 135 is on nid11809
+[PE_0]: rank 136 is on nid11810
+[PE_0]: rank 137 is on nid11812
+[PE_0]: rank 138 is on nid11813
+[PE_0]: rank 139 is on nid11814
+[PE_0]: rank 140 is on nid11815
+[PE_0]: rank 141 is on nid11817
+[PE_0]: rank 142 is on nid11818
+[PE_0]: rank 143 is on nid11819
+[PE_0]: rank 144 is on nid11820
+[PE_0]: rank 145 is on nid11822
+[PE_0]: rank 146 is on nid11823
+[PE_0]: rank 147 is on nid11825
+[PE_0]: rank 148 is on nid11828
+[PE_0]: rank 149 is on nid11829
+[PE_0]: rank 150 is on nid11830
+[PE_0]: rank 151 is on nid11831
+[PE_0]: rank 152 is on nid11832
+[PE_0]: rank 153 is on nid11835
+[PE_0]: rank 154 is on nid11836
+[PE_0]: rank 155 is on nid11837
+[PE_0]: rank 156 is on nid11838
+[PE_0]: rank 157 is on nid11839
+[PE_0]: rank 158 is on nid11840
+[PE_0]: rank 159 is on nid11841
+[PE_0]: rank 160 is on nid11842
+[PE_0]: rank 161 is on nid11843
+[PE_0]: rank 162 is on nid11844
+[PE_0]: rank 163 is on nid11845
+[PE_0]: rank 164 is on nid11846
+[PE_0]: rank 165 is on nid11847
+[PE_0]: rank 166 is on nid11848
+[PE_0]: rank 167 is on nid11849
+[PE_0]: rank 168 is on nid11850
+[PE_0]: rank 169 is on nid11857
+[PE_0]: rank 170 is on nid11858
+[PE_0]: rank 171 is on nid11859
+[PE_0]: rank 172 is on nid11862
+[PE_0]: rank 173 is on nid11868
+[PE_0]: rank 174 is on nid11870
+[PE_0]: rank 175 is on nid11871
+[PE_0]: rank 176 is on nid11873
+[PE_0]: rank 177 is on nid11874
+[PE_0]: rank 178 is on nid11877
+[PE_0]: rank 179 is on nid11878
+[PE_0]: rank 180 is on nid11879
+[PE_0]: rank 181 is on nid11881
+[PE_0]: rank 182 is on nid11883
+[PE_0]: rank 183 is on nid11884
+[PE_0]: rank 184 is on nid11890
+[PE_0]: rank 185 is on nid11891
+[PE_0]: rank 186 is on nid11892
+[PE_0]: rank 187 is on nid11893
+[PE_0]: rank 188 is on nid11894
+[PE_0]: rank 189 is on nid11895
+[PE_0]: rank 190 is on nid11910
+[PE_0]: rank 191 is on nid11913
+[PE_0]: rank 192 is on nid11914
+[PE_0]: rank 193 is on nid11927
+[PE_0]: rank 194 is on nid11928
+[PE_0]: rank 195 is on nid11933
+[PE_0]: rank 196 is on nid11935
+[PE_0]: rank 197 is on nid11938
+[PE_0]: rank 198 is on nid11940
+[PE_0]: rank 199 is on nid11943
+[PE_0]: rank 200 is on nid11944
+[PE_0]: rank 201 is on nid11945
+[PE_0]: rank 202 is on nid11953
+[PE_0]: rank 203 is on nid11959
+[PE_0]: rank 204 is on nid11962
+[PE_0]: rank 205 is on nid11964
+[PE_0]: rank 206 is on nid11965
+[PE_0]: rank 207 is on nid11970
+[PE_0]: rank 208 is on nid11974
+[PE_0]: rank 209 is on nid11975
+[PE_0]: rank 210 is on nid11976
+[PE_0]: rank 211 is on nid11985
+[PE_0]: rank 212 is on nid11990
+[PE_0]: rank 213 is on nid11994
+[PE_0]: rank 214 is on nid12007
+[PE_0]: rank 215 is on nid12018
+[PE_0]: rank 216 is on nid12026
+[PE_0]: rank 217 is on nid12027
+[PE_0]: rank 218 is on nid12030
+[PE_0]: rank 219 is on nid12031
+[PE_0]: rank 220 is on nid12042
+[PE_0]: rank 221 is on nid12044
+[PE_0]: rank 222 is on nid12047
+[PE_0]: rank 223 is on nid12055
+[PE_0]: rank 224 is on nid12056
+[PE_0]: rank 225 is on nid12057
+[PE_0]: rank 226 is on nid12059
+[PE_0]: rank 227 is on nid12062
+[PE_0]: rank 228 is on nid12063
+[PE_0]: rank 229 is on nid12065
+[PE_0]: rank 230 is on nid12071
+[PE_0]: rank 231 is on nid12074
+[PE_0]: rank 232 is on nid12076
+[PE_0]: rank 233 is on nid12080
+[PE_0]: rank 234 is on nid12083
+[PE_0]: rank 235 is on nid12086
+[PE_0]: rank 236 is on nid12087
+[PE_0]: rank 237 is on nid12088
+[PE_0]: rank 238 is on nid12091
+[PE_0]: rank 239 is on nid12100
+[PE_0]: rank 240 is on nid12104
+[PE_0]: rank 241 is on nid12105
+[PE_0]: rank 242 is on nid12106
+[PE_0]: rank 243 is on nid12107
+[PE_0]: rank 244 is on nid12114
+[PE_0]: rank 245 is on nid12122
+[PE_0]: rank 246 is on nid12127
+[PE_0]: rank 247 is on nid12129
+[PE_0]: rank 248 is on nid12134
+[PE_0]: rank 249 is on nid12137
+[PE_0]: rank 250 is on nid12140
+[PE_0]: rank 251 is on nid12142
+[PE_0]: rank 252 is on nid12145
+[PE_0]: rank 253 is on nid12146
+[PE_0]: rank 254 is on nid12150
+[PE_0]: rank 255 is on nid12151
+[PE_0]: rank 256 is on nid12160
+[PE_0]: rank 257 is on nid12168
+[PE_0]: rank 258 is on nid12183
+[PE_0]: rank 259 is on nid12185
+[PE_0]: rank 260 is on nid12195
+[PE_0]: rank 261 is on nid12197
+[PE_0]: rank 262 is on nid12198
+[PE_0]: rank 263 is on nid12204
+[PE_0]: rank 264 is on nid12205
+[PE_0]: rank 265 is on nid12207
+[PE_0]: rank 266 is on nid12210
+[PE_0]: rank 267 is on nid12215
+[PE_0]: rank 268 is on nid12217
+[PE_0]: rank 269 is on nid12218
+[PE_0]: rank 270 is on nid12222
+[PE_0]: rank 271 is on nid12224
+[PE_0]: rank 272 is on nid12228
+[PE_0]: rank 273 is on nid12243
+[PE_0]: rank 274 is on nid12259
+[PE_0]: rank 275 is on nid12260
+[PE_0]: rank 276 is on nid12262
+[PE_0]: rank 277 is on nid12264
+[PE_0]: rank 278 is on nid12265
+[PE_0]: rank 279 is on nid12266
+[PE_0]: rank 280 is on nid12267
+[PE_0]: rank 281 is on nid12269
+[PE_0]: rank 282 is on nid12271
+[PE_0]: rank 283 is on nid12283
+[PE_0]: rank 284 is on nid12287
+[PE_0]: rank 285 is on nid12290
+[PE_0]: rank 286 is on nid12291
+[PE_0]: rank 287 is on nid12339
+[PE_0]: rank 288 is on nid12340
+[PE_0]: rank 289 is on nid12359
+[PE_0]: rank 290 is on nid12360
+[PE_0]: rank 291 is on nid12361
+[PE_0]: rank 292 is on nid12366
+[PE_0]: rank 293 is on nid12367
+[PE_0]: rank 294 is on nid12444
+[PE_0]: rank 295 is on nid12445
+[PE_0]: rank 296 is on nid12446
+[PE_0]: rank 297 is on nid12447
+[PE_0]: rank 298 is on nid12449
+[PE_0]: rank 299 is on nid12450
+[PE_0]: rank 300 is on nid12452
+[PE_0]: rank 301 is on nid12455
+[PE_0]: rank 302 is on nid12456
+[PE_0]: rank 303 is on nid12457
+[PE_0]: rank 304 is on nid12458
+[PE_0]: rank 305 is on nid12461
+[PE_0]: rank 306 is on nid12462
+[PE_0]: rank 307 is on nid12463
+[PE_0]: rank 308 is on nid12466
+[PE_0]: rank 309 is on nid12468
+[PE_0]: rank 310 is on nid12552
+[PE_0]: rank 311 is on nid12559
+[PE_0]: rank 312 is on nid12561
+[PE_0]: rank 313 is on nid12565
+[PE_0]: rank 314 is on nid12566
+[PE_0]: rank 315 is on nid12573
+[PE_0]: rank 316 is on nid12574
+[PE_0]: rank 317 is on nid12661
+[PE_0]: rank 318 is on nid12662
+[PE_0]: rank 319 is on nid12670
+MPI VERSION    : CRAY MPICH version 7.4.4 (ANL base 3.2rc1)
+MPI BUILD INFO : Built Mon Sep 26 14:08:25 2016 (git hash 7f377e8) MT-G
+ argument  1 = ./water256.nw5
+  NWChem w/ OpenMP: maximum threads = 66
+                                         
+                                         
+ 
+ 
+              Northwest Computational Chemistry Package (NWChem) 6.6
+              ------------------------------------------------------
+ 
+ 
+                    Environmental Molecular Sciences Laboratory
+                       Pacific Northwest National Laboratory
+                                Richland, WA 99352
+ 
+                              Copyright (c) 1994-2015
+                       Pacific Northwest National Laboratory
+                            Battelle Memorial Institute
+ 
+             NWChem is an open-source computational chemistry package
+                        distributed under the terms of the
+                      Educational Community License (ECL) 2.0
+             A copy of the license is included with this distribution
+                              in the LICENSE.TXT file
+ 
+                                  ACKNOWLEDGMENT
+                                  --------------
+
+            This software and its documentation were developed at the
+            EMSL at Pacific Northwest National Laboratory, a multiprogram
+            national laboratory, operated for the U.S. Department of Energy
+            by Battelle under Contract Number DE-AC05-76RL01830. Support
+            for this work was provided by the Department of Energy Office
+            of Biological and Environmental Research, Office of Basic
+            Energy Sciences, and the Office of Advanced Scientific Computing.
+
+
+           Job information
+           ---------------
+
+    hostname        = nid02458
+    program         = /global/cscratch1/sd/ebylaska/water256/./nwchem.eric2
+    date            = Sun Apr 16 22:24:30 2017
+
+    compiled        = Sun_Apr_16_16:09:16_2017
+    source          = /global/homes/e/ebylaska/nwchem-releases/nwchem
+    nwchem branch   = Development
+    nwchem revision = 29200
+    ga revision     = 10752
+    input           = ./water256.nw5
+    prefix          = water256.
+    data base       = ./perm_water256/water256.db
+    status          = restart
+    nproc           =      320
+    time left       =     -1s
+
+
+
+           Memory information
+           ------------------
+
+    heap     = 1572864000 doubles =  12000.0 Mbytes
+    stack    =  524287997 doubles =   4000.0 Mbytes
+    global   =   13107200 doubles =    100.0 Mbytes (distinct from heap & stack)
+    total    = 2110259197 doubles =  16100.0 Mbytes
+    verify   = yes
+    hardfail = no 
+
+
+           Directory information
+           ---------------------
+ 
+  0 permanent = ./perm_water256
+  0 scratch   = ./perm_water256
+ 
+ 
+           Previous task information
+           -------------------------
+
+    Theory    = pspw                            
+    Operation = steepest_descent              
+    Status    = unknown                       
+    Qmmm      = F
+    Ignore    = F
+
+ 
+           Geometries in the database
+           --------------------------
+ 
+       Name                              Natoms  Last Modified
+       --------------------------------  ------  ------------------------
+    1  geometry                             773  Sun Apr 16 12:23:53 2017  
+    2  pspwgeometry                         773  Sun Apr 16 19:24:45 2017  
+ 
+  The geometry named "geometry" is the default for restart
+ 
+ 
+ 
+           Basis sets in the database
+           --------------------------
+ 
+  There are no basis sets in the database
+ 
+ 
+ 
+                                NWChem Input Module
+                                -------------------
+ 
+ 
+               tequil 300K  methane.xyz + 256 water aimd simulation
+               ----------------------------------------------------
+ >>>> PSPW Parallel Module - steepest_descent <<<<
+          ****************************************************
+          *                                                  *
+          *     Car-Parrinello microcluster calculation      *
+          *                                                  *
+          *     [     steepest descent minimization   ]      *
+          *                                                  *
+          *     [ NorthWest Chemistry implementation ]       *
+          *                                                  *
+          *            version #5.00   06/01/99              *
+          *                                                  *
+          *    This code was developed by Eric J. Bylaska,   *
+          *    and was based upon algorithms and code        *
+          *    developed by the group of Prof. John H. Weare *
+          *                                                  *
+          ****************************************************
+     >>>  JOB STARTED       AT Sun Apr 16 22:24:46 2017  <<<
+          ================ PSPW input data ===================
+
+ input psi filename:./perm_water256/water256.movecs
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 4599531.0 ON nid02458 CANCELLED AT 2017-04-16T22:54:18 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination
