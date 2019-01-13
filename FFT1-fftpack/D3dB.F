@@ -2934,12 +2934,12 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*),b(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+
+!$OMP parallel do private(i) shared(a,b,index) schedule(dynamic,100)
       do i=1,n
         b(i) = a(index(i))
       end do
+!$OMP end parallel do 
       return
       end
 
@@ -2949,12 +2949,11 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*),b(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+!$OMP parallel do private(i) shared(a,b,index,n) schedule(dynamic,100)
       do i=1,n
         b(index(i)) = a(i)
       end do
+!$OMP end parallel do 
       return
       end
 
@@ -2964,12 +2963,11 @@ cpgi$r opt=1
       integer index(*)
       complex*16  a(*)
       integer i
-#ifndef CRAY
-!DIR$ ivdep
-#endif
+!$OMP parallel do private(i) shared(a,n,index) schedule(dynamic,100)
       do i=1,n
         a(index(i)) = 0.0d0
       end do
+!$OMP end parallel do
       return
       end
 
@@ -3169,18 +3167,21 @@ cpgi$r opt=1
       if ((op.eq.2).or.(op.eq.4)) nnfft3d = (ny1(nb))    *nq2(nb)
       if ((op.eq.3).or.(op.eq.6)) nnfft3d = (nz1(nb))    *nq3(nb)
 
-!$OMP PARALLEL DO private(i) schedule(dynamic,100)
-      do i=1,nnfft3d
-         tmp1(h_iq_to_i1(i,op,nb)) = A(i)
-      end do
-!$OMP END PARALLEL DO
+cccc!$OMP PARALLEL DO private(i) schedule(dynamic,100)
+cccc      do i=1,nnfft3d
+cccc         tmp1(h_iq_to_i1(i,op,nb)) = A(i)
+cccc      end do
+cccc!$OMP END PARALLEL DO
+      call D3dB_pfft_index2_copy(nnfft3d,h_iq_to_i1(1,op,nb),A,tmp1)
 
 
 *     **** it = 0, transpose data on same thread ****  
       msglen = h_i2_start(2,op,nb)
      >       - h_i2_start(1,op,nb)
-      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nb)),1,
-     >                    tmp2(h_i2_start(1,op,nb)),1)
+c      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nb)),1,
+c     >                    tmp2(h_i2_start(1,op,nb)),1)
+      call D3dB_scopy(2*msglen,tmp1(h_i1_start(1,op,nb)),
+     >                         tmp2(h_i2_start(1,op,nb)))
 
 cc!$OMP PARALLEL DO private(i) schedule(dynamic,100) default(shared)
 cc      do i=1,msglen
@@ -3240,15 +3241,31 @@ cccc!$OMP END PARALLEL DO
       if ((op.eq.1).or.(op.eq.3)) nnfft3d = (ny1(nb))    *nq2(nb)
       if ((op.eq.2).or.(op.eq.5)) nnfft3d = (nz1(nb))    *nq3(nb)
 
-!$OMP PARALLEL DO private(i) schedule(dynamic,100)
-      do i=1,nnfft3d
-         A(i) = tmp2(h_iq_to_i2(i,op,nb))
-      end do 
-!$OMP END PARALLEL DO
+ccc!$OMP PARALLEL DO private(i) schedule(dynamic,100)
+ccc      do i=1,nnfft3d
+ccc         A(i) = tmp2(h_iq_to_i2(i,op,nb))
+ccc      end do 
+ccc!$OMP END PARALLEL DO
+
+      call D3dB_pfft_index1_copy(nnfft3d,h_iq_to_i2(1,op,nb),tmp2,A)
 
       return
       end
 
+
+      subroutine D3dB_scopy(n,A,B)
+      implicit none
+      integer n
+      real*8 A(n),B(n)
+      integer i
+
+!$OMP PARALLEL DO private(i) shared(A,B,n) schedule(dynamic,100)
+      do i=1,n
+         B(i) = A(i)
+      end do
+!$OMP END PARALLEL DO
+      return
+      end
 
 
 

@@ -25,6 +25,7 @@ $Id: hilbert.c 19707 2010-10-29 17:59:36Z d3y133 $
 
 
 
+extern int hilbert2d();
 
 
 void hilbert2d_map_(sizex_ptr,sizey_ptr,map)
@@ -111,6 +112,8 @@ int     map[];
 
 }
 
+
+extern int hilbert_dir();
 
 int     hilbert2d(i,j,level)
 int     i,j;

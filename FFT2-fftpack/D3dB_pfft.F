@@ -1004,10 +1004,10 @@ c      end do
 *     **** it = 0, transpose data on same thread ****  
       msglen = h_i2_start(2,op,nbb)
      >       - h_i2_start(1,op,nbb)
-c      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),1,
-c     >                    tmp2(h_i2_start(1,op,nbb)),1)
-      call D3dB_scopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),
-     >                         tmp2(h_i2_start(1,op,nbb)))
+      call dcopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),1,
+     >                    tmp2(h_i2_start(1,op,nbb)),1)
+c      call D3dB_scopy(2*msglen,tmp1(h_i1_start(1,op,nbb)),
+c     >                         tmp2(h_i2_start(1,op,nbb)))
 
          
 

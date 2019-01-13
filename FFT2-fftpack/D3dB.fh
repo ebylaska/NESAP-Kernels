@@ -42,9 +42,9 @@
 
 
 *     **** common block for fftpack factors ****
-      complex*16 tmpx(3*nx+15,NBLOCKS,nthreads_max)
-      complex*16 tmpy(3*ny+15,NBLOCKS,nthreads_max)
-      complex*16 tmpz(3*nz+15,NBLOCKS,nthreads_max)
+      complex*16 tmpx(6*nx+15,NBLOCKS,nthreads_max)
+      complex*16 tmpy(6*ny+15,NBLOCKS,nthreads_max)
+      complex*16 tmpz(6*nz+15,NBLOCKS,nthreads_max)
       common    / D3dB_fft / tmpx,tmpy,tmpz
 
 

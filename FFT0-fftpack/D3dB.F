@@ -571,7 +571,6 @@
 
       mthr = Parallel_maxthreads()
 
-      write(*,*) "maxthread=",mthr
       do i=1,mthr
         !write(*,*) "DEBUG init fft arrays of thread ", i-1
         call drffti(nx1(nb),tmpx(1,nb,i))

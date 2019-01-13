@@ -451,7 +451,7 @@
       parameter (MASTER=0)
       integer taskid,np
 
-      call Parallel2d_np_i(np)
+      call Parallel_np(np)
       call Parallel_taskid(taskid)
 
 
@@ -571,7 +571,6 @@
 
       mthr = Parallel_maxthreads()
 
-      write(*,*) "maxthread=",mthr
       do i=1,mthr
         !write(*,*) "DEBUG init fft arrays of thread ", i-1
         call drffti(nx1(nb),tmpx(1,nb,i))
@@ -2494,11 +2493,12 @@ c      call Parallel2d_np_i(np)
 
       !**** hilbert mapping ****
       else
-        call Parallel2d_taskid_i(taskid)
+        call Parallel_taskid(taskid)
         do k=1,nz1(nb)
         do j=1,ny1(nb)
 
          call D3dB_ijktoindex2p(nb,(nx1(nb)+1),j,k,index,p)
+         write(*,*) "zero1=",j,k,index,p
          if (p.eq.taskid) A(index) = 0.0d0
 
          call D3dB_ijktoindex2p(nb,(nx1(nb)+2),j,k,index,p)

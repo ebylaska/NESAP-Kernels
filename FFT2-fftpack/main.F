@@ -139,11 +139,14 @@
          write(*,*)
       end if
 
+      write(*,*) "HERA"
       do k=1,n2ft3d
         !y1(k) = dsin(k*9.5d0) + 40.0d0*dcos(6.23424242d0*k)
         y1(k) =  10.987654321d0
       end do
+      write(*,*) "HERB"
       call D3dB_r_Zero_Ends(1,y1)
+      write(*,*) "HERC"
      
 
       if (oprint) then

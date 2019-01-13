@@ -110,13 +110,6 @@
       mythr = Parallel_threadid()
       oprint2 = oprint.and.(Parallel_threadid().eq.MASTER)
      
-      write(s,'("log_p",i0,"_t",i0)') taskid, mythr
-      open (unit = mythr, file = s)
-
-      pid = getpid()
-
-!      write(mythr,*) "PID IS", pid
-!      write(mythr,*) "niter=", niter
 
       do it=1,niter
          if (oprint2) call current_second(cpu1)
@@ -134,8 +127,6 @@
             write(*,302) it,cpu3-cpu0
          end if
       end do
-!      write(mythr,*) "EXITING PARALLEL at", it
-      close(mythr)
 !$OMP END PARALLEL
 
       if (oprint) then
