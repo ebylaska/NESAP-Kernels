@@ -1,0 +1,264 @@
+[PE_0]: MPI rank order: Using default aprun rank ordering.
+[PE_0]: rank 0 is on nid03819
+[PE_0]: rank 1 is on nid03820
+[PE_0]: rank 2 is on nid03821
+[PE_0]: rank 3 is on nid03822
+[PE_0]: rank 4 is on nid03827
+[PE_0]: rank 5 is on nid03835
+[PE_0]: rank 6 is on nid03836
+[PE_0]: rank 7 is on nid03837
+[PE_0]: rank 8 is on nid03838
+[PE_0]: rank 9 is on nid06293
+[PE_0]: rank 10 is on nid06294
+[PE_0]: rank 11 is on nid06295
+[PE_0]: rank 12 is on nid06296
+[PE_0]: rank 13 is on nid06303
+[PE_0]: rank 14 is on nid06304
+[PE_0]: rank 15 is on nid06305
+[PE_0]: rank 16 is on nid06306
+[PE_0]: rank 17 is on nid06309
+[PE_0]: rank 18 is on nid06310
+[PE_0]: rank 19 is on nid06311
+[PE_0]: rank 20 is on nid06312
+[PE_0]: rank 21 is on nid06313
+[PE_0]: rank 22 is on nid06314
+[PE_0]: rank 23 is on nid06315
+[PE_0]: rank 24 is on nid06316
+[PE_0]: rank 25 is on nid06324
+[PE_0]: rank 26 is on nid06343
+[PE_0]: rank 27 is on nid06344
+[PE_0]: rank 28 is on nid06347
+[PE_0]: rank 29 is on nid06352
+[PE_0]: rank 30 is on nid06353
+[PE_0]: rank 31 is on nid06354
+[PE_0]: rank 32 is on nid06359
+[PE_0]: rank 33 is on nid06360
+[PE_0]: rank 34 is on nid06361
+[PE_0]: rank 35 is on nid06362
+[PE_0]: rank 36 is on nid06363
+[PE_0]: rank 37 is on nid06364
+[PE_0]: rank 38 is on nid06367
+[PE_0]: rank 39 is on nid06368
+[PE_0]: rank 40 is on nid06369
+[PE_0]: rank 41 is on nid06370
+[PE_0]: rank 42 is on nid06375
+[PE_0]: rank 43 is on nid06376
+[PE_0]: rank 44 is on nid06378
+[PE_0]: rank 45 is on nid06381
+[PE_0]: rank 46 is on nid06382
+[PE_0]: rank 47 is on nid06383
+[PE_0]: rank 48 is on nid06388
+[PE_0]: rank 49 is on nid06389
+[PE_0]: rank 50 is on nid06390
+[PE_0]: rank 51 is on nid06391
+[PE_0]: rank 52 is on nid06392
+[PE_0]: rank 53 is on nid08421
+[PE_0]: rank 54 is on nid08422
+[PE_0]: rank 55 is on nid08423
+[PE_0]: rank 56 is on nid08424
+[PE_0]: rank 57 is on nid09557
+[PE_0]: rank 58 is on nid09558
+[PE_0]: rank 59 is on nid09559
+[PE_0]: rank 60 is on nid09560
+[PE_0]: rank 61 is on nid09563
+[PE_0]: rank 62 is on nid11080
+[PE_0]: rank 63 is on nid12141
+[PE_0]: rank 64 is on nid12144
+[PE_0]: rank 65 is on nid12190
+[PE_0]: rank 66 is on nid12191
+[PE_0]: rank 67 is on nid12199
+[PE_0]: rank 68 is on nid12274
+[PE_0]: rank 69 is on nid12278
+[PE_0]: rank 70 is on nid12294
+[PE_0]: rank 71 is on nid12295
+[PE_0]: rank 72 is on nid12296
+[PE_0]: rank 73 is on nid12297
+[PE_0]: rank 74 is on nid12298
+[PE_0]: rank 75 is on nid12302
+[PE_0]: rank 76 is on nid12304
+[PE_0]: rank 77 is on nid12305
+[PE_0]: rank 78 is on nid12306
+[PE_0]: rank 79 is on nid12307
+[PE_0]: rank 80 is on nid12311
+[PE_0]: rank 81 is on nid12313
+[PE_0]: rank 82 is on nid12319
+[PE_0]: rank 83 is on nid12320
+[PE_0]: rank 84 is on nid12323
+[PE_0]: rank 85 is on nid12326
+[PE_0]: rank 86 is on nid12327
+[PE_0]: rank 87 is on nid12328
+[PE_0]: rank 88 is on nid12329
+[PE_0]: rank 89 is on nid12330
+[PE_0]: rank 90 is on nid12334
+[PE_0]: rank 91 is on nid12335
+[PE_0]: rank 92 is on nid12338
+[PE_0]: rank 93 is on nid12341
+[PE_0]: rank 94 is on nid12346
+[PE_0]: rank 95 is on nid12348
+[PE_0]: rank 96 is on nid12357
+[PE_0]: rank 97 is on nid12358
+[PE_0]: rank 98 is on nid12546
+[PE_0]: rank 99 is on nid12549
+[PE_0]: rank 100 is on nid12550
+[PE_0]: rank 101 is on nid12551
+[PE_0]: rank 102 is on nid12553
+[PE_0]: rank 103 is on nid12554
+[PE_0]: rank 104 is on nid12555
+[PE_0]: rank 105 is on nid12556
+[PE_0]: rank 106 is on nid12557
+[PE_0]: rank 107 is on nid12563
+[PE_0]: rank 108 is on nid12575
+[PE_0]: rank 109 is on nid12576
+[PE_0]: rank 110 is on nid12581
+[PE_0]: rank 111 is on nid12582
+[PE_0]: rank 112 is on nid12589
+[PE_0]: rank 113 is on nid12591
+[PE_0]: rank 114 is on nid12594
+[PE_0]: rank 115 is on nid12595
+[PE_0]: rank 116 is on nid12596
+[PE_0]: rank 117 is on nid12604
+[PE_0]: rank 118 is on nid12608
+[PE_0]: rank 119 is on nid12622
+[PE_0]: rank 120 is on nid12628
+[PE_0]: rank 121 is on nid12638
+[PE_0]: rank 122 is on nid12642
+[PE_0]: rank 123 is on nid12643
+[PE_0]: rank 124 is on nid12648
+[PE_0]: rank 125 is on nid12649
+[PE_0]: rank 126 is on nid12653
+[PE_0]: rank 127 is on nid12654
+MPI VERSION    : CRAY MPICH version 7.4.4 (ANL base 3.2rc1)
+MPI BUILD INFO : Built Mon Sep 26 14:08:25 2016 (git hash 7f377e8) MT-G
+ argument  1 = ./water256.nw2
+  NWChem w/ OpenMP: maximum threads = 66
+                                         
+                                         
+ 
+ 
+              Northwest Computational Chemistry Package (NWChem) 6.6
+              ------------------------------------------------------
+ 
+ 
+                    Environmental Molecular Sciences Laboratory
+                       Pacific Northwest National Laboratory
+                                Richland, WA 99352
+ 
+                              Copyright (c) 1994-2015
+                       Pacific Northwest National Laboratory
+                            Battelle Memorial Institute
+ 
+             NWChem is an open-source computational chemistry package
+                        distributed under the terms of the
+                      Educational Community License (ECL) 2.0
+             A copy of the license is included with this distribution
+                              in the LICENSE.TXT file
+ 
+                                  ACKNOWLEDGMENT
+                                  --------------
+
+            This software and its documentation were developed at the
+            EMSL at Pacific Northwest National Laboratory, a multiprogram
+            national laboratory, operated for the U.S. Department of Energy
+            by Battelle under Contract Number DE-AC05-76RL01830. Support
+            for this work was provided by the Department of Energy Office
+            of Biological and Environmental Research, Office of Basic
+            Energy Sciences, and the Office of Advanced Scientific Computing.
+
+
+           Job information
+           ---------------
+
+    hostname        = nid03819
+    program         = /global/cscratch1/sd/ebylaska/water256/./nwchem.eric2
+    date            = Sun Apr 16 18:28:04 2017
+
+    compiled        = Sun_Apr_16_16:09:16_2017
+    source          = /global/homes/e/ebylaska/nwchem-releases/nwchem
+    nwchem branch   = Development
+    nwchem revision = 29200
+    ga revision     = 10752
+    input           = ./water256.nw2
+    prefix          = water256.
+    data base       = ./perm_water256/water256.db
+    status          = restart
+    nproc           =      128
+    time left       =     -1s
+
+
+
+           Memory information
+           ------------------
+
+    heap     = 1572864000 doubles =  12000.0 Mbytes
+    stack    =  524287997 doubles =   4000.0 Mbytes
+    global   =   13107200 doubles =    100.0 Mbytes (distinct from heap & stack)
+    total    = 2110259197 doubles =  16100.0 Mbytes
+    verify   = yes
+    hardfail = no 
+
+
+           Directory information
+           ---------------------
+ 
+  0 permanent = ./perm_water256
+  0 scratch   = ./perm_water256
+ 
+ 
+           Previous task information
+           -------------------------
+
+    Theory    = pspw                            
+    Operation = steepest_descent              
+    Status    = unknown                       
+    Qmmm      = F
+    Ignore    = F
+
+ 
+           Geometries in the database
+           --------------------------
+ 
+       Name                              Natoms  Last Modified
+       --------------------------------  ------  ------------------------
+    1  geometry                             773  Sun Apr 16 12:23:53 2017  
+ 
+  The geometry named "geometry" is the default for restart
+ 
+ 
+ 
+           Basis sets in the database
+           --------------------------
+ 
+  There are no basis sets in the database
+ 
+ 
+ 
+                                NWChem Input Module
+                                -------------------
+ 
+ 
+               tequil 300K  methane.xyz + 256 water aimd simulation
+               ----------------------------------------------------
+ >>>> PSPW Parallel Module - steepest_descent <<<<
+          ****************************************************
+          *                                                  *
+          *     Car-Parrinello microcluster calculation      *
+          *                                                  *
+          *     [     steepest descent minimization   ]      *
+          *                                                  *
+          *     [ NorthWest Chemistry implementation ]       *
+          *                                                  *
+          *            version #5.00   06/01/99              *
+          *                                                  *
+          *    This code was developed by Eric J. Bylaska,   *
+          *    and was based upon algorithms and code        *
+          *    developed by the group of Prof. John H. Weare *
+          *                                                  *
+          ****************************************************
+     >>>  JOB STARTED       AT Sun Apr 16 18:28:16 2017  <<<
+          ================ PSPW input data ===================
+
+ input psi filename:./perm_water256/water256.movecs
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 4599550.0 ON nid03819 CANCELLED AT 2017-04-16T18:57:45 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination
