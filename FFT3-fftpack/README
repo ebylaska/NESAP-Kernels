@@ -1,0 +1,8 @@
+This kernel implements a fermi sphere FFT.  The OpenMP parallelization is simple since it just puts OpenMP directives around do loops.  This is very slow, but stable.
+
+To run:
+make clean
+make
+main-mpi.x  or mpirun -np 2 main-mpi.x
+
+

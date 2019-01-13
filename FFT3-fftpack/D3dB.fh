@@ -1,0 +1,52 @@
+
+#include "fft.fh"
+#define NBLOCKS 2
+
+      integer nq(NBLOCKS),nx1(NBLOCKS),ny1(NBLOCKS),nz1(NBLOCKS)
+      common    / D3dB / nq,nx1,ny1,nz1
+
+
+      integer nfft3d(NBLOCKS),n2ft3d(NBLOCKS)
+      integer nfft3d_map(NBLOCKS),n2ft3d_map(NBLOCKS)
+      integer zplane_size(NBLOCKS)
+      integer mapping,mapping2d
+      common    / D3dB_kdfj / nfft3d,n2ft3d,
+     >                        nfft3d_map,n2ft3d_map,
+     >                        zplane_size,mapping,mapping2d
+
+      !**** slab mapping ****
+      integer q_map(nz,NBLOCKS),p_map(nz,NBLOCKS),k_map(nz,NBLOCKS)
+      integer nqarray(nz,NBLOCKS)
+      common /D3dB_mapping / q_map,p_map,k_map,nqarray
+
+      !**** hilbert mapping ****
+      integer nyz_max,nzx_max,nyx_max 
+      parameter (nyz_max = ny*nz)
+      parameter (nzx_max = nz*(nx/2+1))
+      parameter (nyx_max = ny*(nx/2+1))
+      integer q_map1(nyz_max,NBLOCKS),p_map1(nyz_max,NBLOCKS),
+     >        nq1(NBLOCKS)
+      integer q_map2(nzx_max,NBLOCKS),p_map2(nzx_max,NBLOCKS),
+     >        nq2(NBLOCKS)
+      integer q_map3(nyx_max,NBLOCKS),p_map3(nyx_max,NBLOCKS),
+     >        nq3(NBLOCKS)
+      common /D3dB_mapping2 / q_map1,p_map1,q_map2,p_map2,q_map3,p_map3,
+     >                        nq1,nq2,nq3
+
+
+*     **** common block for zero_row ****
+      logical zero_row2(nfft3d_max,0:1)
+      logical zero_row3(nfft3d_max,0:1)
+      logical zero_slab23(nx/2+1,0:1)
+      common / zero_row_block / zero_row2,zero_row3,zero_slab23
+
+
+*     **** common block for fftpack factors ****
+      complex*16 tmpx(3*nx+15,NBLOCKS,nthreads_max)
+      complex*16 tmpy(3*ny+15,NBLOCKS,nthreads_max)
+      complex*16 tmpz(3*nz+15,NBLOCKS,nthreads_max)
+      common    / D3dB_fft / tmpx,tmpy,tmpz
+
+
+      complex*16 dtmp2(nfft3d_max),dtmp3(nfft3d_max)
+      common /D3dB_tmps/ dtmp2,dtmp3
