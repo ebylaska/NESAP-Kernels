@@ -1,0 +1,20 @@
+### ignore files
+.DS_Store
+*.o
+*.x
+*.a
+*.elc*
+*.dns*
+*.vpp
+IONIN
+IONOUT
+ELCIN
+ELCOUT
+DNSOUT
+CONTROL
+CHECK
+MESSAGE
+MOTION
+
+### ignore directories
+
